@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1051971387954621176}
   - component: {fileID: 1051971387954621177}
   - component: {fileID: 1051971387954621178}
-  - component: {fileID: 1051971387434237790}
   - component: {fileID: 1051971387434237761}
   m_Layer: 0
   m_Name: Player
@@ -48,10 +47,10 @@ Animator:
   m_GameObject: {fileID: 168941846634029669}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 74a43d3e635a2c74fa9ea825318a256a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3ce0cdc68a02e174596cb09f44f0ba44, type: 2}
+  m_Controller: {fileID: 9100000, guid: cfce38cc4703dae418bc2c149d4161c6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -88,10 +87,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f08ac07481e324c979c08f4245a6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 6914098340835386021}
   movementControl: {fileID: -1929519668670137221, guid: b494549bf61672b459bb5ca0a94b32c9,
     type: 3}
-  playerSpeed: 4
+  playerSpeed: 6
   gravityValue: -9.81
   rotationSpeed: 4
 --- !u!114 &1051971387954621178
@@ -125,19 +124,7 @@ MonoBehaviour:
     m_ActionId: f8a16d40-f889-423b-8c63-8bc5c9419e07
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FreeLookFix, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 3d2c0ed1-5b35-4492-bcde-402989c370ef
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
@@ -241,20 +228,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!136 &1051971387434237790
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 168941846634029669}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.3488455
-  m_Height: 1.787576
-  m_Direction: 1
-  m_Center: {x: -0.00020602345, y: 0.873788, z: 0}
 --- !u!114 &1051971387434237761
 MonoBehaviour:
   m_ObjectHideFlags: 0
