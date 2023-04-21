@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    public Animator animator;
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float playerSpeed = 2.0f;
     [SerializeField] private float gravityValue = -9.81f;
@@ -36,12 +37,6 @@ public class PlayerController : MonoBehaviour
         IsPlayerGrounded();
         Move();
         CalculateCharacterRotation();
-
-        // dead code for crouching
-        //if (inputClass.Player.Crouch.triggered && groundedPlayer)
-        //{
-        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        //}
     }
 
     private void IsPlayerGrounded()
@@ -57,8 +52,12 @@ public class PlayerController : MonoBehaviour
     {
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
+        Vector3 normalizedMove = Vector3.Normalize(move);
+        animator.SetFloat("Forward", normalizedMove.x);
+        animator.SetFloat("Strafe", normalizedMove.z);
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
+
         controller.Move(playerSpeed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);

@@ -62,6 +62,33 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectThrowable"",
+                    ""type"": ""Button"",
+                    ""id"": ""82eb5db4-6258-4e41-acd7-f128f11f2afa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectPrimaryWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""f830accc-073d-4e10-93b0-c5a1336f2a41"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSecondaryWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""bffe775f-6793-44d4-8810-92d98b512319"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -291,8 +318,41 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2c22f96-6d55-4e6d-9caf-f5986b89d4bb"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectThrowable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66736f71-e2a1-4fb1-92c4-211c9c467257"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectPrimaryWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83d41a30-8757-4282-b354-656575859421"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectSecondaryWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -884,6 +944,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_SelectThrowable = m_Player.FindAction("SelectThrowable", throwIfNotFound: true);
+        m_Player_SelectPrimaryWeapon = m_Player.FindAction("SelectPrimaryWeapon", throwIfNotFound: true);
+        m_Player_SelectSecondaryWeapon = m_Player.FindAction("SelectSecondaryWeapon", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,6 +1022,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_SelectThrowable;
+    private readonly InputAction m_Player_SelectPrimaryWeapon;
+    private readonly InputAction m_Player_SelectSecondaryWeapon;
     public struct PlayerActions
     {
         private @LoneCreek m_Wrapper;
@@ -967,6 +1033,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @SelectThrowable => m_Wrapper.m_Player_SelectThrowable;
+        public InputAction @SelectPrimaryWeapon => m_Wrapper.m_Player_SelectPrimaryWeapon;
+        public InputAction @SelectSecondaryWeapon => m_Wrapper.m_Player_SelectSecondaryWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -988,6 +1057,15 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @SelectThrowable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectThrowable;
+                @SelectThrowable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectThrowable;
+                @SelectThrowable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectThrowable;
+                @SelectPrimaryWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectPrimaryWeapon;
+                @SelectPrimaryWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectPrimaryWeapon;
+                @SelectPrimaryWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectPrimaryWeapon;
+                @SelectSecondaryWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
+                @SelectSecondaryWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
+                @SelectSecondaryWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1004,6 +1082,15 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @SelectThrowable.started += instance.OnSelectThrowable;
+                @SelectThrowable.performed += instance.OnSelectThrowable;
+                @SelectThrowable.canceled += instance.OnSelectThrowable;
+                @SelectPrimaryWeapon.started += instance.OnSelectPrimaryWeapon;
+                @SelectPrimaryWeapon.performed += instance.OnSelectPrimaryWeapon;
+                @SelectPrimaryWeapon.canceled += instance.OnSelectPrimaryWeapon;
+                @SelectSecondaryWeapon.started += instance.OnSelectSecondaryWeapon;
+                @SelectSecondaryWeapon.performed += instance.OnSelectSecondaryWeapon;
+                @SelectSecondaryWeapon.canceled += instance.OnSelectSecondaryWeapon;
             }
         }
     }
@@ -1164,6 +1251,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnSelectThrowable(InputAction.CallbackContext context);
+        void OnSelectPrimaryWeapon(InputAction.CallbackContext context);
+        void OnSelectSecondaryWeapon(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
