@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.GetComponent<CharacterController>();
         cameraMainTransform = Camera.main.transform;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
@@ -36,6 +39,10 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerGrounded();
         Move();
+    }
+
+    private void FixedUpdate()
+    {
         CalculateCharacterRotation();
     }
 
@@ -67,9 +74,9 @@ public class PlayerController : MonoBehaviour
     {
         if (movement != Vector2.zero)
         {
-            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
-            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            float yawCamera = cameraMainTransform.eulerAngles.y;
+            Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 }
