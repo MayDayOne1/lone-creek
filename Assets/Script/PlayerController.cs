@@ -63,10 +63,11 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (isCrouching == false)
+        if (!isCrouching)
         {
             controller.height = standingHeight;
             speed = runSpeed;
+            animator.SetLayerWeight(1, 0);
         }
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = crouchingHeight;
             speed = crouchSpeed;
+            animator.SetLayerWeight(1, 1);
         }
         
         // Debug.Log("speed:" + speed);
