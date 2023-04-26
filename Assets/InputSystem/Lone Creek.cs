@@ -315,7 +315,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""46a451ee-4e87-4f1e-863b-46bfa81bafbb"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
