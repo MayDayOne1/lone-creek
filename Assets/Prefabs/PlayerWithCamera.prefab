@@ -983,7 +983,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: 0.14006957, y: 0.113623425, z: -0.016182724, w: 0.9834675}
+  m_LocalRotation: {x: 0.14002818, y: 0.116111524, z: -0.016537087, w: 0.9831769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2148,7 +2148,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: 0.14006957, y: 0.11362342, z: -0.016182724, w: 0.9834675}
+  m_LocalRotation: {x: 0.14002816, y: 0.11611152, z: -0.016537087, w: 0.9831769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2944,6 +2944,7 @@ GameObject:
   - component: {fileID: 5856383619225992818}
   - component: {fileID: 5856383619225992817}
   - component: {fileID: 5856383620854131658}
+  - component: {fileID: 5376033107583713721}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3020,9 +3021,12 @@ MonoBehaviour:
   animator: {fileID: 12552532271642158}
   movementControl: {fileID: -1929519668670137221, guid: b494549bf61672b459bb5ca0a94b32c9,
     type: 3}
-  playerSpeed: 6
+  runSpeed: 4
+  crouchSpeed: 2
   gravityValue: -9.81
   rotationSpeed: 4
+  standingHeight: 1.8
+  crouchingHeight: 1
 --- !u!114 &5856383619225992817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3153,6 +3157,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bffe775f-6793-44d4-8810-92d98b512319
     m_ActionName: Player/ChooseSecondaryWeapon[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5376033107583713721}
+        m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8ac0fa1d-c6f6-4ac5-af5b-e2baeac3d419
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -3168,6 +3188,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4207bfa0bc31954ebca1163be6b1e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5376033107583713721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739465379562174190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033e5a838a18e3a49b161f02b2fc612b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6797048567595127515
@@ -3449,7 +3481,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: 0.14006957, y: 0.113623425, z: -0.016182724, w: 0.9834675}
+  m_LocalRotation: {x: 0.14002818, y: 0.116111524, z: -0.016537087, w: 0.9831769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
