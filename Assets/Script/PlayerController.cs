@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         if (!isCrouching)
         {
             controller.height = standingHeight;
+            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             speed = runSpeed;
             animator.SetLayerWeight(1, 0);
         }
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
         if(isCrouching)
         {
             controller.height = crouchingHeight;
+            controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             speed = crouchSpeed;
             animator.SetLayerWeight(1, 1);
         }
