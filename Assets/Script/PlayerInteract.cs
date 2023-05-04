@@ -2,24 +2,24 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public interface IInteractable {
-    public void Interact();
-}
+using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
-{
-    public Transform InteractorSource;
-    public float InteractionRange = 1.0f;
-    public void Interact()
+{ 
+    private Collider OnTriggerEnter(Collider other)
     {
-        Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
-        if(Physics.Raycast(r, out RaycastHit hitInfo, InteractionRange))
+        if (other.tag == "Throwable")
         {
-            if(hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
-            {
-                interactObj.Interact();
-            }
+            Debug.Log("I'm throwable!");
+            other.GetComponent<PickupThrowable>().Interact();
         }
+        Collider result = other;
+        return result;
     }
+    public void Interact()
+    { 
+        Debug.Log("interact");
+    }
+
+    
 }
