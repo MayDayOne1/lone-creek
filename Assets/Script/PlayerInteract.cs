@@ -20,7 +20,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Debug.Log("Triggered");
             objectsTriggered.Add(other);
-            
+            other.GetComponentInChildren<Canvas>().enabled = true;
         }
         
     }
@@ -28,6 +28,7 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         objectsTriggered.Remove(other);
+        other.GetComponentInChildren<Canvas>().enabled = false;
     }
 
     private Collider ChooseInteractiveObject()
