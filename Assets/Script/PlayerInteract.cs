@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 { 
     List<Collider> objectsTriggered = new List<Collider>();
     public GameObject Throwable;
+
+    private void Start()
+    {
+        Throwable.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Throwable")
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
-            // Debug.Log("I'm throwable!");
+            Debug.Log("Triggered");
+            objectsTriggered.Add(other);
+            
         }
-        objectsTriggered.Add(other);
+        
     }
 
     private void OnTriggerExit(Collider other)
@@ -53,6 +63,7 @@ public class PlayerInteract : MonoBehaviour
             Collider obj = ChooseInteractiveObject();
             obj.GetComponent<PickupThrowable>().Interact();
             objectsTriggered.Remove(obj);
+            Throwable.SetActive(true);
         }
     }
 
