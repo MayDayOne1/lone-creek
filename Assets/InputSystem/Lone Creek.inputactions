@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "7be5eeaf-ef52-4688-862e-704952b178d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "SlowTap(duration=0.1)",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "8ac0fa1d-c6f6-4ac5-af5b-e2baeac3d419",
@@ -72,15 +81,6 @@
                     "name": "SelectSecondaryWeapon",
                     "type": "Button",
                     "id": "bffe775f-6793-44d4-8810-92d98b512319",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Aim",
-                    "type": "Button",
-                    "id": "7be5eeaf-ef52-4688-862e-704952b178d0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",

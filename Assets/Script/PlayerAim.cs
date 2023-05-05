@@ -2,17 +2,16 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static ChooseWeapon;
 
 public class PlayerAim : MonoBehaviour
 {
-    // draw line
     // change / move camera
     // change player speed
     // change player rotation speed
     // add and change animation
-
-    // Start is called before the first frame update
+    [SerializeField] private InputActionReference aimReference;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform ReleasePosition;
     [SerializeField] private float ThrowStrength;
@@ -22,7 +21,7 @@ public class PlayerAim : MonoBehaviour
     public Camera Cam;
     public ChooseWeapon chooseWeapon;
 
-    public void Aim()
+    public void Aim(InputAction.CallbackContext context)
     {
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
@@ -30,7 +29,7 @@ public class PlayerAim : MonoBehaviour
             lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
             Vector3 startPos = ReleasePosition.position;
             Vector3 startVelocity = ThrowStrength * Cam.transform.forward;
-            Debug.Log("Cam transform position: " + Cam.transform.position);
+            // Debug.Log("Cam transform position: " + Cam.transform.position);
             int i = 0;
             lineRenderer.SetPosition(i, startPos);
             for(float time = 0; time < LinePoints; time += TimeBetweenPoints)
