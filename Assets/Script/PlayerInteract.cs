@@ -18,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
-            Debug.Log("Triggered");
+            // Debug.Log("Triggered");
             objectsTriggered.Add(other);
             other.GetComponentInChildren<Canvas>().enabled = true;
         }
