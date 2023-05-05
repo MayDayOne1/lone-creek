@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ChooseWeapon : MonoBehaviour
 {
-    private enum WEAPONS
+    public enum WEAPONS
     {
         THROWABLE,
         PRIMARY,
         SECONDARY
     }
 
-    private WEAPONS weaponSelected;
+    public WEAPONS weaponSelected;
 
     // Start is called before the first frame update
     void Start()

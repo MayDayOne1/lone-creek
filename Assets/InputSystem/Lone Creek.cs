@@ -98,6 +98,15 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""7be5eeaf-ef52-4688-862e-704952b178d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -373,6 +382,17 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fca14454-a260-4335-ac9f-92de5e5ed569"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -968,6 +988,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         m_Player_SelectThrowable = m_Player.FindAction("SelectThrowable", throwIfNotFound: true);
         m_Player_SelectPrimaryWeapon = m_Player.FindAction("SelectPrimaryWeapon", throwIfNotFound: true);
         m_Player_SelectSecondaryWeapon = m_Player.FindAction("SelectSecondaryWeapon", throwIfNotFound: true);
+        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1047,6 +1068,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SelectThrowable;
     private readonly InputAction m_Player_SelectPrimaryWeapon;
     private readonly InputAction m_Player_SelectSecondaryWeapon;
+    private readonly InputAction m_Player_Aim;
     public struct PlayerActions
     {
         private @LoneCreek m_Wrapper;
@@ -1059,6 +1081,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         public InputAction @SelectThrowable => m_Wrapper.m_Player_SelectThrowable;
         public InputAction @SelectPrimaryWeapon => m_Wrapper.m_Player_SelectPrimaryWeapon;
         public InputAction @SelectSecondaryWeapon => m_Wrapper.m_Player_SelectSecondaryWeapon;
+        public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1092,6 +1115,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @SelectSecondaryWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
+                @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1120,6 +1146,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @SelectSecondaryWeapon.started += instance.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.performed += instance.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.canceled += instance.OnSelectSecondaryWeapon;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -1284,6 +1313,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         void OnSelectThrowable(InputAction.CallbackContext context);
         void OnSelectPrimaryWeapon(InputAction.CallbackContext context);
         void OnSelectSecondaryWeapon(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
