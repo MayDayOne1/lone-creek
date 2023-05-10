@@ -38,7 +38,7 @@
                     "id": "7be5eeaf-ef52-4688-862e-704952b178d0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "SlowTap(duration=0.1)",
+                    "interactions": "",
                     "initialStateCheck": true
                 },
                 {
@@ -367,7 +367,7 @@
                     "name": "",
                     "id": "fca14454-a260-4335-ac9f-92de5e5ed569",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2)",
                     "processors": "",
                     "groups": "",
                     "action": "Aim",

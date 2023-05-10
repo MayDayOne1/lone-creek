@@ -23,22 +23,40 @@ public class PlayerAim : MonoBehaviour
 
     public void Aim(InputAction.CallbackContext context)
     {
-        if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
+        if(context.phase == InputActionPhase.Performed)
         {
-            lineRenderer.enabled = true;
-            lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
-            Vector3 startPos = ReleasePosition.position;
-            Vector3 startVelocity = ThrowStrength * Cam.transform.forward;
-            // Debug.Log("Cam transform position: " + Cam.transform.position);
-            int i = 0;
-            lineRenderer.SetPosition(i, startPos);
-            for(float time = 0; time < LinePoints; time += TimeBetweenPoints)
+            Debug.Log("performed!");
+            if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
             {
-                i++;
-                Vector3 point = startPos + time * startVelocity;
-                point.y = startPos.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
-                lineRenderer.SetPosition(i, point);
+                StartCoroutine(WaitAndDrawLine());
             }
+            // lineRenderer.enabled = false;
+        }
+        
+    }
+
+    public IEnumerator WaitAndDrawLine()
+    {
+        lineRenderer.enabled = false;
+        DrawLine();
+        yield return new WaitForSeconds(.05f);
+    }
+
+    private void DrawLine()
+    {
+        lineRenderer.enabled = true;
+        lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
+        Vector3 startPos = ReleasePosition.position;
+        Vector3 startVelocity = ThrowStrength * Cam.transform.forward;
+        // Debug.Log("Cam transform position: " + Cam.transform.position);
+        int i = 0;
+        lineRenderer.SetPosition(i, startPos);
+        for (float time = 0; time < LinePoints; time += TimeBetweenPoints)
+        {
+            i++;
+            Vector3 point = startPos + time * startVelocity;
+            point.y = startPos.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
+            lineRenderer.SetPosition(i, point);
         }
     }
 }
