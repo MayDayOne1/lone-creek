@@ -24,7 +24,7 @@ public class PlayerAim : MonoBehaviour
 
     public void Aim(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Performed)
+        if(context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Performed)
         {
             Debug.Log("performed!");
             if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)

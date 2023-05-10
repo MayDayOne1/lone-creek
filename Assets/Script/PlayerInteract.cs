@@ -8,6 +8,7 @@ public class PlayerInteract : MonoBehaviour
 { 
     List<Collider> objectsTriggered = new List<Collider>();
     public GameObject Throwable;
+    public ChooseWeapon chooseWeapon;
 
     private void Start()
     {
@@ -65,6 +66,7 @@ public class PlayerInteract : MonoBehaviour
             obj.GetComponent<PickupThrowable>().Interact();
             objectsTriggered.Remove(obj);
             Throwable.SetActive(true);
+            chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
         }
     }
 
