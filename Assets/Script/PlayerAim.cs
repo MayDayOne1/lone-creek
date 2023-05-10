@@ -21,9 +21,11 @@ public class PlayerAim : MonoBehaviour
     public Camera Cam;
     public ChooseWeapon chooseWeapon;
     public Animator animator;
+    public bool IsAiming = false;
 
     public void Aim(InputAction.CallbackContext context)
     {
+        IsAiming = true;
         if(context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Performed)
         {
             Debug.Log("performed!");
@@ -35,6 +37,7 @@ public class PlayerAim : MonoBehaviour
             // lineRenderer.enabled = false;
         } else
         {
+            IsAiming = false;
             animator.SetLayerWeight(2, 0);
         }
         
