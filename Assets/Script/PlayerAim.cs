@@ -20,6 +20,7 @@ public class PlayerAim : MonoBehaviour
 
     public Camera Cam;
     public ChooseWeapon chooseWeapon;
+    public Animator animator;
 
     public void Aim(InputAction.CallbackContext context)
     {
@@ -28,9 +29,13 @@ public class PlayerAim : MonoBehaviour
             Debug.Log("performed!");
             if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
             {
+                animator.SetLayerWeight(2, 1);
                 StartCoroutine(WaitAndDrawLine());
             }
             // lineRenderer.enabled = false;
+        } else
+        {
+            animator.SetLayerWeight(2, 0);
         }
         
     }
