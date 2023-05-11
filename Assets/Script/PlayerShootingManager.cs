@@ -6,6 +6,7 @@ using static ChooseWeapon;
 
 public class PlayerShootingManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference aimAction;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform ReleasePosition;
     [SerializeField] private float ThrowStrength;
@@ -27,21 +28,52 @@ public class PlayerShootingManager : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
     }
 
+    private void OnEnable()
+    {
+        aimAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        aimAction.action.Disable();
+    }
+
+    private void Update()
+    {
+        if(IsAiming)
+        {
+            
+        } else
+        {
+            animator.SetLayerWeight(2, 0);
+        }
+    }
+
     public void Aim(InputAction.CallbackContext context)
     {
         IsAiming = true;
-        
+        float aimValue = aimAction.action.ReadValue<float>();
+        // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
-            animator.SetLayerWeight(2, 1);
-            animator.SetTrigger("AimThrowable");
-            StartCoroutine(WaitAndDrawLine());
+            if(aimValue == 1f)
+            {
+                animator.SetLayerWeight(2, 1);
+                animator.SetBool("AimThrowable", true);
+                StartCoroutine(WaitAndDrawLine());
+            } else
+            {
+                animator.SetLayerWeight(2, 0);
+                animator.SetBool("AimThrowable", false);
+            }
+            
         }
-        // lineRenderer.enabled = false;
+
         if(context.phase == InputActionPhase.Canceled)
         {
-            animator.ResetTrigger("AimThrowable");
+            IsAiming = false;
         }
+        
     }
 
     public IEnumerator WaitAndDrawLine()

@@ -56,7 +56,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""7be5eeaf-ef52-4688-862e-704952b178d0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -389,7 +389,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""fca14454-a260-4335-ac9f-92de5e5ed569"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim"",

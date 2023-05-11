@@ -33,6 +33,9 @@ public class ChooseWeapon : MonoBehaviour
         {
             weaponSelected = WEAPONS.THROWABLE;
             Debug.Log("Throwable selected");
+        } else
+        {
+            weaponSelected = WEAPONS.NONE;
         }
         
     }
