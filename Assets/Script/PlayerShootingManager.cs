@@ -19,7 +19,7 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
     public Rigidbody PlayerBottle;
 
-    public bool IsAiming = false;
+    public bool IsAimingThrowable = false;
 
     private void Start()
     {
@@ -38,42 +38,27 @@ public class PlayerShootingManager : MonoBehaviour
         aimAction.action.Disable();
     }
 
-    private void Update()
-    {
-        if(IsAiming)
-        {
-            
-        } else
-        {
-            animator.SetLayerWeight(2, 0);
-        }
-    }
-
     public void Aim(InputAction.CallbackContext context)
     {
-        IsAiming = true;
+        
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
             if(aimValue == 1f)
             {
+                IsAimingThrowable = true;
                 animator.SetLayerWeight(2, 1);
                 animator.SetBool("AimThrowable", true);
                 StartCoroutine(WaitAndDrawLine());
             } else
             {
+                IsAimingThrowable = false;
                 animator.SetLayerWeight(2, 0);
                 animator.SetBool("AimThrowable", false);
             }
             
-        }
-
-        if(context.phase == InputActionPhase.Canceled)
-        {
-            IsAiming = false;
-        }
-        
+        }        
     }
 
     public IEnumerator WaitAndDrawLine()
@@ -103,15 +88,16 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void Shoot()
     {
-        if(IsAiming)
+        if(IsAimingThrowable)
         {
-            if (chooseWeapon.weaponSelected == ChooseWeapon.WEAPONS.THROWABLE)
-            {
-                animator.SetTrigger("Throw");
-                PlayerBottle.isKinematic = false;
-                PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-                // animator.ResetTrigger("Throw");
-            }
+            animator.SetTrigger("Throw");
+            PlayerBottle.isKinematic = false;
+            PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            IsAimingThrowable = false;
+            animator.SetLayerWeight(2, 0);
+            animator.SetBool("AimThrowable", false);
+            playerInteract.Throwable.SetActive(false);
         }
         
     }
