@@ -56,11 +56,11 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""7be5eeaf-ef52-4688-862e-704952b178d0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""SlowTap(duration=0.1)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ChooseWeapon : MonoBehaviour
 {
+    public PlayerInteract playerInteract;
     public enum WEAPONS
     {
+        NONE,
         THROWABLE,
         PRIMARY,
         SECONDARY
@@ -27,8 +29,15 @@ public class ChooseWeapon : MonoBehaviour
 
     public void SelectThrowable()
     {
-        weaponSelected = WEAPONS.THROWABLE;
-        Debug.Log("Throwable selected");
+        if(playerInteract.Throwable.activeSelf == true)
+        {
+            weaponSelected = WEAPONS.THROWABLE;
+            Debug.Log("Throwable selected");
+        } else
+        {
+            weaponSelected = WEAPONS.NONE;
+        }
+        
     }
 
     public void SelectPrimary()
