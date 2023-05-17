@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CalculateCharacterRotation();
+        CalculateCharacterRotation(false);
     }
 
     private void IsPlayerGrounded()
@@ -86,9 +86,9 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
-    private void CalculateCharacterRotation()
+    public void CalculateCharacterRotation(bool isMoving)
     {
-        if (movement != Vector2.zero)
+        if ((movement == Vector2.zero) == isMoving)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);

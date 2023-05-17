@@ -13,6 +13,7 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
 
+    private PlayerController playerController;
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
@@ -23,6 +24,7 @@ public class PlayerShootingManager : MonoBehaviour
 
     private void Start()
     {
+        playerController = GetComponent<PlayerController>();
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
@@ -40,6 +42,7 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void Aim()
     {
+        playerController.CalculateCharacterRotation(true);
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
@@ -48,11 +51,13 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 IsAimingThrowable = true;
                 animator.SetLayerWeight(2, 1);
+                DrawLine();
                 
             } else
             {
                 IsAimingThrowable = false;
                 animator.SetLayerWeight(2, 0);
+                lineRenderer.enabled = false;
             }
             
         }        
