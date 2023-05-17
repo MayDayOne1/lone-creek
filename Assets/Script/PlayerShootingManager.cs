@@ -50,6 +50,7 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 IsAimingThrowable = true;
                 animator.SetLayerWeight(2, 1);
+                animator.SetBool("isAimingThrowable", true);
                 DrawLine();
                 
             } else
@@ -57,6 +58,7 @@ public class PlayerShootingManager : MonoBehaviour
                 IsAimingThrowable = false;
                 animator.SetLayerWeight(2, 0);
                 lineRenderer.enabled = false;
+                animator.SetBool("isAimingThrowable", false);
             }
             
         }        
@@ -84,14 +86,13 @@ public class PlayerShootingManager : MonoBehaviour
     {
         if(IsAimingThrowable)
         {
-            playerController.CalculateCharacterRotation();
             animator.SetTrigger("Throw");
-            PlayerBottle.isKinematic = false;
-            PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-            chooseWeapon.weaponSelected = WEAPONS.NONE;
-            IsAimingThrowable = false;
-            animator.SetLayerWeight(2, 0);
-            playerInteract.Throwable.SetActive(false);
+            //PlayerBottle.isKinematic = false;
+            //PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            //chooseWeapon.weaponSelected = WEAPONS.NONE;
+            //IsAimingThrowable = false;
+            //animator.SetLayerWeight(2, 0);
+            //playerInteract.Throwable.SetActive(false);
         }
         
     }
