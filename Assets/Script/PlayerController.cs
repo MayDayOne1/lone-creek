@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
 
+    private PlayerShootingManager playerShootingManager;
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        playerShootingManager = GetComponent<PlayerShootingManager>();
         cameraMainTransform = Camera.main.transform;
 
         Cursor.visible = false;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerGrounded();
         Move();
+        playerShootingManager.Aim();
     }
 
     private void FixedUpdate()

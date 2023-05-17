@@ -38,9 +38,8 @@ public class PlayerShootingManager : MonoBehaviour
         aimAction.action.Disable();
     }
 
-    public void Aim(InputAction.CallbackContext context)
+    public void Aim()
     {
-        
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
@@ -49,23 +48,14 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 IsAimingThrowable = true;
                 animator.SetLayerWeight(2, 1);
-                animator.SetBool("AimThrowable", true);
-                StartCoroutine(WaitAndDrawLine());
+                
             } else
             {
                 IsAimingThrowable = false;
                 animator.SetLayerWeight(2, 0);
-                animator.SetBool("AimThrowable", false);
             }
             
         }        
-    }
-
-    public IEnumerator WaitAndDrawLine()
-    {
-        lineRenderer.enabled = false;
-        DrawLine();
-        yield return new WaitForSeconds(.05f);
     }
 
     private void DrawLine()

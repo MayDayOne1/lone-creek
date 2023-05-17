@@ -6725,7 +6725,7 @@ PrefabInstance:
     - target: {fileID: 8510487466927046280, guid: d78c9344f45c928458c784cd978a9fe1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.975723
+      value: 25.245726
       objectReference: {fileID: 0}
     - target: {fileID: 8510487466927046280, guid: d78c9344f45c928458c784cd978a9fe1,
         type: 3}
@@ -6735,7 +6735,7 @@ PrefabInstance:
     - target: {fileID: 8510487466927046280, guid: d78c9344f45c928458c784cd978a9fe1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 36.70991
+      value: 49.13991
       objectReference: {fileID: 0}
     - target: {fileID: 8510487466927046280, guid: d78c9344f45c928458c784cd978a9fe1,
         type: 3}
@@ -11158,7 +11158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 611481894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.47, y: 1.81, z: 45.9}
+  m_LocalPosition: {x: 16.740004, y: 1.81, z: 58.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12535,7 +12535,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859494137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.61, y: 1.81, z: 40.96}
+  m_LocalPosition: {x: 20.880003, y: 1.81, z: 53.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16055,7 +16055,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1100669682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.7, y: 1.81, z: 45.9}
+  m_LocalPosition: {x: 29.970003, y: 1.81, z: 58.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28446,7 +28446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118087629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.17, y: 1.81, z: 34.77}
+  m_LocalPosition: {x: 21.44, y: 1.81, z: 47.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28887,7 +28887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141407482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.7, y: 1.81, z: 34.77}
+  m_LocalPosition: {x: 29.970003, y: 1.81, z: 47.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29201,6 +29201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -29213,7 +29218,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 114614342735316110}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -29222,7 +29232,7 @@ PrefabInstance:
     - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Aim
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5856383619225992817, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
