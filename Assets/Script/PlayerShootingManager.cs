@@ -42,7 +42,6 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void Aim()
     {
-        playerController.CalculateCharacterRotation(true);
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
@@ -85,13 +84,13 @@ public class PlayerShootingManager : MonoBehaviour
     {
         if(IsAimingThrowable)
         {
+            playerController.CalculateCharacterRotation();
             animator.SetTrigger("Throw");
             PlayerBottle.isKinematic = false;
             PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
             chooseWeapon.weaponSelected = WEAPONS.NONE;
             IsAimingThrowable = false;
             animator.SetLayerWeight(2, 0);
-            animator.SetBool("AimThrowable", false);
             playerInteract.Throwable.SetActive(false);
         }
         
