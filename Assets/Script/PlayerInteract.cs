@@ -69,7 +69,6 @@ public class PlayerInteract : MonoBehaviour
                 Throwable.SetActive(true);
                 chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
             }
-            
             objectsTriggered.Remove(obj); 
         }
     }

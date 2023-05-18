@@ -7,8 +7,9 @@ using static ChooseWeapon;
 public class PlayerShootingManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference aimAction;
+    [SerializeField] private Transform PlayerBottle;
+    [SerializeField] private Rigidbody ThrowablePlayerBottle;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private Transform ReleasePosition;
     [SerializeField] private float ThrowStrength;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
@@ -18,7 +19,6 @@ public class PlayerShootingManager : MonoBehaviour
     private Animator animator;
     private PlayerInteract playerInteract;
     public Camera cam;
-    public Rigidbody PlayerBottle;
 
     public bool IsAimingThrowable = false;
 
@@ -68,7 +68,7 @@ public class PlayerShootingManager : MonoBehaviour
     {
         lineRenderer.enabled = true;
         lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
-        Vector3 startPos = ReleasePosition.position;
+        Vector3 startPos = PlayerBottle.position;
         Vector3 startVelocity = ThrowStrength * cam.transform.forward;
         // Debug.Log("Cam transform position: " + Cam.transform.position);
         int i = 0;
@@ -87,9 +87,10 @@ public class PlayerShootingManager : MonoBehaviour
         if(IsAimingThrowable)
         {
             animator.SetTrigger("Throw");
-            //instantiate
-            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            Transform instancePos = PlayerBottle.transform;
             playerInteract.Throwable.SetActive(false);
+            PlayerBottle.gameObject.SetActive(false);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
         }
         
     }
