@@ -67,7 +67,6 @@ public class PlayerInteract : MonoBehaviour
             {
                 obj.GetComponent<PickupThrowable>().Interact();
                 Throwable.SetActive(true);
-                Throwable.GetComponent<Rigidbody>().isKinematic = true;
                 chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
             }
             

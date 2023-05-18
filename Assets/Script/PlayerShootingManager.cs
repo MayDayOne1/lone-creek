@@ -87,12 +87,9 @@ public class PlayerShootingManager : MonoBehaviour
         if(IsAimingThrowable)
         {
             animator.SetTrigger("Throw");
-            //PlayerBottle.isKinematic = false;
-            //PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-            //chooseWeapon.weaponSelected = WEAPONS.NONE;
-            //IsAimingThrowable = false;
-            //animator.SetLayerWeight(2, 0);
-            //playerInteract.Throwable.SetActive(false);
+            //instantiate
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            playerInteract.Throwable.SetActive(false);
         }
         
     }
