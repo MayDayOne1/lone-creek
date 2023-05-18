@@ -8,23 +8,22 @@ public class PlayerShootingManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference aimAction;
     [SerializeField] private Transform PlayerBottle;
-    [SerializeField] private Rigidbody ThrowablePlayerBottle;
+    [SerializeField] private GameObject ThrowablePlayerBottle;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float ThrowStrength;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
 
-    private PlayerController playerController;
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
+    private GameObject BottleToInstantiate;
     public Camera cam;
 
     public bool IsAimingThrowable = false;
 
     private void Start()
     {
-        playerController = GetComponent<PlayerController>();
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
@@ -84,14 +83,17 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void Shoot()
     {
-        if(IsAimingThrowable)
+        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
         {
             animator.SetTrigger("Throw");
-            Transform instancePos = PlayerBottle.transform;
             playerInteract.Throwable.SetActive(false);
             PlayerBottle.gameObject.SetActive(false);
             chooseWeapon.weaponSelected = WEAPONS.NONE;
+            Transform instancePos = PlayerBottle.transform;
+            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
+            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
+            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            Destroy(BottleToInstantiate, 2f);
         }
-        
     }
 }

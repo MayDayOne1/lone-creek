@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5725609030572744790}
   - component: {fileID: 9156217979105900749}
   - component: {fileID: 1768176792147406012}
+  - component: {fileID: -2637767399470238583}
   m_Layer: 6
   m_Name: PlayerBottle
   m_TagString: Player
@@ -216,3 +217,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!54 &-2637767399470238583
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6085928130325840259}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
