@@ -984,7 +984,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: 0.14041562, y: 0.09013823, z: -0.012837863, w: 0.9858974}
+  m_LocalRotation: {x: 0.14000015, y: 0.11776648, z: -0.016772792, w: 0.98298}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2149,7 +2149,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: 0.14041562, y: 0.09013823, z: -0.012837863, w: 0.9858974}
+  m_LocalRotation: {x: 0.14000015, y: 0.11776648, z: -0.016772792, w: 0.98298}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3066,8 +3066,8 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
+      - m_Target: {fileID: 114614342735316110}
+        m_TargetAssemblyTypeName: PlayerShootingManager, Assembly-CSharp
         m_MethodName: Shoot
         m_Mode: 1
         m_Arguments:
@@ -3201,19 +3201,7 @@ MonoBehaviour:
     m_ActionId: 8ac0fa1d-c6f6-4ac5-af5b-e2baeac3d419
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6739465379562174190}
-        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7be5eeaf-ef52-4688-862e-704952b178d0
     m_ActionName: Player/Aim[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
@@ -3261,12 +3249,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d45eccb6b2b7f48a8227befc0051ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimAction: {fileID: 0}
+  aimAction: {fileID: 8621409109411048564, guid: b494549bf61672b459bb5ca0a94b32c9,
+    type: 3}
   PlayerBottle: {fileID: 1747556633314261016}
-  ThrowablePlayerBottle: {fileID: -7120009443612911135, guid: 22edafa6ab54c3e468b3b6434afb28d8,
+  ThrowablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
     type: 3}
   lineRenderer: {fileID: 6915028583975653277}
-  ThrowStrength: 0
+  ThrowStrength: 20
   LinePoints: 25
   TimeBetweenPoints: 0.1
   cam: {fileID: 0}
@@ -3550,7 +3539,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: 0.14041562, y: 0.09013823, z: -0.012837863, w: 0.9858974}
+  m_LocalRotation: {x: 0.14000015, y: 0.11776648, z: -0.016772792, w: 0.98298}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

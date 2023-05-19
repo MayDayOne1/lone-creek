@@ -10,7 +10,7 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private Transform PlayerBottle;
     [SerializeField] private GameObject ThrowablePlayerBottle;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float ThrowStrength;
+    [SerializeField] private float ThrowStrength = 20f;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
 
