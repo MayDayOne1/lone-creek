@@ -7,8 +7,9 @@ using static ChooseWeapon;
 public class PlayerShootingManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference aimAction;
+    [SerializeField] private Transform PlayerBottle;
+    [SerializeField] private GameObject ThrowablePlayerBottle;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private Transform ReleasePosition;
     [SerializeField] private float ThrowStrength;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
@@ -16,8 +17,8 @@ public class PlayerShootingManager : MonoBehaviour
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
+    private GameObject BottleToInstantiate;
     public Camera cam;
-    public Rigidbody PlayerBottle;
 
     public bool IsAimingThrowable = false;
 
@@ -38,9 +39,8 @@ public class PlayerShootingManager : MonoBehaviour
         aimAction.action.Disable();
     }
 
-    public void Aim(InputAction.CallbackContext context)
+    public void Aim()
     {
-        
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
@@ -49,30 +49,25 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 IsAimingThrowable = true;
                 animator.SetLayerWeight(2, 1);
-                animator.SetBool("AimThrowable", true);
-                StartCoroutine(WaitAndDrawLine());
+                animator.SetBool("isAimingThrowable", true);
+                DrawLine();
+                
             } else
             {
                 IsAimingThrowable = false;
                 animator.SetLayerWeight(2, 0);
-                animator.SetBool("AimThrowable", false);
+                lineRenderer.enabled = false;
+                animator.SetBool("isAimingThrowable", false);
             }
             
         }        
-    }
-
-    public IEnumerator WaitAndDrawLine()
-    {
-        lineRenderer.enabled = false;
-        DrawLine();
-        yield return new WaitForSeconds(.05f);
     }
 
     private void DrawLine()
     {
         lineRenderer.enabled = true;
         lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
-        Vector3 startPos = ReleasePosition.position;
+        Vector3 startPos = PlayerBottle.position;
         Vector3 startVelocity = ThrowStrength * cam.transform.forward;
         // Debug.Log("Cam transform position: " + Cam.transform.position);
         int i = 0;
@@ -88,17 +83,17 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void Shoot()
     {
-        if(IsAimingThrowable)
+        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
         {
             animator.SetTrigger("Throw");
-            PlayerBottle.isKinematic = false;
-            PlayerBottle.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-            chooseWeapon.weaponSelected = WEAPONS.NONE;
-            IsAimingThrowable = false;
-            animator.SetLayerWeight(2, 0);
-            animator.SetBool("AimThrowable", false);
             playerInteract.Throwable.SetActive(false);
+            PlayerBottle.gameObject.SetActive(false);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            Transform instancePos = PlayerBottle.transform;
+            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
+            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
+            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            Destroy(BottleToInstantiate, 2f);
         }
-        
     }
 }

@@ -15,18 +15,6 @@ public class ChooseWeapon : MonoBehaviour
 
     public WEAPONS weaponSelected;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SelectThrowable()
     {
         if(playerInteract.Throwable.activeSelf == true)
