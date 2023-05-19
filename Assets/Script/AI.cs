@@ -9,6 +9,7 @@ public class AI : MonoBehaviour
     private bool canShoot = true;
 
     protected State currentState;
+    public Animator anim;
     public Transform Player;
     public GameObject[] waypoints;
     // public GameObject bullet;
@@ -23,7 +24,7 @@ public class AI : MonoBehaviour
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
-        currentState = new Idle(this.gameObject, Player, agent, waypoints);
+        currentState = new Idle(this.gameObject, Player, agent, waypoints, anim);
     }
 
     void Update()
