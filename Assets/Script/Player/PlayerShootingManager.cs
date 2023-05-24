@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static ChooseWeapon;
@@ -23,11 +24,21 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingThrowable = false;
     public bool IsAimingPistol = false;
 
+    [Header("Pistol")]
+    private int maxAmmo = 24;
+    private int currentAmmo;
+    private int clipCapacity = 8;
+    private int currentClip;
+
+
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+
+        currentClip = clipCapacity;
+        currentAmmo = maxAmmo - currentClip;
     }
 
     private void OnEnable()
@@ -113,10 +124,35 @@ public class PlayerShootingManager : MonoBehaviour
 
     private void ShootPistol()
     {
-        RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
+        currentClip--;
+        if(currentClip <= 0)
         {
-            Debug.Log("Shot something!");
+            Reload();
         }
+        if(currentAmmo > 0)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
+            {
+                Debug.Log("Shot something!");
+                Debug.Log("Current clip: " + currentClip);
+                Debug.Log("Current ammo: " + currentAmmo);
+            }
+        }
+        
+    }
+
+    private void Reload()
+    {
+        if(currentAmmo >= 8)
+        {
+            currentClip = clipCapacity;
+            currentAmmo -= currentClip;
+        } else
+        {
+            currentClip = currentAmmo;
+            currentAmmo = 0;
+        }
+        Debug.Log("Reloading!");
     }
 }
