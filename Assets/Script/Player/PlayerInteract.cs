@@ -68,23 +68,19 @@ public class PlayerInteract : MonoBehaviour
             GameObject obj = ChooseInteractiveObject();
             if(obj.CompareTag("Throwable"))
             {
-                chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
                 if (chooseWeapon.hasThrowable == false)
                 {
-                    Throwable.SetActive(true);
-                    Pistol.SetActive(false);
                     chooseWeapon.hasThrowable = true;
+                    chooseWeapon.SelectThrowable();
                     Destroy(obj);
                 }
             }
             else if (obj.tag == "Pistol")
             {
-                chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.PRIMARY;
                 if (chooseWeapon.hasPistol == false)
                 {
-                    Pistol.SetActive(true);
-                    Throwable.SetActive(false);
                     chooseWeapon.hasPistol = true;
+                    chooseWeapon.SelectPrimary();
                     Destroy(obj);
                 }
             }

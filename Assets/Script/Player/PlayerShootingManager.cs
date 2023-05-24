@@ -21,6 +21,7 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
 
     public bool IsAimingThrowable = false;
+    public bool IsAimingPistol = false;
 
     private void Start()
     {
@@ -59,7 +60,15 @@ public class PlayerShootingManager : MonoBehaviour
                 lineRenderer.enabled = false;
                 animator.SetBool("isAimingThrowable", false);
             }
-            
+        } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
+        {
+            if(aimValue == 1f)
+            {
+                IsAimingPistol = true;
+            } else
+            {
+                IsAimingPistol = false;
+            }
         }        
     }
 
@@ -95,6 +104,7 @@ public class PlayerShootingManager : MonoBehaviour
             bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
             Destroy(BottleToInstantiate, 2f);
             chooseWeapon.hasThrowable = false;
+            IsAimingThrowable = false;
         }
     }
 }

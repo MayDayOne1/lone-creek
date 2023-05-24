@@ -6,10 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
     [SerializeField] private InputActionReference movementControl;
-    [SerializeField] private float runSpeed = 4.0f;
-    [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
+    [SerializeField] private float runSpeed = 4.0f;
+    [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
 
@@ -73,6 +73,13 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             speed = runSpeed;
             animator.SetLayerWeight(1, 0);
+        }
+        if(playerShootingManager.IsAimingPistol)
+        {
+            speed = crouchSpeed;
+        } else
+        {
+            speed = runSpeed;
         }
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
