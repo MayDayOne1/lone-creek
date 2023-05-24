@@ -94,6 +94,7 @@ public class PlayerShootingManager : MonoBehaviour
             Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
             bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
             Destroy(BottleToInstantiate, 2f);
+            chooseWeapon.hasThrowable = false;
         }
     }
 }

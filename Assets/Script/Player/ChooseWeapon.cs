@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChooseWeapon : MonoBehaviour
 {
-    public PlayerInteract playerInteract;
+    private PlayerInteract playerInteract;
     public enum WEAPONS
     {
         NONE,
@@ -12,15 +12,21 @@ public class ChooseWeapon : MonoBehaviour
         PRIMARY,
         SECONDARY
     }
-
+    public bool hasThrowable;
+    public bool hasPistol;
     public WEAPONS weaponSelected;
+
+    private void Start()
+    {
+        playerInteract = GetComponent<PlayerInteract>();
+    }
 
     public void SelectThrowable()
     {
-        if(playerInteract.Throwable.activeSelf == true)
+        if(hasThrowable)
         {
             weaponSelected = WEAPONS.THROWABLE;
-            Debug.Log("Throwable selected");
+            // Debug.Log("Throwable selected");
         } else
         {
             weaponSelected = WEAPONS.NONE;
@@ -31,12 +37,6 @@ public class ChooseWeapon : MonoBehaviour
     public void SelectPrimary()
     {
         weaponSelected = WEAPONS.PRIMARY;
-        Debug.Log("Primary selected");
-    }
-
-    public void SelectSecondary()
-    {
-        weaponSelected = WEAPONS.SECONDARY;
-        Debug.Log("Secondary selected");
+        // Debug.Log("Primary selected");
     }
 }

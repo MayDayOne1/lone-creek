@@ -9,12 +9,13 @@ public class PlayerInteract : MonoBehaviour
     List<GameObject> objectsTriggered = new List<GameObject>();
     public GameObject Throwable;
     public GameObject Pistol;
-    public ChooseWeapon chooseWeapon;
+    private ChooseWeapon chooseWeapon;
 
     private void Start()
     {
         Throwable.SetActive(false);
         Pistol.SetActive(false);
+        chooseWeapon = GetComponent<ChooseWeapon>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,16 +66,22 @@ public class PlayerInteract : MonoBehaviour
         if(objectsTriggered.Count > 0)
         {
             GameObject obj = ChooseInteractiveObject();
-            if(obj.tag == "Throwable")
+            if(obj.CompareTag("Throwable"))
             {
-                Throwable.SetActive(true);
                 chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
-            } else if (obj.tag == "Pistol")
+                if (chooseWeapon.hasThrowable == false)
+                {
+                    Throwable.SetActive(true);
+                    chooseWeapon.hasThrowable = true;
+                    Destroy(obj);
+                }
+            }
+            else if (obj.tag == "Pistol")
             {
                 Pistol.SetActive(true);
                 chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
             }
-            Destroy(obj);
+            
             objectsTriggered.Remove(obj); 
         }
     }
