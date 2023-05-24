@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 { 
-    List<Collider> objectsTriggered = new List<Collider>();
+    List<GameObject> objectsTriggered = new List<GameObject>();
     public GameObject Throwable;
+    public GameObject Pistol;
     public ChooseWeapon chooseWeapon;
 
     private void Start()
     {
         Throwable.SetActive(false);
+        Pistol.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +22,7 @@ public class PlayerInteract : MonoBehaviour
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
             // Debug.Log("Triggered");
-            objectsTriggered.Add(other);
+            objectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
         }
         
@@ -28,11 +30,11 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        objectsTriggered.Remove(other);
+        objectsTriggered.Remove(other.gameObject);
         other.GetComponentInChildren<Canvas>().enabled = false;
     }
 
-    private Collider ChooseInteractiveObject()
+    private GameObject ChooseInteractiveObject()
     {
         float dist;
         float minDist = float.MaxValue;
@@ -62,13 +64,17 @@ public class PlayerInteract : MonoBehaviour
 
         if(objectsTriggered.Count > 0)
         {
-            Collider obj = ChooseInteractiveObject();
+            GameObject obj = ChooseInteractiveObject();
             if(obj.tag == "Throwable")
             {
-                obj.GetComponent<PickupThrowable>().Interact();
                 Throwable.SetActive(true);
                 chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
+            } else if (obj.tag == "Pistol")
+            {
+                Pistol.SetActive(true);
+                chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
             }
+            Destroy(obj);
             objectsTriggered.Remove(obj); 
         }
     }
