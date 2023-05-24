@@ -30,7 +30,7 @@ public class ChooseWeapon : MonoBehaviour
             weaponSelected = WEAPONS.THROWABLE;
             playerInteract.Throwable.SetActive(true);
             playerInteract.Pistol.SetActive(false);
-            Debug.Log("Throwable selected");
+            // Debug.Log("Throwable selected");
         } else
         {
             weaponSelected = WEAPONS.NONE;
@@ -46,7 +46,7 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Throwable.SetActive(false);
             playerInteract.Pistol.SetActive(true);
             animator.SetLayerWeight(3, 1);
-            Debug.Log("Primary selected");
+            // Debug.Log("Primary selected");
         } else
         {
             animator.SetLayerWeight(3, 0);

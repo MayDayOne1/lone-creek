@@ -72,6 +72,27 @@ public class PlayerShootingManager : MonoBehaviour
         }        
     }
 
+    public void Shoot()
+    {
+        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
+        {
+            animator.SetTrigger("Throw");
+            playerInteract.Throwable.SetActive(false);
+            PlayerBottle.gameObject.SetActive(false);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            Transform instancePos = PlayerBottle.transform;
+            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
+            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
+            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            Destroy(BottleToInstantiate, 2f);
+            chooseWeapon.hasThrowable = false;
+            IsAimingThrowable = false;
+        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf)
+        {
+            animator.SetTrigger("Shoot");
+            ShootPistol();
+        }
+    }
     private void DrawLine()
     {
         lineRenderer.enabled = true;
@@ -90,21 +111,12 @@ public class PlayerShootingManager : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    private void ShootPistol()
     {
-        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
+        RaycastHit hit;
+        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
         {
-            animator.SetTrigger("Throw");
-            playerInteract.Throwable.SetActive(false);
-            PlayerBottle.gameObject.SetActive(false);
-            chooseWeapon.weaponSelected = WEAPONS.NONE;
-            Transform instancePos = PlayerBottle.transform;
-            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
-            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
-            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-            Destroy(BottleToInstantiate, 2f);
-            chooseWeapon.hasThrowable = false;
-            IsAimingThrowable = false;
+            Debug.Log("Shot something!");
         }
     }
 }
