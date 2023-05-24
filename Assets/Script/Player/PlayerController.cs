@@ -77,8 +77,10 @@ public class PlayerController : MonoBehaviour
         if(playerShootingManager.IsAimingPistol)
         {
             speed = crouchSpeed;
+            animator.SetBool("isAimingPistol", true);
         } else
         {
+            animator.SetBool("isAimingPistol", false);
             speed = runSpeed;
         }
         movement = movementControl.action.ReadValue<Vector2>();
