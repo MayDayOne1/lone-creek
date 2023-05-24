@@ -9,8 +9,7 @@ public class ChooseWeapon : MonoBehaviour
     {
         NONE,
         THROWABLE,
-        PRIMARY,
-        SECONDARY
+        PRIMARY
     }
     public bool hasThrowable;
     public bool hasPistol;
@@ -26,7 +25,9 @@ public class ChooseWeapon : MonoBehaviour
         if(hasThrowable)
         {
             weaponSelected = WEAPONS.THROWABLE;
-            // Debug.Log("Throwable selected");
+            playerInteract.Throwable.SetActive(true);
+            playerInteract.Pistol.SetActive(false);
+            Debug.Log("Throwable selected");
         } else
         {
             weaponSelected = WEAPONS.NONE;
@@ -36,7 +37,15 @@ public class ChooseWeapon : MonoBehaviour
 
     public void SelectPrimary()
     {
-        weaponSelected = WEAPONS.PRIMARY;
-        // Debug.Log("Primary selected");
+        if(hasPistol)
+        {
+            weaponSelected = WEAPONS.PRIMARY;
+            playerInteract.Throwable.SetActive(false);
+            playerInteract.Pistol.SetActive(true);
+            Debug.Log("Primary selected");
+        } else
+        {
+            weaponSelected = WEAPONS.NONE;
+        }
     }
 }
