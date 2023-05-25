@@ -30,7 +30,8 @@ public class PlayerShootingManager : MonoBehaviour
     private int currentClip;
     private float cooldown = 1.167f;
     private float cooldownTimer;
-    private bool canShoot = true;
+    public ParticleSystem particles;
+    public GameObject hitEffect;
 
 
     private void Start()
@@ -38,6 +39,7 @@ public class PlayerShootingManager : MonoBehaviour
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+        particles = playerInteract.Pistol.GetComponentInChildren<ParticleSystem>();
 
         currentClip = clipCapacity;
         currentAmmo = maxAmmo - currentClip;
@@ -132,25 +134,19 @@ public class PlayerShootingManager : MonoBehaviour
         {
             Reload();
         }
-        if(canShoot && currentAmmo > 0)
+        if(currentAmmo > 0)
         {
+            particles.Play();
             playerInteract.audioSource.Play();
-            canShoot = false;
             currentClip--;
             RaycastHit hit;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
             {
                 Debug.Log("Current clip: " + currentClip);
+                GameObject hitParticles = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(hitParticles, 2.0f);
             }
-            cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0)
-            {
-                Debug.Log("Can shoot again!");
-                canShoot = true;
-            }
-            cooldownTimer = cooldown;
         }
-        
     }
 
     private void Reload()
