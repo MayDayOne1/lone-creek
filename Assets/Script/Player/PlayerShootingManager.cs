@@ -24,11 +24,13 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingThrowable = false;
     public bool IsAimingPistol = false;
 
-    [Header("Pistol")]
     private int maxAmmo = 24;
     private int currentAmmo;
     private int clipCapacity = 8;
     private int currentClip;
+    private float cooldown = 1.167f;
+    private float cooldownTimer;
+    private bool canShoot = true;
 
 
     private void Start()
@@ -39,6 +41,7 @@ public class PlayerShootingManager : MonoBehaviour
 
         currentClip = clipCapacity;
         currentAmmo = maxAmmo - currentClip;
+        cooldownTimer = cooldown;
     }
 
     private void OnEnable()
@@ -124,20 +127,27 @@ public class PlayerShootingManager : MonoBehaviour
 
     private void ShootPistol()
     {
-        currentClip--;
+        
         if(currentClip <= 0)
         {
             Reload();
         }
-        if(currentAmmo > 0)
+        if(canShoot && currentAmmo > 0)
         {
+            canShoot = false;
+            currentClip--;
             RaycastHit hit;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
             {
-                Debug.Log("Shot something!");
                 Debug.Log("Current clip: " + currentClip);
-                Debug.Log("Current ammo: " + currentAmmo);
             }
+            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer <= 0)
+            {
+                Debug.Log("Can shoot again!");
+                canShoot = true;
+            }
+            cooldownTimer = cooldown;
         }
         
     }

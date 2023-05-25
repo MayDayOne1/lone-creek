@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable)
+        if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable || playerShootingManager.IsAimingPistol)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
