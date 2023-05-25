@@ -51,7 +51,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""id"": ""29a1e18d-4f46-4cf8-994e-e6fd602e4a9f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -103,6 +103,15 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""name"": ""SelectSecondaryWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""bffe775f-6793-44d4-8810-92d98b512319"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3b57723-a8e2-4b0b-a7fc-463de498a575"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -391,8 +400,19 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06fb845b-9d2b-403d-a2da-f2b7cab2087e"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -989,6 +1009,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         m_Player_SelectThrowable = m_Player.FindAction("SelectThrowable", throwIfNotFound: true);
         m_Player_SelectPrimaryWeapon = m_Player.FindAction("SelectPrimaryWeapon", throwIfNotFound: true);
         m_Player_SelectSecondaryWeapon = m_Player.FindAction("SelectSecondaryWeapon", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1069,6 +1090,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SelectThrowable;
     private readonly InputAction m_Player_SelectPrimaryWeapon;
     private readonly InputAction m_Player_SelectSecondaryWeapon;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @LoneCreek m_Wrapper;
@@ -1082,6 +1104,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         public InputAction @SelectThrowable => m_Wrapper.m_Player_SelectThrowable;
         public InputAction @SelectPrimaryWeapon => m_Wrapper.m_Player_SelectPrimaryWeapon;
         public InputAction @SelectSecondaryWeapon => m_Wrapper.m_Player_SelectSecondaryWeapon;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1118,6 +1141,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @SelectSecondaryWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectSecondaryWeapon;
+                @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1149,6 +1175,9 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
                 @SelectSecondaryWeapon.started += instance.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.performed += instance.OnSelectSecondaryWeapon;
                 @SelectSecondaryWeapon.canceled += instance.OnSelectSecondaryWeapon;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -1314,6 +1343,7 @@ public partial class @LoneCreek : IInputActionCollection2, IDisposable
         void OnSelectThrowable(InputAction.CallbackContext context);
         void OnSelectPrimaryWeapon(InputAction.CallbackContext context);
         void OnSelectSecondaryWeapon(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

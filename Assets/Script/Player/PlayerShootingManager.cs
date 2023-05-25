@@ -28,7 +28,7 @@ public class PlayerShootingManager : MonoBehaviour
     private int currentAmmo;
     private int clipCapacity = 8;
     private int currentClip;
-    private float cooldown = 1.167f;
+    private float cooldown = .5f;
     private float cooldownTimer;
     public ParticleSystem particles;
     public GameObject hitEffect;
@@ -105,7 +105,6 @@ public class PlayerShootingManager : MonoBehaviour
             IsAimingThrowable = false;
         } else if (IsAimingPistol && playerInteract.Pistol.activeSelf)
         {
-            animator.SetTrigger("Shoot");
             ShootPistol();
         }
     }
@@ -134,32 +133,48 @@ public class PlayerShootingManager : MonoBehaviour
         {
             Reload();
         }
-        if(currentAmmo > 0)
+        if(Time.time - cooldownTimer < cooldown)
         {
+            return;
+        } else if(currentClip > 0)
+        {
+            cooldownTimer = Time.time;
             particles.Play();
             playerInteract.audioSource.Play();
             currentClip--;
             RaycastHit hit;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
             {
-                Debug.Log("Current clip: " + currentClip);
+                // Debug.Log("Current clip: " + currentClip);
                 GameObject hitParticles = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(hitParticles, 2.0f);
             }
+        } else if (currentAmmo <= 0 )
+        {
+            playerInteract.Pistol.SetActive(false);
+            animator.SetLayerWeight(3, 0);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
         }
     }
 
-    private void Reload()
+    public void Reload()
     {
-        if(currentAmmo >= 8)
+        if(currentClip >= 8)
         {
+            return;
+        }
+        else if(currentAmmo >= 8)
+        {
+            animator.SetTrigger("Reload");
             currentClip = clipCapacity;
             currentAmmo -= currentClip;
         } else
         {
+            animator.SetTrigger("Reload");
             currentClip = currentAmmo;
             currentAmmo = 0;
         }
-        Debug.Log("Reloading!");
+        // Debug.Log("Reloading!");
+        // Debug.Log("Current ammo: " + currentAmmo);
     }
 }

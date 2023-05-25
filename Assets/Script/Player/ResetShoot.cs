@@ -8,7 +8,7 @@ public class ResetShoot : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // playerInteract = FindFirstObjectByType<PlayerInteract>();
-        animator.ResetTrigger("Shoot");
+        animator.ResetTrigger("Reload");
         //if (!playerInteract.Throwable.activeSelf)
         //{
         //    animator.SetLayerWeight(2, 0);
