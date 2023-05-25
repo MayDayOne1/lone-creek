@@ -10,12 +10,14 @@ public class PlayerInteract : MonoBehaviour
     public GameObject Throwable;
     public GameObject Pistol;
     private ChooseWeapon chooseWeapon;
+    public AudioSource audioSource;
 
     private void Start()
     {
         Throwable.SetActive(false);
         Pistol.SetActive(false);
         chooseWeapon = GetComponent<ChooseWeapon>();
+        audioSource = Pistol.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)

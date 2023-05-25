@@ -134,6 +134,7 @@ public class PlayerShootingManager : MonoBehaviour
         }
         if(canShoot && currentAmmo > 0)
         {
+            playerInteract.audioSource.Play();
             canShoot = false;
             currentClip--;
             RaycastHit hit;
