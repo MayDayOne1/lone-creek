@@ -6,10 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
     [SerializeField] private InputActionReference movementControl;
-    [SerializeField] private float runSpeed = 4.0f;
-    [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
+    [SerializeField] private float runSpeed = 4.0f;
+    [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
 
@@ -74,6 +74,15 @@ public class PlayerController : MonoBehaviour
             speed = runSpeed;
             animator.SetLayerWeight(1, 0);
         }
+        if(playerShootingManager.IsAimingPistol)
+        {
+            speed = crouchSpeed;
+            animator.SetBool("isAimingPistol", true);
+        } else
+        {
+            animator.SetBool("isAimingPistol", false);
+            speed = runSpeed;
+        }
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
         Vector3 normalizedMove = Vector3.Normalize(move);
@@ -89,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable)
+        if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable || playerShootingManager.IsAimingPistol)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);

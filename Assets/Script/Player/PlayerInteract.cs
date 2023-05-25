@@ -6,13 +6,18 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 { 
-    List<Collider> objectsTriggered = new List<Collider>();
+    List<GameObject> objectsTriggered = new List<GameObject>();
     public GameObject Throwable;
-    public ChooseWeapon chooseWeapon;
+    public GameObject Pistol;
+    private ChooseWeapon chooseWeapon;
+    public AudioSource audioSource;
 
     private void Start()
     {
         Throwable.SetActive(false);
+        Pistol.SetActive(false);
+        chooseWeapon = GetComponent<ChooseWeapon>();
+        audioSource = Pistol.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +25,7 @@ public class PlayerInteract : MonoBehaviour
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
             // Debug.Log("Triggered");
-            objectsTriggered.Add(other);
+            objectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
         }
         
@@ -28,11 +33,11 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        objectsTriggered.Remove(other);
+        objectsTriggered.Remove(other.gameObject);
         other.GetComponentInChildren<Canvas>().enabled = false;
     }
 
-    private Collider ChooseInteractiveObject()
+    private GameObject ChooseInteractiveObject()
     {
         float dist;
         float minDist = float.MaxValue;
@@ -62,13 +67,26 @@ public class PlayerInteract : MonoBehaviour
 
         if(objectsTriggered.Count > 0)
         {
-            Collider obj = ChooseInteractiveObject();
-            if(obj.tag == "Throwable")
+            GameObject obj = ChooseInteractiveObject();
+            if(obj.CompareTag("Throwable"))
             {
-                obj.GetComponent<PickupThrowable>().Interact();
-                Throwable.SetActive(true);
-                chooseWeapon.weaponSelected = ChooseWeapon.WEAPONS.THROWABLE;
+                if (chooseWeapon.hasThrowable == false)
+                {
+                    chooseWeapon.hasThrowable = true;
+                    chooseWeapon.SelectThrowable();
+                    Destroy(obj);
+                }
             }
+            else if (obj.tag == "Pistol")
+            {
+                if (chooseWeapon.hasPistol == false)
+                {
+                    chooseWeapon.hasPistol = true;
+                    chooseWeapon.SelectPrimary();
+                    Destroy(obj);
+                }
+            }
+            
             objectsTriggered.Remove(obj); 
         }
     }

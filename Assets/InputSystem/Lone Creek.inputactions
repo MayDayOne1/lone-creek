@@ -29,7 +29,7 @@
                     "id": "29a1e18d-4f46-4cf8-994e-e6fd602e4a9f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -81,6 +81,15 @@
                     "name": "SelectSecondaryWeapon",
                     "type": "Button",
                     "id": "bffe775f-6793-44d4-8810-92d98b512319",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "a3b57723-a8e2-4b0b-a7fc-463de498a575",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -369,8 +378,19 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06fb845b-9d2b-403d-a2da-f2b7cab2087e",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

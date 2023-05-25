@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class ChooseWeapon : MonoBehaviour
 {
-    public PlayerInteract playerInteract;
+    private PlayerInteract playerInteract;
+    private Animator animator;
     public enum WEAPONS
     {
         NONE,
         THROWABLE,
-        PRIMARY,
-        SECONDARY
+        PRIMARY
     }
-
+    public bool hasThrowable;
+    public bool hasPistol;
     public WEAPONS weaponSelected;
+
+    private void Start()
+    {
+        playerInteract = GetComponent<PlayerInteract>();
+        animator = GetComponent<Animator>();
+    }
 
     public void SelectThrowable()
     {
-        if(playerInteract.Throwable.activeSelf == true)
+        animator.SetLayerWeight(3, 0);
+        if (hasThrowable)
         {
             weaponSelected = WEAPONS.THROWABLE;
-            Debug.Log("Throwable selected");
+            playerInteract.Throwable.SetActive(true);
+            playerInteract.Pistol.SetActive(false);
+            // Debug.Log("Throwable selected");
         } else
         {
             weaponSelected = WEAPONS.NONE;
@@ -30,13 +40,17 @@ public class ChooseWeapon : MonoBehaviour
 
     public void SelectPrimary()
     {
-        weaponSelected = WEAPONS.PRIMARY;
-        Debug.Log("Primary selected");
-    }
-
-    public void SelectSecondary()
-    {
-        weaponSelected = WEAPONS.SECONDARY;
-        Debug.Log("Secondary selected");
+        if(hasPistol)
+        {
+            weaponSelected = WEAPONS.PRIMARY;
+            playerInteract.Throwable.SetActive(false);
+            playerInteract.Pistol.SetActive(true);
+            animator.SetLayerWeight(3, 1);
+            // Debug.Log("Primary selected");
+        } else
+        {
+            animator.SetLayerWeight(3, 0);
+            weaponSelected = WEAPONS.NONE;
+        }
     }
 }

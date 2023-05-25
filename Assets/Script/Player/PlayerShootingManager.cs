@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static ChooseWeapon;
@@ -21,12 +22,28 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
 
     public bool IsAimingThrowable = false;
+    public bool IsAimingPistol = false;
+
+    private int maxAmmo = 24;
+    private int currentAmmo;
+    private int clipCapacity = 8;
+    private int currentClip;
+    private float cooldown = .5f;
+    private float cooldownTimer;
+    public ParticleSystem particles;
+    public GameObject hitEffect;
+
 
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+        particles = playerInteract.Pistol.GetComponentInChildren<ParticleSystem>();
+
+        currentClip = clipCapacity;
+        currentAmmo = maxAmmo - currentClip;
+        cooldownTimer = cooldown;
     }
 
     private void OnEnable()
@@ -59,10 +76,38 @@ public class PlayerShootingManager : MonoBehaviour
                 lineRenderer.enabled = false;
                 animator.SetBool("isAimingThrowable", false);
             }
-            
+        } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
+        {
+            if(aimValue == 1f)
+            {
+                IsAimingPistol = true;
+            } else
+            {
+                IsAimingPistol = false;
+            }
         }        
     }
 
+    public void Shoot()
+    {
+        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
+        {
+            animator.SetTrigger("Throw");
+            playerInteract.Throwable.SetActive(false);
+            PlayerBottle.gameObject.SetActive(false);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+            Transform instancePos = PlayerBottle.transform;
+            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
+            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
+            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+            Destroy(BottleToInstantiate, 2f);
+            chooseWeapon.hasThrowable = false;
+            IsAimingThrowable = false;
+        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf)
+        {
+            ShootPistol();
+        }
+    }
     private void DrawLine()
     {
         lineRenderer.enabled = true;
@@ -81,19 +126,55 @@ public class PlayerShootingManager : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    private void ShootPistol()
     {
-        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
+        
+        if(currentClip <= 0)
         {
-            animator.SetTrigger("Throw");
-            playerInteract.Throwable.SetActive(false);
-            PlayerBottle.gameObject.SetActive(false);
-            chooseWeapon.weaponSelected = WEAPONS.NONE;
-            Transform instancePos = PlayerBottle.transform;
-            BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
-            Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
-            bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-            Destroy(BottleToInstantiate, 2f);
+            Reload();
         }
+        if(Time.time - cooldownTimer < cooldown)
+        {
+            return;
+        } else if(currentClip > 0)
+        {
+            cooldownTimer = Time.time;
+            particles.Play();
+            playerInteract.audioSource.Play();
+            currentClip--;
+            RaycastHit hit;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
+            {
+                // Debug.Log("Current clip: " + currentClip);
+                GameObject hitParticles = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(hitParticles, 2.0f);
+            }
+        } else if (currentAmmo <= 0 )
+        {
+            playerInteract.Pistol.SetActive(false);
+            animator.SetLayerWeight(3, 0);
+            chooseWeapon.weaponSelected = WEAPONS.NONE;
+        }
+    }
+
+    public void Reload()
+    {
+        if(currentClip >= 8)
+        {
+            return;
+        }
+        else if(currentAmmo >= 8)
+        {
+            animator.SetTrigger("Reload");
+            currentClip = clipCapacity;
+            currentAmmo -= currentClip;
+        } else
+        {
+            animator.SetTrigger("Reload");
+            currentClip = currentAmmo;
+            currentAmmo = 0;
+        }
+        // Debug.Log("Reloading!");
+        // Debug.Log("Current ammo: " + currentAmmo);
     }
 }
