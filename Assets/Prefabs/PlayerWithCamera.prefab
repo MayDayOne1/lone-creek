@@ -506,7 +506,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888035081874586049}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 74a43d3e635a2c74fa9ea825318a256a, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 1
@@ -1126,7 +1126,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: 0.14036025, y: 0.094295464, z: -0.013429957, w: 0.9855085}
+  m_LocalRotation: {x: 0.14046317, y: 0.086411335, z: -0.012307064, w: 0.9862311}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2291,7 +2291,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: 0.14036025, y: 0.09429547, z: -0.013429958, w: 0.9855085}
+  m_LocalRotation: {x: 0.14046317, y: 0.086411335, z: -0.012307064, w: 0.9862311}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3336,6 +3336,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7be5eeaf-ef52-4688-862e-704952b178d0
     m_ActionName: Player/Aim[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114614342735316110}
+        m_TargetAssemblyTypeName: PlayerShootingManager, Assembly-CSharp
+        m_MethodName: Reload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3b57723-a8e2-4b0b-a7fc-463de498a575
+    m_ActionName: Player/Reload[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -3777,7 +3793,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: 0.14036025, y: 0.094295464, z: -0.013429957, w: 0.9855085}
+  m_LocalRotation: {x: 0.14046317, y: 0.086411335, z: -0.012307064, w: 0.9862311}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
