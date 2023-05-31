@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 using static ChooseWeapon;
 
 public class PlayerShootingManager : MonoBehaviour
@@ -11,7 +12,9 @@ public class PlayerShootingManager : MonoBehaviour
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
+    private PlayerController playerController;
     public Camera cam;
+    public CinemachineFreeLook AimCam;
 
 
     [Header("THROW")]
@@ -44,7 +47,9 @@ public class PlayerShootingManager : MonoBehaviour
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+        playerController = GetComponent<PlayerController>();
 
+        AimCam.gameObject.SetActive(false);
         currentClip = clipCapacity;
         currentAmmo = maxAmmo - currentClip;
         cooldownTimer = cooldown;
@@ -166,18 +171,22 @@ public class PlayerShootingManager : MonoBehaviour
             if(aimValue == 1f)
             {
                 StartAimingThrowable();
+                AimCam.gameObject.SetActive(true);
             } else
             {
                 StopAimingThrowable();
+                AimCam.gameObject.SetActive(false);
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
         {
             if(aimValue == 1f)
             {
                 IsAimingPistol = true;
+                AimCam.gameObject.SetActive(true);
             } else
             {
                 IsAimingPistol = false;
+                AimCam.gameObject.SetActive(false);
             }
         }        
     }

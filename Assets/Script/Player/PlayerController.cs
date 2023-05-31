@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Tooltip("MOVEMENT")]
-    public Animator animator;
+    [Header("MOVEMENT")]
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
@@ -13,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
+    public Animator animator;
+    public float Sensitivity = 1f;
 
     private CharacterController controller;
     private PlayerShootingManager playerShootingManager;
@@ -110,7 +111,6 @@ public class PlayerController : MonoBehaviour
         InputSystemMove();
         
     }
-
     public void CalculateCharacterRotation()
     {
         if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable || playerShootingManager.IsAimingPistol)
