@@ -26,7 +26,7 @@ public class PlayerShootingManager : MonoBehaviour
 
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] private Transform dummyTransform;
+    // [SerializeField] private Transform dummyTransform;
     private int maxAmmo = 24;
     private int currentAmmo;
     private int clipCapacity = 8;
@@ -37,13 +37,13 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
+        Vector3 mouseWorldPos = Vector3.zero;
 
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
-        particles = playerInteract.Pistol.GetComponentInChildren<ParticleSystem>();
 
         currentClip = clipCapacity;
         currentAmmo = maxAmmo - currentClip;
@@ -62,12 +62,11 @@ public class PlayerShootingManager : MonoBehaviour
     #endregion
     private void AimTowardsCrosshair()
     {
-        Vector3 mouseWorldPos = Vector3.zero;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
         {
-            dummyTransform.position = hit.point;
+            // dummyTransform.position = hit.point;
             mouseWorldPos = hit.point;
             hitTransform = hit.transform;
         }
@@ -125,7 +124,9 @@ public class PlayerShootingManager : MonoBehaviour
         if (hitTransform != null)
         {
             // Debug.Log("Current clip: " + currentClip);
-            GameObject hitParticles = Instantiate(hitEffect, hitTransform.position, Quaternion.identity);
+            // Debug.Log("Hit transform position: " + hitTransform.position);
+            // Debug.Log("Transform position: " + transform.position);
+            GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
         }
     }
