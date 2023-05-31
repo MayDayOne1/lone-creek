@@ -12,6 +12,8 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private GameObject ThrowablePlayerBottle;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float ThrowStrength = 20f;
+    [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField] private Transform dummyTransform;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
 
@@ -56,8 +58,19 @@ public class PlayerShootingManager : MonoBehaviour
         aimAction.action.Disable();
     }
 
+    private void AimTowardsCrosshair()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
+        {
+            dummyTransform.position = hit.point;
+        }
+    }
+
     public void Aim()
     {
+        AimTowardsCrosshair();
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
