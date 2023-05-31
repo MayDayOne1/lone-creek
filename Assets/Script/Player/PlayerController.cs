@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [Tooltip("MOVEMENT")]
     public Animator animator;
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
@@ -13,14 +14,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
 
-    private PlayerShootingManager playerShootingManager;
     private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    private PlayerShootingManager playerShootingManager;
     private Transform cameraMainTransform;
     private Vector2 movement;
-    private float speed;
+    private Vector3 playerVelocity;
 
+    private float speed;
+    private bool groundedPlayer;
     private bool isCrouching = false;
 
     private void Start()
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
+    #region MovementControlEnableDisable
     private void OnEnable()
     {
         movementControl.action.Enable();
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         movementControl.action.Disable();
     }
+    #endregion
 
     void Update()
     {
@@ -52,8 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CalculateCharacterRotation();
-        
+        CalculateCharacterRotation();  
     }
 
     private void IsPlayerGrounded()
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void CrouchToStandLogic()
     {
         if (!isCrouching)
         {
@@ -74,15 +75,22 @@ public class PlayerController : MonoBehaviour
             speed = runSpeed;
             animator.SetLayerWeight(1, 0);
         }
-        if(playerShootingManager.IsAimingPistol)
+    }
+    private void AimingLogic()
+    {
+        if (playerShootingManager.IsAimingPistol)
         {
             speed = crouchSpeed;
             animator.SetBool("isAimingPistol", true);
-        } else
+        }
+        else
         {
             animator.SetBool("isAimingPistol", false);
             speed = runSpeed;
         }
+    }
+    private void InputSystemMove()
+    {
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
         Vector3 normalizedMove = Vector3.Normalize(move);
@@ -94,6 +102,13 @@ public class PlayerController : MonoBehaviour
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+    private void Move()
+    {
+        CrouchToStandLogic();
+        AimingLogic();
+        InputSystemMove();
+        
     }
 
     public void CalculateCharacterRotation()
