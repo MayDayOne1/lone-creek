@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using UnityEngine.Animations.Rigging;
 using static ChooseWeapon;
 
 public class PlayerShootingManager : MonoBehaviour
 {
     [Header("GENERAL")]
     [SerializeField] private InputActionReference aimAction;
+    [SerializeField] private Rig aimRig;
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
-    private PlayerController playerController;
+    private float aimRigWeight;
     public Camera cam;
     public CinemachineFreeLook AimCam;
 
@@ -29,7 +31,7 @@ public class PlayerShootingManager : MonoBehaviour
 
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    // [SerializeField] private Transform dummyTransform;
+    [SerializeField] private Transform dummyTransform;
     private int maxAmmo = 24;
     private int currentAmmo;
     private int clipCapacity = 8;
@@ -47,7 +49,6 @@ public class PlayerShootingManager : MonoBehaviour
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
-        playerController = GetComponent<PlayerController>();
 
         AimCam.gameObject.SetActive(false);
         currentClip = clipCapacity;
@@ -71,7 +72,7 @@ public class PlayerShootingManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
         {
-            // dummyTransform.position = hit.point;
+            dummyTransform.position = hit.point;
             mouseWorldPos = hit.point;
             hitTransform = hit.transform;
         }
@@ -164,6 +165,7 @@ public class PlayerShootingManager : MonoBehaviour
     public void Aim()
     {
         AimTowardsCrosshair();
+        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
         float aimValue = aimAction.action.ReadValue<float>();
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
@@ -172,10 +174,12 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 StartAimingThrowable();
                 AimCam.gameObject.SetActive(true);
+                aimRigWeight = 1f;
             } else
             {
                 StopAimingThrowable();
                 AimCam.gameObject.SetActive(false);
+                aimRigWeight = 0f;
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
         {
@@ -183,10 +187,12 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 IsAimingPistol = true;
                 AimCam.gameObject.SetActive(true);
+                aimRigWeight = 1f;
             } else
             {
                 IsAimingPistol = false;
                 AimCam.gameObject.SetActive(false);
+                aimRigWeight = 0f;
             }
         }        
     }
