@@ -66,6 +66,18 @@ public class PlayerShootingManager : MonoBehaviour
         aimAction.action.Disable();
     }
     #endregion
+
+    private void EnableAim()
+    {
+        AimCam.gameObject.SetActive(true);
+        aimRigWeight = 1f;
+    }
+
+    private void DisableAim()
+    {
+        AimCam.gameObject.SetActive(false);
+        aimRigWeight = 0f;
+    }
     private void AimTowardsCrosshair()
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -172,27 +184,23 @@ public class PlayerShootingManager : MonoBehaviour
         {
             if(aimValue == 1f)
             {
+                EnableAim();
                 StartAimingThrowable();
-                AimCam.gameObject.SetActive(true);
-                aimRigWeight = 1f;
             } else
             {
+                DisableAim();
                 StopAimingThrowable();
-                AimCam.gameObject.SetActive(false);
-                aimRigWeight = 0f;
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
         {
             if(aimValue == 1f)
             {
                 IsAimingPistol = true;
-                AimCam.gameObject.SetActive(true);
-                aimRigWeight = 1f;
+                EnableAim();
             } else
             {
                 IsAimingPistol = false;
-                AimCam.gameObject.SetActive(false);
-                aimRigWeight = 0f;
+                DisableAim();
             }
         }        
     }
