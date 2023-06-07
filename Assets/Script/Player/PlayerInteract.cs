@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 { 
-    List<GameObject> objectsTriggered = new List<GameObject>();
     public GameObject Throwable;
     public GameObject Pistol;
-    private ChooseWeapon chooseWeapon;
     public AudioSource audioSource;
+
+    private List<GameObject> objectsTriggered = new List<GameObject>();
+    private ChooseWeapon chooseWeapon;
 
     private void Start()
     {
         Throwable.SetActive(false);
         Pistol.SetActive(false);
-        chooseWeapon = GetComponent<ChooseWeapon>();
         audioSource = Pistol.GetComponent<AudioSource>();
+        chooseWeapon = GetComponent<ChooseWeapon>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -60,36 +59,37 @@ public class PlayerInteract : MonoBehaviour
             return null;
         }
     }
-
+    private void PickupThrowable(GameObject obj)
+    {
+        if (chooseWeapon.hasThrowable == false)
+        {
+            chooseWeapon.hasThrowable = true;
+            chooseWeapon.SelectThrowable();
+        }
+    }
+    private void PickupPistol(GameObject obj)
+    {
+        if (chooseWeapon.hasPistol == false)
+        {
+            chooseWeapon.hasPistol = true;
+            chooseWeapon.SelectPrimary();
+        }
+    }
     public void Interact()
     { 
-        // TO DO: choose component to get by tag
-
         if(objectsTriggered.Count > 0)
         {
             GameObject obj = ChooseInteractiveObject();
             if(obj.CompareTag("Throwable"))
             {
-                if (chooseWeapon.hasThrowable == false)
-                {
-                    chooseWeapon.hasThrowable = true;
-                    chooseWeapon.SelectThrowable();
-                    Destroy(obj);
-                }
+                PickupThrowable(obj);
             }
             else if (obj.tag == "Pistol")
             {
-                if (chooseWeapon.hasPistol == false)
-                {
-                    chooseWeapon.hasPistol = true;
-                    chooseWeapon.SelectPrimary();
-                    Destroy(obj);
-                }
+                PickupPistol(obj);
             }
-            
+            Destroy(obj);
             objectsTriggered.Remove(obj); 
         }
     }
-
-    
 }

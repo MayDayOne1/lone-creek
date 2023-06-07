@@ -69,7 +69,8 @@ public class State
     public bool CanAttackPlayer()
     {
         Vector3 direction = player.position - npc.transform.position;
-        if (direction.magnitude < attackDist)
+        float angle = Vector3.Angle(direction, npc.transform.forward);
+        if (direction.magnitude < attackDist && angle < visAngle)
         {
             return true;
         }
@@ -97,6 +98,7 @@ public class Idle : State
         : base(_npc, _player, _agent, waypoints)
     {
         stateName = STATE.IDLE;
+        Debug.Log("Idle");
     }
 
     public override void Enter()
@@ -128,6 +130,7 @@ public class Patrol : State
         stateName = STATE.PATROL;
         agent.speed = 5;
         agent.isStopped = false;
+        Debug.Log("Patrol");
     }
 
     public override void Enter()
@@ -184,6 +187,7 @@ public class Pursue : State
         stateName = STATE.PURSUIT;
         agent.speed = 7;
         agent.isStopped = false;
+        Debug.Log("Pursue");
     }
 
     public override void Enter()
@@ -223,6 +227,7 @@ public class Attack : State
         : base(_npc, _player, _agent, waypoints)
     {
         stateName = STATE.ATTACK;
+        Debug.Log("Attack");
     }
 
     public override void Enter()

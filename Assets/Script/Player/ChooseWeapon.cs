@@ -12,9 +12,9 @@ public class ChooseWeapon : MonoBehaviour
         THROWABLE,
         PRIMARY
     }
+    public WEAPONS weaponSelected;
     public bool hasThrowable;
     public bool hasPistol;
-    public WEAPONS weaponSelected;
 
     private void Start()
     {
