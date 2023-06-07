@@ -1526,7 +1526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3887251194478160664
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,7 +1534,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4519814061946646946}
-  m_LocalRotation: {x: -0, y: 0.99974906, z: -0, w: -0.02240113}
+  m_LocalRotation: {x: 0, y: 0.9997491, z: -0, w: -0.022399265}
   m_LocalPosition: {x: -22.68, y: 0.768, z: -110.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1607,7 +1607,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5000001
-  m_Speed: 5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1633,6 +1633,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   bulletSpeed: 10
