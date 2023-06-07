@@ -83,7 +83,6 @@ public class PlayerShootingManager : MonoBehaviour
         aimRigWeight = 1f;
         AmmoBG.SetActive(true);
     }
-
     private void DisableAim()
     {
         AimCam.gameObject.SetActive(false);
