@@ -10,6 +10,7 @@ public class PlayerInteract : MonoBehaviour
 
     private List<GameObject> objectsTriggered = new List<GameObject>();
     private ChooseWeapon chooseWeapon;
+    private PlayerShootingManager playerShootingManager;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class PlayerInteract : MonoBehaviour
         Pistol.SetActive(false);
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
+        playerShootingManager = GetComponent<PlayerShootingManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -73,6 +75,7 @@ public class PlayerInteract : MonoBehaviour
         {
             chooseWeapon.hasPistol = true;
             chooseWeapon.SelectPrimary();
+            playerShootingManager.SetAmmo(24);
         }
     }
     public void Interact()

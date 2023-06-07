@@ -30,6 +30,7 @@ public class AI : MonoBehaviour
 
     void Update()
     {
+        ManageAmmoCounterVisibility();
         currentState = currentState.Process();
         if(currentState.CanAttackPlayer())
         {
@@ -39,6 +40,18 @@ public class AI : MonoBehaviour
             Standby(1);
             // Destroy(bulletInstance, 1.0f);
             canShoot = true;
+        }
+    }
+
+    private void ManageAmmoCounterVisibility()
+    {
+        GameObject ammoBG = Player.GetComponent<PlayerShootingManager>().AmmoBG;
+        if (currentState.CanAttackPlayer() || currentState.CanSeePlayer())
+        {
+            ammoBG.SetActive(true);
+        } else
+        {
+            ammoBG.SetActive(false);
         }
     }
 

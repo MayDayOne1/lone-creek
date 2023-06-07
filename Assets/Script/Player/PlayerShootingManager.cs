@@ -34,16 +34,16 @@ public class PlayerShootingManager : MonoBehaviour
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform dummyTransform;
-    [SerializeField] private GameObject AmmoBG;
     [SerializeField] private TextMeshProUGUI ClipUI;
     [SerializeField] private TextMeshProUGUI TotalAmmoUI;
     private int maxAmmo = 24;
-    private int currentAmmo;
+    private int currentAmmo = 0;
     private int clipCapacity = 8;
     private int currentClip;
     private float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
+    public GameObject AmmoBG;
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
@@ -56,8 +56,7 @@ public class PlayerShootingManager : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
 
         AimCam.gameObject.SetActive(false);
-        currentClip = clipCapacity;
-        currentAmmo = maxAmmo - currentClip;
+        currentClip = 0;
         cooldownTimer = cooldown;
 
         AmmoBG.SetActive(false);
@@ -77,6 +76,11 @@ public class PlayerShootingManager : MonoBehaviour
     }
     #endregion
 
+    public void SetAmmo(int ammo)
+    {
+        currentAmmo += ammo;
+        TotalAmmoUI.text = currentAmmo.ToString();
+    }
     private void EnableAim()
     {
         AimCam.gameObject.SetActive(true);
