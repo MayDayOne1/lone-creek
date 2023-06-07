@@ -41,4 +41,9 @@ public class AI : MonoBehaviour
             canShoot = true;
         }
     }
+
+    public bool GetCanAttackPlayer()
+    {
+        return currentState.CanAttackPlayer();
+    }
 }

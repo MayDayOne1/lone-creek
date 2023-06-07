@@ -131,7 +131,7 @@ public class Patrol : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.PATROL;
-        agent.speed = 5;
+        agent.speed = 3;
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
@@ -190,7 +190,7 @@ public class Pursue : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.PURSUIT;
-        agent.speed = 7;
+        agent.speed = 4;
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);
