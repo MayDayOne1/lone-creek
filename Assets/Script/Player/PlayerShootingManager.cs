@@ -174,7 +174,7 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void ShootPistol()
     {
-        if (currentClip <= 0)
+        if (currentClip < 1)
         {
             Reload();
         }
