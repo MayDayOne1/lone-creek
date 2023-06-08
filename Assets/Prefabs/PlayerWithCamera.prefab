@@ -1687,7 +1687,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -2494,8 +2494,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: -0.000000010244548, y: -0.00000071525574, z: -0.000000063329935,
-    w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: -0.023505956, z: -0.0021222718, w: 0.99972147}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2639,8 +2638,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3231851228583997345}
-  m_LocalRotation: {x: -0.025169514, y: -0.8281597, z: -0.037309885, w: 0.5586824}
-  m_LocalPosition: {x: 2.4778416, y: -1.3576052, z: 4.6908684}
+  m_LocalRotation: {x: -0.025169497, y: -0.82816017, z: -0.03730992, w: 0.5586818}
+  m_LocalPosition: {x: 2.477841, y: -1.3576052, z: 4.6908693}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2713,7 +2712,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 150
     m_AccelTime: 0.02
@@ -2879,7 +2878,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -3929,8 +3928,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: -0.000000019557774, y: -0.00000071525574, z: -0.000000063329935,
-    w: 1}
+  m_LocalRotation: {x: 0.000000007450581, y: -0.023505956, z: -0.0021222718, w: 0.99972147}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4946,6 +4944,7 @@ MonoBehaviour:
   crouchingHeight: 1
   animator: {fileID: 12552532271642158}
   Sensitivity: 1
+  healthSlider: {fileID: 0}
 --- !u!114 &5856383619225992817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5599,8 +5598,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: -0.000000019557774, y: -0.00000071525574, z: -0.000000063329935,
-    w: 1}
+  m_LocalRotation: {x: 0.000000007450581, y: -0.023505956, z: -0.0021222718, w: 0.99972147}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6271,7 +6269,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -6409,6 +6407,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1155832230032796716}
     m_Modifications:
+    - target: {fileID: 1603124692444273756, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603124692444273756, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603124692444273756, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2405214144939536532, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
         type: 3}
       propertyPath: m_RootOrder
@@ -6484,6 +6497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPistol
       objectReference: {fileID: 0}
+    - target: {fileID: 6522444740556125884, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 527027c8baf2f0540be3104a3ec38a99, type: 2}
     - target: {fileID: 6639890233084236567, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
         type: 3}
       propertyPath: m_Range

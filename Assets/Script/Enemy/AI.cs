@@ -20,6 +20,8 @@ public class AI : MonoBehaviour
     // public Transform muzzle;
     public float bulletSpeed = 10f;
     public Slider HealthSlider;
+    public AudioSource Gunshot;
+    public ParticleSystem MuzzleFlash;
 
     void Start()
     {
@@ -49,6 +51,8 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
+        Gunshot.Play();
+        MuzzleFlash.Play();
         // Debug.Log("Start shooting");
         Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
         RaycastHit hit;

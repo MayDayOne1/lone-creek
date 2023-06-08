@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
         health -= damage;
         if(health <= 0f)
         {
-            Debug.Log("Player is dead");
+            // Debug.Log("Player is dead");
             health = 0f;
         }
         healthSlider.value = health;
