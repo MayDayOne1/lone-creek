@@ -47,6 +47,7 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
+    public int PistolDamage = 20;
     Vector3 mouseWorldPos = Vector3.zero;
 
     private void Start()
@@ -163,6 +164,11 @@ public class PlayerShootingManager : MonoBehaviour
             // Debug.Log("Transform position: " + transform.position);
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
+            if(hitTransform.tag == "Enemy")
+            {
+                // Debug.Log("Enemy hit!");
+                hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
+            }
         }
     }
     private void DisablePistol()

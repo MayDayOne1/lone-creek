@@ -8,6 +8,7 @@ public class AI : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private bool canShoot = true;
+    private int health = 100;
 
     protected State currentState;
     public Transform Player;
@@ -30,7 +31,6 @@ public class AI : MonoBehaviour
 
     void Update()
     {
-        ManageAmmoCounterVisibility();
         currentState = currentState.Process();
         if(currentState.CanAttackPlayer())
         {
@@ -42,21 +42,17 @@ public class AI : MonoBehaviour
             canShoot = true;
         }
     }
-
-    private void ManageAmmoCounterVisibility()
-    {
-        GameObject ammoBG = Player.GetComponent<PlayerShootingManager>().AmmoBG;
-        if (currentState.CanAttackPlayer() || currentState.CanSeePlayer())
-        {
-            ammoBG.SetActive(true);
-        } else
-        {
-            ammoBG.SetActive(false);
-        }
-    }
-
     public bool GetCanAttackPlayer()
     {
         return currentState.CanAttackPlayer();
+    }
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            health = 0;
+            // Debug.Log("enemy dead");
+        }
     }
 }
