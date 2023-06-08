@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
@@ -81,7 +82,23 @@ public class PlayerInteract : MonoBehaviour
     }
     private void PickupAmmo(GameObject obj)
     {
-        throw new NotImplementedException();
+        string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
+        int ammo = int.Parse(ammoText);
+        if(playerShootingManager.currentAmmo >= playerShootingManager.maxAmmo)
+        {
+            return;
+        } else
+        {
+            int ammoDiff = playerShootingManager.maxAmmo - playerShootingManager.currentAmmo;
+            if(ammo <= ammoDiff)
+            {
+                playerShootingManager.currentAmmo = ammo;
+            } else
+            {
+                playerShootingManager.currentAmmo = ammoDiff;
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammo - ammoDiff).ToString();
+            }
+        }
     }
     public void Interact()
     { 

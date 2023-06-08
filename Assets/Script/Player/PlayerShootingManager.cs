@@ -37,8 +37,8 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private Transform dummyTransform;
     [SerializeField] private TextMeshProUGUI ClipUI;
     [SerializeField] private TextMeshProUGUI TotalAmmoUI;
-    private int maxAmmo = 24;
-    private int currentAmmo = 0;
+    public int maxAmmo = 24;
+    public int currentAmmo = 0;
     private int clipCapacity = 8;
     private int currentClip;
     private float cooldown = .5f;
@@ -246,11 +246,12 @@ public class PlayerShootingManager : MonoBehaviour
         {
             return;
         }
-        else if(currentAmmo >= 8)
+        else if(currentClip < 8)
         {
             animator.SetTrigger("Reload");
-            currentClip = clipCapacity;
-            currentAmmo -= currentClip;
+            int ammoDiff = clipCapacity - currentClip;
+            currentClip = ammoDiff;
+            currentAmmo -= ammoDiff;
             ClipUI.text = currentClip.ToString();
             TotalAmmoUI.text = currentAmmo.ToString();
         } else
