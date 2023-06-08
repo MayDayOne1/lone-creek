@@ -15,11 +15,13 @@ public class ChooseWeapon : MonoBehaviour
     public WEAPONS weaponSelected;
     public bool hasThrowable;
     public bool hasPistol;
+    public GameObject AmmoBG;
 
     private void Start()
     {
         playerInteract = GetComponent<PlayerInteract>();
         animator = GetComponent<Animator>();
+        AmmoBG.SetActive(false);
     }
 
     public void SelectThrowable()
@@ -31,6 +33,7 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Throwable.SetActive(true);
             playerInteract.Pistol.SetActive(false);
             // Debug.Log("Throwable selected");
+            AmmoBG.SetActive(false);
         } else
         {
             weaponSelected = WEAPONS.NONE;
@@ -46,6 +49,7 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Throwable.SetActive(false);
             playerInteract.Pistol.SetActive(true);
             animator.SetLayerWeight(3, 1);
+            AmmoBG.SetActive(true);
             // Debug.Log("Primary selected");
         } else
         {

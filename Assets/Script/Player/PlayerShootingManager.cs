@@ -44,7 +44,6 @@ public class PlayerShootingManager : MonoBehaviour
     private float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
-    public GameObject AmmoBG;
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
@@ -61,7 +60,6 @@ public class PlayerShootingManager : MonoBehaviour
         currentClip = 0;
         cooldownTimer = cooldown;
 
-        AmmoBG.SetActive(false);
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
 
@@ -87,13 +85,11 @@ public class PlayerShootingManager : MonoBehaviour
     {
         AimCam.gameObject.SetActive(true);
         aimRigWeight = 1f;
-        AmmoBG.SetActive(true);
     }
     private void DisableAim()
     {
         AimCam.gameObject.SetActive(false);
         aimRigWeight = 0f;
-        AmmoBG.SetActive(false);
 
     }
     private void AimTowardsCrosshair()
