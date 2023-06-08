@@ -47,7 +47,7 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
-    public int PistolDamage = 20;
+    public float PistolDamage = .2f;
     Vector3 mouseWorldPos = Vector3.zero;
 
     private void Start()

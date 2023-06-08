@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class AI : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator anim;
     private bool canShoot = true;
-    private int health = 100;
+    private float health = 1f;
 
     protected State currentState;
     public Transform Player;
@@ -16,6 +17,7 @@ public class AI : MonoBehaviour
     // public GameObject bullet;
     // public Transform muzzle;
     public float bulletSpeed = 10f;
+    public Slider HealthSlider;
 
     IEnumerator Standby(int s)
     {
@@ -46,9 +48,10 @@ public class AI : MonoBehaviour
     {
         return currentState.CanAttackPlayer();
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
+        HealthSlider.value = health;
         if(health <= 0)
         {
             health = 0;
