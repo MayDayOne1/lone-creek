@@ -84,21 +84,31 @@ public class PlayerInteract : MonoBehaviour
     {
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
         int ammo = int.Parse(ammoText);
-        if(playerShootingManager.currentAmmo >= playerShootingManager.maxAmmo)
+        
+        int ammoDiff = playerShootingManager.maxAmmo - playerShootingManager.currentAmmo;
+        if(ammo <= ammoDiff)
         {
-            return;
+            // Debug.Log("Ammo <= ammoDiff");
+            ammo += playerShootingManager.currentAmmo;
+            playerShootingManager.currentAmmo = ammo;
+            playerShootingManager.TotalAmmoUI.text = ammo.ToString();
+            Destroy(obj);
+        } else if (ammo + playerShootingManager.currentAmmo > playerShootingManager.maxAmmo)
+        {
+            ammoDiff = ammo + playerShootingManager.currentAmmo - playerShootingManager.maxAmmo;
+            playerShootingManager.currentAmmo = playerShootingManager.maxAmmo;
+            playerShootingManager.TotalAmmoUI.text = playerShootingManager.maxAmmo.ToString();
+
+            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
+
         } else
         {
-            int ammoDiff = playerShootingManager.maxAmmo - playerShootingManager.currentAmmo;
-            if(ammo <= ammoDiff)
-            {
-                playerShootingManager.currentAmmo = ammo;
-            } else
-            {
-                playerShootingManager.currentAmmo = ammoDiff;
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammo - ammoDiff).ToString();
-            }
+            Debug.Log("Ammo > ammoDiff");
+            ammoDiff += playerShootingManager.currentAmmo;
+            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammo - ammoDiff).ToString();
+            playerShootingManager.TotalAmmoUI.text = ammoDiff.ToString();
         }
+        
     }
     public void Interact()
     { 
@@ -108,15 +118,17 @@ public class PlayerInteract : MonoBehaviour
             if(obj.CompareTag("Throwable"))
             {
                 PickupThrowable(obj);
+                Destroy(obj);
             }
             else if (obj.tag == "Pistol")
             {
                 PickupPistol(obj);
+                Destroy(obj);
             } else if (obj.tag == "Ammo")
             {
                 PickupAmmo(obj);
             }
-            Destroy(obj);
+            
             objectsTriggered.Remove(obj); 
         }
     }

@@ -36,7 +36,7 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform dummyTransform;
     [SerializeField] private TextMeshProUGUI ClipUI;
-    [SerializeField] private TextMeshProUGUI TotalAmmoUI;
+    public TextMeshProUGUI TotalAmmoUI;
     public int maxAmmo = 24;
     public int currentAmmo = 0;
     private int clipCapacity = 8;
@@ -242,7 +242,7 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void Reload()
     {
-        if(currentClip >= 8)
+        if(currentClip >= 8 || currentAmmo < 1)
         {
             return;
         }
@@ -250,15 +250,9 @@ public class PlayerShootingManager : MonoBehaviour
         {
             animator.SetTrigger("Reload");
             int ammoDiff = clipCapacity - currentClip;
-            currentClip = ammoDiff;
-            currentAmmo -= ammoDiff;
-            ClipUI.text = currentClip.ToString();
-            TotalAmmoUI.text = currentAmmo.ToString();
-        } else
-        {
-            animator.SetTrigger("Reload");
-            currentClip = currentAmmo;
-            currentAmmo = 0;
+            int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
+            currentClip += ammoToReload;
+            currentAmmo -= ammoToReload;
             ClipUI.text = currentClip.ToString();
             TotalAmmoUI.text = currentAmmo.ToString();
         }
