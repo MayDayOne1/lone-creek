@@ -12,7 +12,6 @@ public class AI : MonoBehaviour
     private Animator anim;
     private float health = 1f;
     private float rifleDamage = .25f;
-    private bool alreadyAttacked;
 
     protected State currentState;
     public Transform Player;
@@ -21,7 +20,6 @@ public class AI : MonoBehaviour
     // public Transform muzzle;
     public float bulletSpeed = 10f;
     public Slider HealthSlider;
-    public float Cooldown = 3f;
 
     void Start()
     {
@@ -33,10 +31,6 @@ public class AI : MonoBehaviour
     void Update()
     {
         currentState = currentState.Process();
-        if (GetCanAttackPlayer())
-        {
-            ShootAtPlayer();
-        }
     }
 
     public bool GetCanAttackPlayer()
@@ -53,13 +47,9 @@ public class AI : MonoBehaviour
             // Debug.Log("enemy dead");
         }
     }
-    private void ResetAttack()
+    public void ShootAtPlayer()
     {
-        alreadyAttacked = false;
-    }
-    private void Fire()
-    {
-        Debug.Log("Start shooting");
+        // Debug.Log("Start shooting");
         Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
@@ -67,13 +57,5 @@ public class AI : MonoBehaviour
             Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
         }
     }
-    private void ShootAtPlayer()
-    {
-        if (!alreadyAttacked)
-        {
-            Fire();
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), Cooldown);
-        }
-    }
+    
 }
