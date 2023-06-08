@@ -17,6 +17,7 @@ public class PlayerShootingManager : MonoBehaviour
     private Animator animator;
     private PlayerInteract playerInteract;
     private float aimRigWeight;
+    private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
     public CinemachineFreeLook AimCam;
 
@@ -48,7 +49,6 @@ public class PlayerShootingManager : MonoBehaviour
     public GameObject hitEffect;
     public ParticleSystem particles;
     public float PistolDamage = .2f;
-    Vector3 mouseWorldPos = Vector3.zero;
 
     private void Start()
     {

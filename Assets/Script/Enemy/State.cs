@@ -28,6 +28,8 @@ public class State
     public float visDist = 12.0f;
     public float visAngle = 30.0f;
     public float attackDist = 10.0f;
+    public float Cooldown = 2f;
+    public bool alreadyAttacked;
 
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
@@ -66,7 +68,6 @@ public class State
 
         return false;
     }
-
     public bool CanAttackPlayer()
     {
         Vector3 direction = player.position - npc.transform.position;
@@ -78,7 +79,6 @@ public class State
 
         return false;
     }
-
     public State Process()
     {
         if (eventName == EVENT.ENTER) Enter();
@@ -92,7 +92,6 @@ public class State
         return this;
     }
 }
-
 public class Idle : State
 {
     public Idle(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
@@ -101,7 +100,7 @@ public class Idle : State
         stateName = STATE.IDLE;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", false);
-        Debug.Log("Idle");
+        // Debug.Log("Idle");
     }
 
     public override void Enter()
@@ -123,7 +122,6 @@ public class Idle : State
         }
     }
 }
-
 public class Patrol : State
 {
     int currentIndex = -1;
@@ -135,7 +133,7 @@ public class Patrol : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
-        Debug.Log("Patrol");
+        // Debug.Log("Patrol");
     }
 
     public override void Enter()
@@ -183,7 +181,6 @@ public class Patrol : State
         base.Exit();
     }
 }
-
 public class Pursue : State
 {
     public Pursue(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
@@ -194,7 +191,7 @@ public class Pursue : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);
-        Debug.Log("Pursue");
+        // Debug.Log("Pursue");
     }
 
     public override void Enter()
@@ -225,7 +222,6 @@ public class Pursue : State
         base.Exit();
     }
 }
-
 public class Attack : State
 {
     float rotationSpeed = 2.0f;
@@ -235,7 +231,7 @@ public class Attack : State
     {
         stateName = STATE.ATTACK;
         anim.SetTrigger("Shoot");
-        Debug.Log("Attack");
+        // Debug.Log("Attack");
     }
 
     public override void Enter()

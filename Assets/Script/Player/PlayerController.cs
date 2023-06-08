@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -24,6 +25,10 @@ public class PlayerController : MonoBehaviour
     private float speed;
     private bool groundedPlayer;
     private bool isCrouching = false;
+
+    private float health = 1f;
+
+    public Slider healthSlider;
 
     private void Start()
     {
@@ -133,5 +138,16 @@ public class PlayerController : MonoBehaviour
         }
         
         // Debug.Log("speed:" + speed);
+    }
+
+    public void PlayerTakeDamage(float damage)
+    {
+        health -= damage;
+        if(health <= 0f)
+        {
+            Debug.Log("Player is dead");
+            health = 0f;
+        }
+        healthSlider.value = health;
     }
 }
