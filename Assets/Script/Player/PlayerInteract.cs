@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,6 +79,10 @@ public class PlayerInteract : MonoBehaviour
             playerShootingManager.SetAmmo(24);
         }
     }
+    private void PickupAmmo(GameObject obj)
+    {
+        throw new NotImplementedException();
+    }
     public void Interact()
     { 
         if(objectsTriggered.Count > 0)
@@ -90,6 +95,9 @@ public class PlayerInteract : MonoBehaviour
             else if (obj.tag == "Pistol")
             {
                 PickupPistol(obj);
+            } else if (obj.tag == "Ammo")
+            {
+                PickupAmmo(obj);
             }
             Destroy(obj);
             objectsTriggered.Remove(obj); 
