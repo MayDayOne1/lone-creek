@@ -15,6 +15,7 @@ public class AI : MonoBehaviour
     private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
     private float aimRigWeight;
+    private Rigidbody[] childrenRB;
 
     protected State currentState;
     public Transform Player;
@@ -31,6 +32,11 @@ public class AI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         currentState = new Idle(this.gameObject, Player, agent, waypoints, anim);
+        childrenRB = this.GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in childrenRB)
+        {
+            rb.isKinematic = true;
+        }
     }
 
     void Update()
@@ -53,15 +59,27 @@ public class AI : MonoBehaviour
     {
         aimRigWeight = 0f;
     }
+    private void Die()
+    {
+        DisableAim();
+        agent.enabled = false;
+        this.enabled = false;
+        anim.enabled = false;
+        HealthSlider.gameObject.SetActive(false);
+        foreach (Rigidbody r in childrenRB)
+        {
+            r.isKinematic = false;
+        }
+    }
     public bool GetCanAttackPlayer() => currentState.CanAttackPlayer();
     public void TakeDamage(float damage)
     {
         health -= damage;
         HealthSlider.value = health;
-        if (health <= 0)
+        if (health < .01f)
         {
-            health = 0;
-            // Debug.Log("enemy dead");
+            health = 0f;
+            Die();
         }
     }
     public void ShootAtPlayer()

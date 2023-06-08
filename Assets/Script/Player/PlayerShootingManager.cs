@@ -164,10 +164,12 @@ public class PlayerShootingManager : MonoBehaviour
             // Debug.Log("Transform position: " + transform.position);
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
+            // Debug.Log(hitTransform.name);
             if(hitTransform.tag == "Enemy")
             {
                 // Debug.Log("Enemy hit!");
-                hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
+                hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
+                // hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
             }
         }
     }
