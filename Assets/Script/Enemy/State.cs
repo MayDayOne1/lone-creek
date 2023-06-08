@@ -29,7 +29,6 @@ public class State
     public float visAngle = 30.0f;
     public float attackDist = 10.0f;
     public float Cooldown = 2f;
-    public bool alreadyAttacked;
 
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using Zenject.SpaceFighter;
 
@@ -12,6 +13,8 @@ public class AI : MonoBehaviour
     private Animator anim;
     private float health = 1f;
     private float rifleDamage = .25f;
+    [SerializeField] private Rig aimRig;
+    private float aimRigWeight;
 
     protected State currentState;
     public Transform Player;
@@ -33,6 +36,23 @@ public class AI : MonoBehaviour
     void Update()
     {
         currentState = currentState.Process();
+        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
+        if (currentState.CanSeePlayer())
+        {
+            EnableAim();
+        } else
+        {
+            DisableAim();
+        }
+    }
+    private void EnableAim()
+    {
+        aimRigWeight = 1f;
+    }
+
+    private void DisableAim()
+    {
+        aimRigWeight = 0f;
     }
 
     public bool GetCanAttackPlayer()
