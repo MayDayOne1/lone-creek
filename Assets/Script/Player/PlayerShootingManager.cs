@@ -49,6 +49,7 @@ public class PlayerShootingManager : MonoBehaviour
     public GameObject hitEffect;
     public ParticleSystem particles;
     public float PistolDamage = .2f;
+    public bool CanShoot = true;
 
     private void Start()
     {
@@ -235,7 +236,7 @@ public class PlayerShootingManager : MonoBehaviour
         if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
         {
             Throw();
-        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf)
+        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf && CanShoot)
         {
             ShootPistol();
         }
