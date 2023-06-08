@@ -49,16 +49,11 @@ public class AI : MonoBehaviour
     {
         aimRigWeight = 1f;
     }
-
     private void DisableAim()
     {
         aimRigWeight = 0f;
     }
-
-    public bool GetCanAttackPlayer()
-    {
-        return currentState.CanAttackPlayer();
-    }
+    public bool GetCanAttackPlayer() => currentState.CanAttackPlayer();
     public void TakeDamage(float damage)
     {
         health -= damage;
