@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
@@ -10,6 +12,7 @@ public class PlayerInteract : MonoBehaviour
 
     private List<GameObject> objectsTriggered = new List<GameObject>();
     private ChooseWeapon chooseWeapon;
+    private PlayerShootingManager playerShootingManager;
 
     private void Start()
     {
@@ -17,6 +20,7 @@ public class PlayerInteract : MonoBehaviour
         Pistol.SetActive(false);
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
+        playerShootingManager = GetComponent<PlayerShootingManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -73,7 +77,38 @@ public class PlayerInteract : MonoBehaviour
         {
             chooseWeapon.hasPistol = true;
             chooseWeapon.SelectPrimary();
+            playerShootingManager.SetAmmo(24);
         }
+    }
+    private void PickupAmmo(GameObject obj)
+    {
+        string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
+        int ammo = int.Parse(ammoText);
+        
+        int ammoDiff = playerShootingManager.maxAmmo - playerShootingManager.currentAmmo;
+        if(ammo <= ammoDiff)
+        {
+            // Debug.Log("Ammo <= ammoDiff");
+            ammo += playerShootingManager.currentAmmo;
+            playerShootingManager.currentAmmo = ammo;
+            playerShootingManager.TotalAmmoUI.text = ammo.ToString();
+            Destroy(obj);
+        } else if (ammo + playerShootingManager.currentAmmo > playerShootingManager.maxAmmo)
+        {
+            ammoDiff = ammo + playerShootingManager.currentAmmo - playerShootingManager.maxAmmo;
+            playerShootingManager.currentAmmo = playerShootingManager.maxAmmo;
+            playerShootingManager.TotalAmmoUI.text = playerShootingManager.maxAmmo.ToString();
+
+            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
+
+        } else
+        {
+            Debug.Log("Ammo > ammoDiff");
+            ammoDiff += playerShootingManager.currentAmmo;
+            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammo - ammoDiff).ToString();
+            playerShootingManager.TotalAmmoUI.text = ammoDiff.ToString();
+        }
+        
     }
     public void Interact()
     { 
@@ -83,12 +118,17 @@ public class PlayerInteract : MonoBehaviour
             if(obj.CompareTag("Throwable"))
             {
                 PickupThrowable(obj);
+                Destroy(obj);
             }
             else if (obj.tag == "Pistol")
             {
                 PickupPistol(obj);
+                Destroy(obj);
+            } else if (obj.tag == "Ammo")
+            {
+                PickupAmmo(obj);
             }
-            Destroy(obj);
+            
             objectsTriggered.Remove(obj); 
         }
     }

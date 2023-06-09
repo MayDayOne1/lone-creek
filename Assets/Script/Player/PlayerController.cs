@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -25,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     private bool isCrouching = false;
 
+    private float health = 1f;
+
+    public Slider healthSlider;
+    public GameObject GameOverScreen;
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
@@ -33,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        GameOverScreen.SetActive(false);
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -133,5 +139,22 @@ public class PlayerController : MonoBehaviour
         }
         
         // Debug.Log("speed:" + speed);
+    }
+    private void Die()
+    {
+        Time.timeScale = 0;
+        this.gameObject.SetActive(false);
+        GameOverScreen.SetActive(true);
+    }
+    public void PlayerTakeDamage(float damage)
+    {
+        health -= damage;
+        if(health <= 0f)
+        {
+            // Debug.Log("Player is dead");
+            health = 0f;
+            Die();
+        }
+        healthSlider.value = health;
     }
 }

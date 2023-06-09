@@ -17,6 +17,7 @@ public class PlayerShootingManager : MonoBehaviour
     private Animator animator;
     private PlayerInteract playerInteract;
     private float aimRigWeight;
+    private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
     public CinemachineFreeLook AimCam;
 
@@ -34,11 +35,10 @@ public class PlayerShootingManager : MonoBehaviour
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform dummyTransform;
-    [SerializeField] private GameObject AmmoBG;
     [SerializeField] private TextMeshProUGUI ClipUI;
-    [SerializeField] private TextMeshProUGUI TotalAmmoUI;
-    private int maxAmmo = 24;
-    private int currentAmmo;
+    public TextMeshProUGUI TotalAmmoUI;
+    public int maxAmmo = 24;
+    public int currentAmmo = 0;
     private int clipCapacity = 8;
     private int currentClip;
     private float cooldown = .5f;
@@ -47,7 +47,8 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingPistol = false;
     public GameObject hitEffect;
     public ParticleSystem particles;
-    Vector3 mouseWorldPos = Vector3.zero;
+    public float PistolDamage = .2f;
+    public bool CanShoot = true;
 
     private void Start()
     {
@@ -56,11 +57,9 @@ public class PlayerShootingManager : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
 
         AimCam.gameObject.SetActive(false);
-        currentClip = clipCapacity;
-        currentAmmo = maxAmmo - currentClip;
+        currentClip = 0;
         cooldownTimer = cooldown;
 
-        AmmoBG.SetActive(false);
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
 
@@ -77,17 +76,20 @@ public class PlayerShootingManager : MonoBehaviour
     }
     #endregion
 
+    public void SetAmmo(int ammo)
+    {
+        currentAmmo += ammo;
+        TotalAmmoUI.text = currentAmmo.ToString();
+    }
     private void EnableAim()
     {
         AimCam.gameObject.SetActive(true);
         aimRigWeight = 1f;
-        AmmoBG.SetActive(true);
     }
     private void DisableAim()
     {
         AimCam.gameObject.SetActive(false);
         aimRigWeight = 0f;
-        AmmoBG.SetActive(false);
 
     }
     private void AimTowardsCrosshair()
@@ -159,6 +161,13 @@ public class PlayerShootingManager : MonoBehaviour
             // Debug.Log("Transform position: " + transform.position);
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
+            // Debug.Log(hitTransform.name);
+            if(hitTransform.tag == "Enemy")
+            {
+                // Debug.Log("Enemy hit!");
+                hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
+                // hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
+            }
         }
     }
     private void DisablePistol()
@@ -170,7 +179,7 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void ShootPistol()
     {
-        if (currentClip <= 0)
+        if (currentClip < 1)
         {
             Reload();
         }
@@ -223,29 +232,24 @@ public class PlayerShootingManager : MonoBehaviour
         if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
         {
             Throw();
-        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf)
+        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf && CanShoot)
         {
             ShootPistol();
         }
     }
     public void Reload()
     {
-        if(currentClip >= 8)
+        if(currentClip >= 8 || currentAmmo < 1)
         {
             return;
         }
-        else if(currentAmmo >= 8)
+        else if(currentClip < 8)
         {
             animator.SetTrigger("Reload");
-            currentClip = clipCapacity;
-            currentAmmo -= currentClip;
-            ClipUI.text = currentClip.ToString();
-            TotalAmmoUI.text = currentAmmo.ToString();
-        } else
-        {
-            animator.SetTrigger("Reload");
-            currentClip = currentAmmo;
-            currentAmmo = 0;
+            int ammoDiff = clipCapacity - currentClip;
+            int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
+            currentClip += ammoToReload;
+            currentAmmo -= ammoToReload;
             ClipUI.text = currentClip.ToString();
             TotalAmmoUI.text = currentAmmo.ToString();
         }
