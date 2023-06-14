@@ -6,6 +6,7 @@ public class DestroyOnContact : MonoBehaviour
 {
     private int collisionCount = 0;
     public float ThrowableDamage = .1f;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(!collision.gameObject.tag.Equals("Player"))
