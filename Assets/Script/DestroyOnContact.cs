@@ -8,13 +8,13 @@ public class DestroyOnContact : MonoBehaviour
     public float ThrowableDamage = .1f;
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag != "Player")
+        if(!collision.gameObject.tag.Equals("Player"))
         {
             Destroy(gameObject);
-            if(collision.gameObject.tag == "Enemy")
+            if(collision.gameObject.tag.Equals("Enemy"))
             {
                 collisionCount++;
-                Debug.Log(collision.gameObject.name);
+                // Debug.Log(collision.gameObject.name);
                 // Debug.Log("Enemy hit with throwable");
                 if(collisionCount > 0)
                     collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);

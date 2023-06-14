@@ -209,7 +209,7 @@ public class PlayerShootingManager : MonoBehaviour
         AimTowardsCrosshair();
         aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
         float aimValue = aimAction.action.ReadValue<float>();
-        Debug.Log("Aim value " + aimValue);
+        // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
             if(aimValue == 1f)

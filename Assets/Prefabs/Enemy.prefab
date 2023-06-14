@@ -1,56 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1410597135273313909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1740039506812118046}
-  - component: {fileID: 4515521462523258719}
-  m_Layer: 0
-  m_Name: Cone
-  m_TagString: VisionCone
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1740039506812118046
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410597135273313909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8510487466927046280}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4515521462523258719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410597135273313909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51b669e5ff42e81439343052a22b9f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VisionConeMaterial: {fileID: 2100000, guid: b653986f7ca0dac44ad79a2a211514d0, type: 2}
-  VisionRange: 8
-  VisionAngle: 90
-  VisionObstructingLayer:
-    serializedVersion: 2
-    m_Bits: 2147483647
-  VisionConeResolution: 120
 --- !u!1 &3239095221920591712
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8510487466927046280}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1159563416994757247
 MeshFilter:
@@ -166,7 +115,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8510487466927046280}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7712791310536294138
 MeshFilter:
@@ -265,7 +214,6 @@ Transform:
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1740039506812118046}
   - {fileID: 2862111634108560858}
   - {fileID: 4226190914209550502}
   m_Father: {fileID: 0}
@@ -347,11 +295,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d9a6ffb84b9954da9b3823412cfce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimRig: {fileID: 0}
   Player: {fileID: 0}
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
   bulletSpeed: 10
+  HealthSlider: {fileID: 0}
+  Gunshot: {fileID: 0}
+  MuzzleFlash: {fileID: 0}
 --- !u!195 &443004623
 NavMeshAgent:
   m_ObjectHideFlags: 0

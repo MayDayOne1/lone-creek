@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,6 +33,8 @@ public class AI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         currentState = new Idle(this.gameObject, Player, agent, waypoints, anim);
+        HealthSlider.gameObject.SetActive(false);
+
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
         {
@@ -72,8 +75,24 @@ public class AI : MonoBehaviour
         }
     }
     public bool GetCanAttackPlayer() => currentState.CanAttackPlayer();
+    private void PursuePlayerWhenShot()
+    {
+        currentState.WalkTowardsPlayer();
+        anim.SetBool("IsPursuing", true);
+        agent.speed = 4;
+    }
     public void TakeDamage(float damage)
     {
+        if(health > .01f)
+        {
+            PursuePlayerWhenShot();
+        }
+
+        if(!HealthSlider.gameObject.activeSelf)
+        {
+            HealthSlider.gameObject.SetActive(true);
+        }
+
         health -= damage;
         HealthSlider.value = health;
         if (health < .01f)

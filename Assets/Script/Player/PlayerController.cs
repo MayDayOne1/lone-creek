@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     private bool groundedPlayer;
-    private bool isCrouching = false;
+    private bool isCrouching;
 
     private float health = 1f;
 
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
+        isCrouching = false;
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -72,17 +73,6 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
     }
-
-    private void CrouchToStandLogic()
-    {
-        if (!isCrouching)
-        {
-            controller.height = standingHeight;
-            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-            speed = runSpeed;
-            animator.SetLayerWeight(1, 0);
-        }
-    }
     private void AimingLogic()
     {
         if (playerShootingManager.IsAimingPistol)
@@ -112,7 +102,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Move()
     {
-        CrouchToStandLogic();
         AimingLogic();
         InputSystemMove();
         
@@ -136,8 +125,14 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             speed = crouchSpeed;
             animator.SetLayerWeight(1, 1);
+        } else
+        {
+            controller.height = standingHeight;
+            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
+            speed = runSpeed;
+            animator.SetLayerWeight(1, 0);
         }
-        
+        // Debug.Log("controller height: " + controller.height);
         // Debug.Log("speed:" + speed);
     }
     private void Die()
