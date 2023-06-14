@@ -234,7 +234,6 @@ public class PlayerShootingManager : MonoBehaviour
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.NONE)
         {
-            StopAimingThrowable();
             DisableAim();
             IsAimingPistol = false;
         }   
@@ -251,16 +250,14 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void Reload()
     {
-        if(currentAmmo < 1)
+        if(currentAmmo < 1 && currentClip < 1)
         {
             DisablePistol();
-            if(currentClip >= 8)
-            {
-                return;
-            }
             return;
-        }
-        else if(currentClip < 8)
+        } else if (currentClip >= 8 || currentAmmo < 1)
+        {
+            return;
+        } else if(currentClip < 8)
         {
             animator.SetTrigger("Reload");
             int ammoDiff = clipCapacity - currentClip;
