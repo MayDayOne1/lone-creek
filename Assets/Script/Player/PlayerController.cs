@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
         isCrouching = false;
+        animator.SetLayerWeight(1, 0);
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -96,6 +97,8 @@ public class PlayerController : MonoBehaviour
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
+        speedUpdater();
+
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -105,6 +108,17 @@ public class PlayerController : MonoBehaviour
         AimingLogic();
         InputSystemMove();
         
+    }
+
+    private void speedUpdater()
+    {
+        if(isCrouching)
+        {
+            speed = crouchSpeed;
+        } else
+        {
+            speed = runSpeed;
+        }
     }
     public void CalculateCharacterRotation()
     {
@@ -123,13 +137,11 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-            speed = crouchSpeed;
             animator.SetLayerWeight(1, 1);
         } else
         {
             controller.height = standingHeight;
-            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-            speed = runSpeed;
+            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z); 
             animator.SetLayerWeight(1, 0);
         }
         // Debug.Log("controller height: " + controller.height);
