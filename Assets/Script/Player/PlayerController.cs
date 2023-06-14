@@ -9,11 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float runSpeed = 4.0f;
     [SerializeField] private float crouchSpeed = 2.0f;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
     public Animator animator;
+    public float runSpeed = 4.0f;
     public float Sensitivity = 1f;
 
     private CharacterController controller;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector3 playerVelocity;
 
-    private float speed;
+    public float speed;
     private bool groundedPlayer;
     private bool isCrouching = false;
 

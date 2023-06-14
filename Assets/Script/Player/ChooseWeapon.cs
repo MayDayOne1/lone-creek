@@ -24,6 +24,15 @@ public class ChooseWeapon : MonoBehaviour
         AmmoBG.SetActive(false);
     }
 
+    public void SelectNone()
+    {
+        weaponSelected = WEAPONS.NONE;
+        playerInteract.Throwable.SetActive(false);
+        playerInteract.Pistol.SetActive(false);
+        AmmoBG.SetActive(false);
+        animator.SetLayerWeight(3, 0);
+    }
+
     public void SelectThrowable()
     {
         animator.SetLayerWeight(3, 0);
@@ -36,7 +45,7 @@ public class ChooseWeapon : MonoBehaviour
             AmmoBG.SetActive(false);
         } else
         {
-            weaponSelected = WEAPONS.NONE;
+            SelectNone();
         }
         
     }
@@ -53,8 +62,7 @@ public class ChooseWeapon : MonoBehaviour
             // Debug.Log("Primary selected");
         } else
         {
-            animator.SetLayerWeight(3, 0);
-            weaponSelected = WEAPONS.NONE;
+            SelectNone();
         }
     }
 }

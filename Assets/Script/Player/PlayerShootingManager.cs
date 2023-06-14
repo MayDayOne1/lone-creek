@@ -16,6 +16,7 @@ public class PlayerShootingManager : MonoBehaviour
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
+    private PlayerController playerController;
     private float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
@@ -50,13 +51,14 @@ public class PlayerShootingManager : MonoBehaviour
     public GameObject hitEffect;
     public ParticleSystem particles;
     public float PistolDamage = .2f;
-    public bool CanShoot = true;
+    public bool CanShoot = false;
 
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+        playerController = GetComponent<PlayerController>();
 
         AimCam.gameObject.SetActive(false);
         currentClip = 0;
@@ -81,7 +83,9 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void SetAmmo(int ammo)
     {
-        currentAmmo += ammo;
+        currentClip = clipCapacity;
+        currentAmmo = ammo - currentClip;
+        ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
     private void EnableAim()
@@ -97,6 +101,7 @@ public class PlayerShootingManager : MonoBehaviour
         AimCam.gameObject.SetActive(false);
         normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
+        playerController.speed = playerController.runSpeed;
 
     }
     private void AimTowardsCrosshair()
@@ -164,26 +169,18 @@ public class PlayerShootingManager : MonoBehaviour
         ClipUI.text = currentClip.ToString();
         if (hitTransform != null)
         {
-            // Debug.Log("Current clip: " + currentClip);
-            // Debug.Log("Hit transform position: " + hitTransform.position);
-            // Debug.Log("Transform position: " + transform.position);
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
-            // Debug.Log(hitTransform.name);
             if(hitTransform.tag == "Enemy")
             {
-                // Debug.Log("Enemy hit!");
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
-                // hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
             }
         }
     }
     private void DisablePistol()
     {
-        playerInteract.Pistol.SetActive(false);
-        animator.SetLayerWeight(3, 0);
-        chooseWeapon.weaponSelected = WEAPONS.NONE;
-        AimCam.gameObject.SetActive(false);
+        chooseWeapon.SelectNone();
+        DisableAim();
     }
     private void ShootPistol()
     {
@@ -200,17 +197,19 @@ public class PlayerShootingManager : MonoBehaviour
             cooldownTimer = Time.time;
             Fire();
         }
-        else if (currentAmmo <= 0)
+        else
         {
             DisablePistol();
         }
+        
+        
     }
     public void Aim()
     {
         AimTowardsCrosshair();
         aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
         float aimValue = aimAction.action.ReadValue<float>();
-        // Debug.Log("Aim value " + aimValue);
+        Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
             if(aimValue == 1f)
@@ -233,7 +232,12 @@ public class PlayerShootingManager : MonoBehaviour
                 IsAimingPistol = false;
                 DisableAim();
             }
-        }        
+        } else if (chooseWeapon.weaponSelected == WEAPONS.NONE)
+        {
+            StopAimingThrowable();
+            DisableAim();
+            IsAimingPistol = false;
+        }   
     }
     public void Shoot()
     {
@@ -247,8 +251,13 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void Reload()
     {
-        if(currentClip >= 8 || currentAmmo < 1)
+        if(currentAmmo < 1)
         {
+            DisablePistol();
+            if(currentClip >= 8)
+            {
+                return;
+            }
             return;
         }
         else if(currentClip < 8)
