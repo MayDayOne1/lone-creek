@@ -21,6 +21,7 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
     public CinemachineFreeLook normalCam;
     public CinemachineFreeLook AimCam;
+    public Image Crosshair;
 
 
     [Header("THROW")]
@@ -63,6 +64,7 @@ public class PlayerShootingManager : MonoBehaviour
 
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
+        Crosshair.gameObject.SetActive(false);
 
     }
     #region AimActionEnableDisable
@@ -84,12 +86,14 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void EnableAim()
     {
+        Crosshair.gameObject.SetActive(true);
         AimCam.gameObject.SetActive(true);
         normalCam.gameObject.SetActive(false);
         aimRigWeight = 1f;
     }
     private void DisableAim()
     {
+        Crosshair.gameObject.SetActive(false);
         AimCam.gameObject.SetActive(false);
         normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
@@ -97,6 +101,7 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void AimTowardsCrosshair()
     {
+        
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))

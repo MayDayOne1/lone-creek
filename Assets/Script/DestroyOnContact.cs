@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DestroyOnContact : MonoBehaviour
 {
+    private int collisionCount = 0;
     public float ThrowableDamage = .1f;
     private void OnCollisionEnter(Collision collision)
     {
@@ -12,10 +13,12 @@ public class DestroyOnContact : MonoBehaviour
             Destroy(gameObject);
             if(collision.gameObject.tag == "Enemy")
             {
+                collisionCount++;
+                Debug.Log(collision.gameObject.name);
                 // Debug.Log("Enemy hit with throwable");
-                collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
+                if(collisionCount > 0)
+                    collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
             }
-            return;
         }
     }
 }
