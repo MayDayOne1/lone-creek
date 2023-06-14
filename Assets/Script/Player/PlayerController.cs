@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
         {
             // Debug.Log("Player is dead");
             health = 0f;
-            Die();
+            // Die();
         }
         healthSlider.value = health;
     }

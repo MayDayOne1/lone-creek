@@ -13,7 +13,7 @@ public class DestroyOnContact : MonoBehaviour
             if(collision.gameObject.tag == "Enemy")
             {
                 // Debug.Log("Enemy hit with throwable");
-                collision.gameObject.GetComponent<AI>().TakeDamage(ThrowableDamage);
+                collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
             }
             return;
         }
