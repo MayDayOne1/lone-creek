@@ -19,6 +19,7 @@ public class PlayerShootingManager : MonoBehaviour
     private float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
+    public CinemachineFreeLook normalCam;
     public CinemachineFreeLook AimCam;
 
 
@@ -84,11 +85,13 @@ public class PlayerShootingManager : MonoBehaviour
     private void EnableAim()
     {
         AimCam.gameObject.SetActive(true);
+        normalCam.gameObject.SetActive(false);
         aimRigWeight = 1f;
     }
     private void DisableAim()
     {
         AimCam.gameObject.SetActive(false);
+        normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
 
     }
