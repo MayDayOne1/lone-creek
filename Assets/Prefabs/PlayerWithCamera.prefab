@@ -1668,7 +1668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.21810888, z: -3.024845}
+  m_FollowOffset: {x: 0, y: 2.5, z: -3}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -1688,7 +1688,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -2371,7 +2371,7 @@ GameObject:
   - component: {fileID: 8913801552532287977}
   - component: {fileID: 1919698414310072135}
   m_Layer: 5
-  m_Name: PlayText
+  m_Name: ResumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2920,7 +2920,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: -0.029300956, y: -0, z: -0.000000014901163, w: 0.99957067}
+  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3141,8 +3142,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3231851228583997345}
-  m_LocalRotation: {x: -0.08715333, y: -0.7753601, z: -0.10974021, w: 0.6157744}
-  m_LocalPosition: {x: 2.4983623, y: -2.1394963, z: 4.7048745}
+  m_LocalRotation: {x: 0.087690376, y: -0.7752642, z: 0.11041647, w: 0.61569804}
+  m_LocalPosition: {x: 2.477841, y: 0.14239478, z: 4.6908693}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3191,7 +3192,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.06334132
+    Value: 0.5
     m_SpeedMode: 1
     m_MaxSpeed: 0.005
     m_AccelTime: 0.02
@@ -3215,7 +3216,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 1
     m_MaxSpeed: 0.5
     m_AccelTime: 0.02
@@ -3362,7 +3363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.21810888, z: -3.024845}
+  m_FollowOffset: {x: 0, y: 2.5, z: -3}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -3382,7 +3383,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -4862,7 +4863,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: -0.029300911, y: -0, z: -0.0000000074505815, w: 0.99957067}
+  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5881,8 +5883,12 @@ MonoBehaviour:
   runSpeed: 4
   Sensitivity: 1
   speed: 0
+  isShowingPauseMenu: 0
   healthSlider: {fileID: 8576472249720179884}
   GameOverScreen: {fileID: 3197460922169157210}
+  normalCam: {fileID: 0}
+  AimCam: {fileID: 0}
+  PauseMenu: {fileID: 7585729405906222680}
 --- !u!114 &5856383619225992817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6061,6 +6067,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a3b57723-a8e2-4b0b-a7fc-463de498a575
     m_ActionName: Player/Reload[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5856383619225992818}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: TogglePauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ff01c1e-975a-410e-8b77-c44ee4682f61
+    m_ActionName: Player/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -6634,7 +6656,7 @@ GameObject:
   - component: {fileID: 1883158745692004002}
   - component: {fileID: 1557160549976681748}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: ResumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6799,8 +6821,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: -0.029300934, y: -0.00000005960465, z: -0.000000014901163,
-    w: 0.99957067}
+  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6865,6 +6887,7 @@ GameObject:
   - component: {fileID: 4273092684183840303}
   - component: {fileID: 5476178637005871341}
   - component: {fileID: 168539450651620231}
+  - component: {fileID: 2167405550228964305}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -6934,6 +6957,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2167405550228964305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585729405906222680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a38db2d6b8f7d40b8b2d2a30535093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7805458618291900668
 GameObject:
   m_ObjectHideFlags: 0
@@ -7668,7 +7703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.21810888, z: -3.024845}
+  m_FollowOffset: {x: 0, y: 2.5, z: -3}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -7688,7 +7723,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: -124.31536
+    Value: -124.31538
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1

@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -27,9 +28,14 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching;
 
     private float health = 1f;
+    public bool isShowingPauseMenu = false;
 
     public Slider healthSlider;
     public GameObject GameOverScreen;
+    public CinemachineFreeLook normalCam;
+    public CinemachineFreeLook AimCam;
+
+    [SerializeField] private GameObject PauseMenu;
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
@@ -41,6 +47,8 @@ public class PlayerController : MonoBehaviour
         GameOverScreen.SetActive(false);
         isCrouching = false;
         animator.SetLayerWeight(1, 0);
+
+        PauseMenu.SetActive(false);
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -97,7 +105,7 @@ public class PlayerController : MonoBehaviour
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
-        speedUpdater();
+        SpeedUpdater();
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -109,8 +117,7 @@ public class PlayerController : MonoBehaviour
         InputSystemMove();
         
     }
-
-    private void speedUpdater()
+    private void SpeedUpdater()
     {
         if(isCrouching)
         {
@@ -163,5 +170,28 @@ public class PlayerController : MonoBehaviour
             // Die();
         }
         healthSlider.value = health;
+    }
+
+    public void TogglePauseMenu()
+    {
+        if(!isShowingPauseMenu)
+        {
+            PauseMenu.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            Time.timeScale = 0;
+            normalCam.enabled = false;
+            AimCam.enabled = false;
+            
+        } else
+        {
+            PauseMenu.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+            normalCam.enabled = true;
+            AimCam.enabled = true;
+        }
+        isShowingPauseMenu = !isShowingPauseMenu;
     }
 }
