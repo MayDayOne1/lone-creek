@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
     }
     private void SpeedUpdater()
     {
-        if(isCrouching)
+        if(isCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
         {
             speed = crouchSpeed;
         } else
@@ -171,7 +171,6 @@ public class PlayerController : MonoBehaviour
         }
         healthSlider.value = health;
     }
-
     public void TogglePauseMenu()
     {
         if(!isShowingPauseMenu)
