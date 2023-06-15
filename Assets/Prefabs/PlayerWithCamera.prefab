@@ -1668,7 +1668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.5, z: -3}
+  m_FollowOffset: {x: 0, y: 0.2957689, z: -3.0297616}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -2425,7 +2425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5966518dd9524fc469dfa134e0f2522f, type: 2}
   m_sharedMaterial: {fileID: -571293536151283850, guid: 5966518dd9524fc469dfa134e0f2522f,
@@ -2920,8 +2920,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
-    w: 1}
+  m_LocalRotation: {x: -0.29429027, y: -0.000000029802319, z: -0, w: 0.9557161}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3142,8 +3141,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3231851228583997345}
-  m_LocalRotation: {x: 0.087690376, y: -0.7752642, z: 0.11041647, w: 0.61569804}
-  m_LocalPosition: {x: 2.477841, y: 0.14239478, z: 4.6908693}
+  m_LocalRotation: {x: 0.08769278, y: -0.7752507, z: 0.11041454, w: 0.6157151}
+  m_LocalPosition: {x: 2.5024223, y: -2.0618362, z: 4.7076473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3192,7 +3191,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.5
+    Value: 0.083333336
     m_SpeedMode: 1
     m_MaxSpeed: 0.005
     m_AccelTime: 0.02
@@ -3363,7 +3362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.5, z: -3}
+  m_FollowOffset: {x: 0, y: 0.2957689, z: -3.0297616}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -3908,7 +3907,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3408965050691335427}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2167405550228964305}
+        m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
+        m_MethodName: OnQuit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3920591191645754580
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,8 +4874,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218399932748978245}
-  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
-    w: 1}
+  m_LocalRotation: {x: -0.29429027, y: -0.000000029802319, z: -0, w: 0.9557161}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6764,7 +6774,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1883158745692004002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2167405550228964305}
+        m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
+        m_MethodName: OnResume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7319639529662307480
 GameObject:
   m_ObjectHideFlags: 0
@@ -6821,8 +6843,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7345195281889268123}
-  m_LocalRotation: {x: -0.00000010803342, y: -0.00000011920929, z: 0.000000037252903,
-    w: 1}
+  m_LocalRotation: {x: -0.29429027, y: -0.000000029802319, z: -0, w: 0.9557161}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6969,6 +6990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a38db2d6b8f7d40b8b2d2a30535093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 5856383619225992818}
 --- !u!1 &7805458618291900668
 GameObject:
   m_ObjectHideFlags: 0
@@ -7703,7 +7725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.5, z: -3}
+  m_FollowOffset: {x: 0, y: 0.2957689, z: -3.0297616}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
