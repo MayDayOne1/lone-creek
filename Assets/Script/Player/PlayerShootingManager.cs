@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
@@ -22,6 +20,7 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
     public CinemachineFreeLook normalCam;
     public CinemachineFreeLook AimCam;
+    public CinemachineFreeLook CrouchAimCam;
     public Image Crosshair;
 
 
@@ -61,6 +60,7 @@ public class PlayerShootingManager : MonoBehaviour
         playerController = GetComponent<PlayerController>();
 
         AimCam.gameObject.SetActive(false);
+        CrouchAimCam.gameObject.SetActive(false);
         currentClip = 0;
         cooldownTimer = cooldown;
 
@@ -91,14 +91,27 @@ public class PlayerShootingManager : MonoBehaviour
     private void EnableAim()
     {
         Crosshair.gameObject.SetActive(true);
-        AimCam.gameObject.SetActive(true);
+        if(playerController.IsCrouching)
+        {
+            CrouchAimCam.gameObject.SetActive(true);
+        } else
+        {
+            AimCam.gameObject.SetActive(true);
+        }
         normalCam.gameObject.SetActive(false);
         aimRigWeight = 1f;
     }
     private void DisableAim()
     {
         Crosshair.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(false);
+        if (playerController.IsCrouching)
+        {
+            CrouchAimCam.gameObject.SetActive(false);
+        }
+        else
+        {
+            AimCam.gameObject.SetActive(false);
+        }
         normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
         playerController.speed = playerController.runSpeed;
@@ -214,11 +227,24 @@ public class PlayerShootingManager : MonoBehaviour
         {
             if(aimValue == 1f)
             {
-                AimCam.gameObject.SetActive(true);
+                if(playerController.IsCrouching)
+                {
+                    CrouchAimCam.gameObject.SetActive(true);
+                } else
+                {
+                    AimCam.gameObject.SetActive(true);
+                }
                 StartAimingThrowable();
             } else
             {
-                AimCam.gameObject.SetActive(false);
+                if (playerController.IsCrouching)
+                {
+                    CrouchAimCam.gameObject.SetActive(false);
+                }
+                else
+                {
+                    AimCam.gameObject.SetActive(false);
+                }
                 StopAimingThrowable();
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)

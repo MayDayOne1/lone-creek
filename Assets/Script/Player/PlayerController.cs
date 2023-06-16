@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     private bool groundedPlayer;
-    private bool isCrouching;
+    public bool IsCrouching;
 
     private float health = 1f;
     public bool isShowingPauseMenu = false;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public CinemachineFreeLook NormalCam;
     public CinemachineFreeLook AimCam;
     public CinemachineFreeLook CrouchCam;
+    public CinemachineFreeLook CrouchAimCam;
 
     [SerializeField] private GameObject PauseMenu;
     private void Start()
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
-        isCrouching = false;
+        IsCrouching = false;
         CrouchCam.gameObject.SetActive(false);
         animator.SetLayerWeight(1, 0);
 
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
     }
     private void SpeedUpdater()
     {
-        if(isCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
+        if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
         {
             speed = crouchSpeed;
         } else
@@ -143,8 +144,8 @@ public class PlayerController : MonoBehaviour
 
     public void Crouch()
     {
-        isCrouching = !isCrouching;
-        if(isCrouching)
+        IsCrouching = !IsCrouching;
+        if(IsCrouching)
         {
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
@@ -202,6 +203,7 @@ public class PlayerController : MonoBehaviour
             NormalCam.enabled = false;
             AimCam.enabled = false;
             CrouchCam.enabled = false;
+            CrouchAimCam.enabled = false;
             
         } else
         {
@@ -212,6 +214,7 @@ public class PlayerController : MonoBehaviour
             NormalCam.enabled = true;
             AimCam.enabled = true;
             CrouchCam.enabled = true;
+            CrouchAimCam.enabled = true;
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
