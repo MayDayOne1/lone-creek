@@ -6613,7 +6613,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18076338, y: -0.7753009, z: 0.25545537, w: 0.54861253}
+  m_LocalRotation: {x: 0.18076336, y: -0.7753009, z: 0.25545537, w: 0.5486125}
   m_LocalPosition: {x: 50.786274, y: 5.852395, z: 37.66363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14515,7 +14515,7 @@ PrefabInstance:
     - target: {fileID: 3038479672614447662, guid: 85cb91c4de376b4458bbf05c5b8ab546,
         type: 3}
       propertyPath: m_Name
-      value: PickupPistol (1)
+      value: PickupPistol
       objectReference: {fileID: 0}
     - target: {fileID: 6912316998728716084, guid: 85cb91c4de376b4458bbf05c5b8ab546,
         type: 3}
@@ -18401,6 +18401,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4048830447584273952, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
+    - target: {fileID: 4048830447584273952, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -571293536151283850, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
     - target: {fileID: 7478973338854714220, guid: a1c1968450e3ada46a40bf95f385100a,
         type: 3}
       propertyPath: m_Camera
@@ -29850,36 +29862,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9992276
+      value: 0.9992275
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.018776685
+      value: 0.018776692
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.028141469
+      value: -0.028141499
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.019996703
+      value: 0.019996718
       objectReference: {fileID: 0}
     - target: {fileID: 1310555948, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9992276
+      value: 0.9992275
       objectReference: {fileID: 0}
     - target: {fileID: 1310555948, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.018776685
+      value: 0.018776692
       objectReference: {fileID: 0}
     - target: {fileID: 1310555948, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.028141469
+      value: -0.028141499
       objectReference: {fileID: 0}
     - target: {fileID: 1310555948, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.019996703
+      value: 0.019996718
       objectReference: {fileID: 0}
+    - target: {fileID: 101324565884861655, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
+    - target: {fileID: 101324565884861655, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -571293536151283850, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
     - target: {fileID: 114614342735316110, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: cam
