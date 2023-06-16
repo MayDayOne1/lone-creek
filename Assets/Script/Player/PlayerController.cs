@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private PlayerShootingManager playerShootingManager;
+    private PlayerInteract playerInteract;
     private Transform cameraMainTransform;
     private Vector2 movement;
     private Vector3 playerVelocity;
@@ -32,20 +33,23 @@ public class PlayerController : MonoBehaviour
 
     public Slider healthSlider;
     public GameObject GameOverScreen;
-    public CinemachineFreeLook normalCam;
+    public CinemachineFreeLook NormalCam;
     public CinemachineFreeLook AimCam;
+    public CinemachineFreeLook CrouchCam;
 
     [SerializeField] private GameObject PauseMenu;
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
+        playerInteract = GetComponent<PlayerInteract>();
         cameraMainTransform = Camera.main.transform;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
         isCrouching = false;
+        CrouchCam.gameObject.SetActive(false);
         animator.SetLayerWeight(1, 0);
 
         PauseMenu.SetActive(false);
@@ -144,11 +148,27 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
+            NormalCam.gameObject.SetActive(false);
+            CrouchCam.gameObject.SetActive(true);
+            if(playerInteract.Pistol.activeSelf)
+            {
+                animator.SetLayerWeight(3, 0);
+                animator.SetLayerWeight(4, 1);
+                // Debug.Log("Has gun, crouching");
+            }
             animator.SetLayerWeight(1, 1);
         } else
         {
             controller.height = standingHeight;
-            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z); 
+            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
+            NormalCam.gameObject.SetActive(true);
+            CrouchCam.gameObject.SetActive(false);
+            if (playerInteract.Pistol.activeSelf)
+            {
+                animator.SetLayerWeight(3, 1);
+                animator.SetLayerWeight(4, 0);
+                // Debug.Log("Has gun, standing up");
+            }
             animator.SetLayerWeight(1, 0);
         }
         // Debug.Log("controller height: " + controller.height);
@@ -179,8 +199,9 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
-            normalCam.enabled = false;
+            NormalCam.enabled = false;
             AimCam.enabled = false;
+            CrouchCam.enabled = false;
             
         } else
         {
@@ -188,8 +209,9 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
-            normalCam.enabled = true;
+            NormalCam.enabled = true;
             AimCam.enabled = true;
+            CrouchCam.enabled = true;
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
