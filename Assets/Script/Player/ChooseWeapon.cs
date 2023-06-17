@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChooseWeapon : MonoBehaviour
@@ -16,12 +14,23 @@ public class ChooseWeapon : MonoBehaviour
     public bool hasThrowable;
     public bool hasPistol;
     public GameObject AmmoBG;
+    public GameObject ThrowableBG;
 
     private void Start()
     {
         playerInteract = GetComponent<PlayerInteract>();
         animator = GetComponent<Animator>();
         AmmoBG.SetActive(false);
+        ThrowableBG.SetActive(false);
+    }
+
+    public void SelectNone()
+    {
+        weaponSelected = WEAPONS.NONE;
+        playerInteract.Throwable.SetActive(false);
+        playerInteract.Pistol.SetActive(false);
+        AmmoBG.SetActive(false);
+        animator.SetLayerWeight(3, 0);
     }
 
     public void SelectThrowable()
@@ -34,13 +43,13 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Pistol.SetActive(false);
             // Debug.Log("Throwable selected");
             AmmoBG.SetActive(false);
+            ThrowableBG.SetActive(true);
         } else
         {
-            weaponSelected = WEAPONS.NONE;
+            SelectNone();
         }
         
     }
-
     public void SelectPrimary()
     {
         if(hasPistol)
@@ -50,11 +59,11 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Pistol.SetActive(true);
             animator.SetLayerWeight(3, 1);
             AmmoBG.SetActive(true);
+            ThrowableBG.SetActive(false);
             // Debug.Log("Primary selected");
         } else
         {
-            animator.SetLayerWeight(3, 0);
-            weaponSelected = WEAPONS.NONE;
+            SelectNone();
         }
     }
 }

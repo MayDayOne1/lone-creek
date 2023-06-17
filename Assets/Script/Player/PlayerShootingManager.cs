@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
@@ -16,10 +14,14 @@ public class PlayerShootingManager : MonoBehaviour
     private ChooseWeapon chooseWeapon;
     private Animator animator;
     private PlayerInteract playerInteract;
+    private PlayerController playerController;
     private float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
+    public CinemachineFreeLook normalCam;
     public CinemachineFreeLook AimCam;
+    public CinemachineFreeLook CrouchAimCam;
+    public Image Crosshair;
 
 
     [Header("THROW")]
@@ -40,7 +42,7 @@ public class PlayerShootingManager : MonoBehaviour
     public int maxAmmo = 24;
     public int currentAmmo = 0;
     private int clipCapacity = 8;
-    private int currentClip;
+    public int currentClip;
     private float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
@@ -48,20 +50,23 @@ public class PlayerShootingManager : MonoBehaviour
     public GameObject hitEffect;
     public ParticleSystem particles;
     public float PistolDamage = .2f;
-    public bool CanShoot = true;
+    public bool CanShoot = false;
 
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animator = GetComponent<Animator>();
         playerInteract = GetComponent<PlayerInteract>();
+        playerController = GetComponent<PlayerController>();
 
         AimCam.gameObject.SetActive(false);
+        CrouchAimCam.gameObject.SetActive(false);
         currentClip = 0;
         cooldownTimer = cooldown;
 
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
+        Crosshair.gameObject.SetActive(false);
 
     }
     #region AimActionEnableDisable
@@ -78,22 +83,43 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void SetAmmo(int ammo)
     {
-        currentAmmo += ammo;
+        currentClip = clipCapacity;
+        currentAmmo = ammo - currentClip;
+        ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
     private void EnableAim()
     {
-        AimCam.gameObject.SetActive(true);
+        Crosshair.gameObject.SetActive(true);
+        if(playerController.IsCrouching)
+        {
+            CrouchAimCam.gameObject.SetActive(true);
+        } else
+        {
+            AimCam.gameObject.SetActive(true);
+        }
+        normalCam.gameObject.SetActive(false);
         aimRigWeight = 1f;
     }
     private void DisableAim()
     {
-        AimCam.gameObject.SetActive(false);
+        Crosshair.gameObject.SetActive(false);
+        if (playerController.IsCrouching)
+        {
+            CrouchAimCam.gameObject.SetActive(false);
+        }
+        else
+        {
+            AimCam.gameObject.SetActive(false);
+        }
+        normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
+        playerController.speed = playerController.runSpeed;
 
     }
     private void AimTowardsCrosshair()
     {
+        
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
@@ -136,6 +162,15 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void Throw()
     {
+        //foreach (var obj in playerInteract.ObjectsTriggered)
+        //{
+        //    if (obj.gameObject.tag.Equals("Throwable"))
+        //    {
+        //        playerInteract.ObjectsTriggered.Remove(obj);
+        //        Debug.Log("throwing, removing object, ObjectsTriggered Count: " + playerInteract.ObjectsTriggered.Count);
+        //    }
+        //}
+
         animator.SetTrigger("Throw");
         playerInteract.Throwable.SetActive(false);
         PlayerBottle.gameObject.SetActive(false);
@@ -147,6 +182,7 @@ public class PlayerShootingManager : MonoBehaviour
         Destroy(BottleToInstantiate, 2f);
         chooseWeapon.hasThrowable = false;
         IsAimingThrowable = false;
+        chooseWeapon.ThrowableBG.SetActive(false);
     }
     private void Fire()
     {
@@ -156,26 +192,18 @@ public class PlayerShootingManager : MonoBehaviour
         ClipUI.text = currentClip.ToString();
         if (hitTransform != null)
         {
-            // Debug.Log("Current clip: " + currentClip);
-            // Debug.Log("Hit transform position: " + hitTransform.position);
-            // Debug.Log("Transform position: " + transform.position);
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
-            // Debug.Log(hitTransform.name);
             if(hitTransform.tag == "Enemy")
             {
-                // Debug.Log("Enemy hit!");
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
-                // hitTransform.gameObject.GetComponent<AI>().TakeDamage(PistolDamage);
             }
         }
     }
     private void DisablePistol()
     {
-        playerInteract.Pistol.SetActive(false);
-        animator.SetLayerWeight(3, 0);
-        chooseWeapon.weaponSelected = WEAPONS.NONE;
-        AimCam.gameObject.SetActive(false);
+        chooseWeapon.SelectNone();
+        DisableAim();
     }
     private void ShootPistol()
     {
@@ -192,10 +220,12 @@ public class PlayerShootingManager : MonoBehaviour
             cooldownTimer = Time.time;
             Fire();
         }
-        else if (currentAmmo <= 0)
+        else
         {
             DisablePistol();
         }
+        
+        
     }
     public void Aim()
     {
@@ -207,11 +237,24 @@ public class PlayerShootingManager : MonoBehaviour
         {
             if(aimValue == 1f)
             {
-                AimCam.gameObject.SetActive(true);
+                if(playerController.IsCrouching)
+                {
+                    CrouchAimCam.gameObject.SetActive(true);
+                } else
+                {
+                    AimCam.gameObject.SetActive(true);
+                }
                 StartAimingThrowable();
             } else
             {
-                AimCam.gameObject.SetActive(false);
+                if (playerController.IsCrouching)
+                {
+                    CrouchAimCam.gameObject.SetActive(false);
+                }
+                else
+                {
+                    AimCam.gameObject.SetActive(false);
+                }
                 StopAimingThrowable();
             }
         } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
@@ -225,7 +268,11 @@ public class PlayerShootingManager : MonoBehaviour
                 IsAimingPistol = false;
                 DisableAim();
             }
-        }        
+        } else if (chooseWeapon.weaponSelected == WEAPONS.NONE)
+        {
+            DisableAim();
+            IsAimingPistol = false;
+        }   
     }
     public void Shoot()
     {
@@ -239,11 +286,14 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void Reload()
     {
-        if(currentClip >= 8 || currentAmmo < 1)
+        if(currentAmmo < 1 && currentClip < 1)
+        {
+            DisablePistol();
+            return;
+        } else if (currentClip >= 8 || currentAmmo < 1)
         {
             return;
-        }
-        else if(currentClip < 8)
+        } else if(currentClip < 8)
         {
             animator.SetTrigger("Reload");
             int ammoDiff = clipCapacity - currentClip;

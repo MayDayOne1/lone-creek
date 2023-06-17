@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -77,6 +72,24 @@ public class State
         }
 
         return false;
+    }
+
+    public void WalkTowardsPlayer()
+    {
+        agent.SetDestination(player.position);
+        if (agent.hasPath)
+        {
+            if (CanAttackPlayer())
+            {
+                nextState = new Attack(npc, player, agent, waypoints, animator);
+                eventName = EVENT.EXIT;
+            }
+            else if (!CanSeePlayer())
+            {
+                nextState = new Patrol(npc, player, agent, waypoints, animator);
+                eventName = EVENT.EXIT;
+            }
+        }
     }
     public State Process()
     {
@@ -200,20 +213,7 @@ public class Pursue : State
 
     public override void Update()
     {
-        agent.SetDestination(player.position);
-        if(agent.hasPath)
-        {
-            if(CanAttackPlayer())
-            {
-                nextState = new Attack(npc, player, agent, waypoints, animator);
-                eventName = EVENT.EXIT;
-            }
-            else if(!CanSeePlayer())
-            {
-                nextState = new Patrol(npc, player, agent, waypoints, animator);
-                eventName = EVENT.EXIT;
-            }
-        }
+        WalkTowardsPlayer();
     }
 
     public override void Exit()
