@@ -1,6 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class PlayerInteract : MonoBehaviour
     public GameObject Pistol;
     public AudioSource audioSource;
 
-    private List<GameObject> objectsTriggered = new List<GameObject>();
+    public List<GameObject> ObjectsTriggered = new List<GameObject>();
     private ChooseWeapon chooseWeapon;
     private PlayerShootingManager playerShootingManager;
 
@@ -28,16 +27,77 @@ public class PlayerInteract : MonoBehaviour
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
             // Debug.Log("Triggered");
-            objectsTriggered.Add(other.gameObject);
+            ObjectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
+
+            if(other.gameObject.tag.Equals("Throwable") && chooseWeapon.hasThrowable)
+            {
+                Image[] images = other.GetComponentsInChildren<Image>();
+                foreach(Image img in images)
+                {
+                    if (img.gameObject.tag.Equals("RedFilter"))
+                    {
+                        img.enabled = true;
+                        return;
+                    }
+                }
+            }
+
+            if((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
+                (playerShootingManager.currentAmmo + playerShootingManager.currentClip > 31))
+            {
+                Image[] images = other.GetComponentsInChildren<Image>();
+                foreach (Image img in images)
+                {
+                    if (img.gameObject.tag.Equals("RedFilter"))
+                    {
+                        img.enabled = true;
+                        return;
+                    }
+                }
+            }
+            //foreach (var obj in ObjectsTriggered)
+            //{
+            //    Debug.Log(obj.name);
+            //}
+            //Debug.Log("ObjectsTriggered Count: " + ObjectsTriggered.Count);
         }
         
     }
 
     private void OnTriggerExit(Collider other)
     {
-        objectsTriggered.Remove(other.gameObject);
+        ObjectsTriggered.Remove(other.gameObject);
         other.GetComponentInChildren<Canvas>().enabled = false;
+
+        if (other.gameObject.tag.Equals("Throwable") && chooseWeapon.hasThrowable)
+        {
+            Image[] images = other.GetComponentsInChildren<Image>();
+            foreach (Image img in images)
+            {
+                if (img.gameObject.tag.Equals("RedFilter"))
+                {
+                    img.enabled = false;
+                    return;
+                }
+            }
+        }
+
+        if ((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
+            (playerShootingManager.currentAmmo + playerShootingManager.currentClip > 31))
+        {
+            Image[] images = other.GetComponentsInChildren<Image>();
+            foreach (Image img in images)
+            {
+                if (img.gameObject.tag.Equals("RedFilter"))
+                {
+                    img.enabled = false;
+                    return;
+                }
+            }
+        }
+
+        // Debug.Log("Exit, ObjectsTriggered Count: " + ObjectsTriggered.Count);
     }
 
     private GameObject ChooseInteractiveObject()
@@ -46,18 +106,18 @@ public class PlayerInteract : MonoBehaviour
         float minDist = float.MaxValue;
         int resultingIndex = 0;
         // Debug.Log("interact");
-        if (objectsTriggered.Count > 0)
+        if (ObjectsTriggered.Count > 0)
         {
-            for (int i = 0; i < objectsTriggered.Count; i++)
+            for (int i = 0; i < ObjectsTriggered.Count; i++)
             {
-                dist = Vector3.Distance(objectsTriggered[i].transform.position, transform.position);
+                dist = Vector3.Distance(ObjectsTriggered[i].transform.position, transform.position);
                 if (dist < minDist)
                 {
                     resultingIndex = i;
                     minDist = dist;
                 }
             }
-            return objectsTriggered[resultingIndex];
+            return ObjectsTriggered[resultingIndex];
         } else
         {
             return null;
@@ -69,7 +129,9 @@ public class PlayerInteract : MonoBehaviour
         {
             chooseWeapon.hasThrowable = true;
             chooseWeapon.SelectThrowable();
+            Destroy(obj);
         }
+        else return;
     }
     private void PickupPistol(GameObject obj)
     {
@@ -78,6 +140,7 @@ public class PlayerInteract : MonoBehaviour
             chooseWeapon.hasPistol = true;
             chooseWeapon.SelectPrimary();
             playerShootingManager.SetAmmo(24);
+            Destroy(obj);
         }
     }
     private void PickupAmmo(GameObject obj)
@@ -113,24 +176,22 @@ public class PlayerInteract : MonoBehaviour
     }
     public void Interact()
     { 
-        if(objectsTriggered.Count > 0)
+        if(ObjectsTriggered.Count > 0)
         {
             GameObject obj = ChooseInteractiveObject();
             if(obj.CompareTag("Throwable"))
             {
                 PickupThrowable(obj);
-                Destroy(obj);
             }
             else if (obj.tag == "Pistol")
             {
                 PickupPistol(obj);
-                Destroy(obj);
             } else if (obj.tag == "Ammo")
             {
                 PickupAmmo(obj);
             }
             
-            objectsTriggered.Remove(obj); 
+            ObjectsTriggered.Remove(obj); 
         }
     }
 }

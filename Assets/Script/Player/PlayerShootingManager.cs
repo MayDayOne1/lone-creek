@@ -42,7 +42,7 @@ public class PlayerShootingManager : MonoBehaviour
     public int maxAmmo = 24;
     public int currentAmmo = 0;
     private int clipCapacity = 8;
-    private int currentClip;
+    public int currentClip;
     private float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
@@ -162,6 +162,15 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void Throw()
     {
+        foreach (var obj in playerInteract.ObjectsTriggered)
+        {
+            if (obj.gameObject.tag.Equals("Throwable"))
+            {
+                playerInteract.ObjectsTriggered.Remove(obj);
+                Debug.Log("throwing, removing object, ObjectsTriggered Count: " + playerInteract.ObjectsTriggered.Count);
+            }
+        }
+
         animator.SetTrigger("Throw");
         playerInteract.Throwable.SetActive(false);
         PlayerBottle.gameObject.SetActive(false);
