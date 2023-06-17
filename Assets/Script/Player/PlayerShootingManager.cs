@@ -162,14 +162,14 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void Throw()
     {
-        foreach (var obj in playerInteract.ObjectsTriggered)
-        {
-            if (obj.gameObject.tag.Equals("Throwable"))
-            {
-                playerInteract.ObjectsTriggered.Remove(obj);
-                Debug.Log("throwing, removing object, ObjectsTriggered Count: " + playerInteract.ObjectsTriggered.Count);
-            }
-        }
+        //foreach (var obj in playerInteract.ObjectsTriggered)
+        //{
+        //    if (obj.gameObject.tag.Equals("Throwable"))
+        //    {
+        //        playerInteract.ObjectsTriggered.Remove(obj);
+        //        Debug.Log("throwing, removing object, ObjectsTriggered Count: " + playerInteract.ObjectsTriggered.Count);
+        //    }
+        //}
 
         animator.SetTrigger("Throw");
         playerInteract.Throwable.SetActive(false);
@@ -182,6 +182,7 @@ public class PlayerShootingManager : MonoBehaviour
         Destroy(BottleToInstantiate, 2f);
         chooseWeapon.hasThrowable = false;
         IsAimingThrowable = false;
+        chooseWeapon.ThrowableBG.SetActive(false);
     }
     private void Fire()
     {
