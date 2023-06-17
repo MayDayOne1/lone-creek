@@ -494,8 +494,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227956038}
-  m_LocalRotation: {x: -0.044416588, y: 0.000000089406974, z: -0.000000022351744,
-    w: -0.9990131}
+  m_LocalRotation: {x: -0.04441656, y: -0.000054627657, z: 0.00002052635, w: -0.9990131}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1453,7 +1452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816042932}
-  m_LocalRotation: {x: -0.044416536, y: -0, z: 0.000000029802322, w: -0.9990132}
+  m_LocalRotation: {x: -0.04441656, y: -0.000054627657, z: 0.00002052635, w: -0.9990131}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1943,7 +1942,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159050961}
-  m_LocalRotation: {x: -0.09064578, y: 0.806188, z: -0.12810089, w: -0.57046866}
+  m_LocalRotation: {x: -0.0906383, y: 0.8062213, z: -0.12810616, w: -0.5704216}
   m_LocalPosition: {x: 2.4778404, y: 0.14239502, z: 4.6908684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2214,8 +2213,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310555947}
-  m_LocalRotation: {x: -0.044416588, y: 0.000000089406974, z: -0.000000022351744,
-    w: -0.9990131}
+  m_LocalRotation: {x: -0.04441656, y: -0.000054627657, z: 0.00002052635, w: -0.9990131}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4796,7 +4794,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030841665604206911}
-  m_LocalRotation: {x: -0.000000007450581, y: -0.00021252036, z: 0.000061795115, w: 1}
+  m_LocalRotation: {x: 0.000000007450581, y: -0.00021252036, z: 0.000061795115, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5666,9 +5664,9 @@ MonoBehaviour:
     m_WorldUpAxis: 2
     m_MaintainOffset: 0
     m_ConstrainedAxes:
-      x: 0
-      y: 0
-      z: 0
+      x: 1
+      y: 1
+      z: 1
 --- !u!1 &3682360681491109680
 GameObject:
   m_ObjectHideFlags: 0

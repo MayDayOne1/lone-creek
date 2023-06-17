@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour
 
         Time.timeScale = 1;
         NormalCam.enabled = true;
+        AimCam.enabled = true;
+        CrouchCam.enabled = true;
+        CrouchAimCam.enabled = true;
         this.gameObject.SetActive(true);
     }
     #region MovementControlEnableDisable
@@ -208,7 +211,7 @@ public class PlayerController : MonoBehaviour
         {
             // Debug.Log("Player is dead");
             health = 0f;
-            Die();
+            // Die();
         }
         healthSlider.value = health;
     }

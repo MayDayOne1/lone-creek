@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Transactions;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
-using Zenject.SpaceFighter;
 
 public class AI : MonoBehaviour
 {
@@ -107,10 +102,14 @@ public class AI : MonoBehaviour
         MuzzleFlash.Play();
         // Debug.Log("Start shooting");
         Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
+        dirTowardsPlayer.y += 1f;
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
         {
-            Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+            if(hit.transform.gameObject.tag.Equals("Player"))
+            {
+                Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+            }
         }
     }
     

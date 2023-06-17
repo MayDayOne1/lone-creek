@@ -21,7 +21,7 @@ public class State
     protected GameObject[] waypoints;
     protected Animator animator;
     public float visDist = 12.0f;
-    public float visAngle = 30.0f;
+    public float visAngle = 60.0f;
     public float attackDist = 10.0f;
     public float Cooldown = 2f;
 
@@ -53,11 +53,25 @@ public class State
     public bool CanSeePlayer()
     {
         Vector3 direction = player.position - npc.transform.position;
+        direction.y += 1f;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
         if(direction.magnitude < visDist && angle < visAngle)
         {
-            return true;
+            RaycastHit hit;
+            if (Physics.Raycast(npc.transform.position, direction, out hit, 999f))
+            {
+                // Debug.Log(hit.transform.name);
+                // Debug.DrawRay(npc.transform.position, direction, Color.red, 2f);
+                if(hit.transform.tag.Equals("Player"))
+                {
+                    // Debug.Log("I see you");
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            }
         }
 
         return false;
