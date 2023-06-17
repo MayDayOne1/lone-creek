@@ -25,6 +25,7 @@ public class State
     public float attackDist = 10.0f;
     public float Cooldown = 2f;
 
+    PlayerController playerController;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -33,6 +34,8 @@ public class State
         eventName = EVENT.ENTER;
         this.waypoints = waypoints;
         animator = anim;
+        playerController = player.gameObject.GetComponent<PlayerController>();
+
     }
 
     public virtual void Enter()
@@ -52,8 +55,10 @@ public class State
 
     public bool CanSeePlayer()
     {
+        
         Vector3 direction = player.position - npc.transform.position;
-        direction.y += 1f;
+        if (playerController.IsCrouching) direction.y += .5f;
+        else direction.y += 1f;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
         if(direction.magnitude < visDist && angle < visAngle)

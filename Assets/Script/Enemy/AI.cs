@@ -22,6 +22,7 @@ public class AI : MonoBehaviour
     public Slider HealthSlider;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
+    public PlayerController playerController;
 
     void Start()
     {
@@ -102,7 +103,8 @@ public class AI : MonoBehaviour
         MuzzleFlash.Play();
         // Debug.Log("Start shooting");
         Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
-        dirTowardsPlayer.y += 1f;
+        if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
+        else dirTowardsPlayer.y += 1f;
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
         {
