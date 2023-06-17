@@ -3,6 +3,7 @@ using UnityEngine;
 public class ChooseWeapon : MonoBehaviour
 {
     private PlayerInteract playerInteract;
+    private PlayerController playerController;
     private Animator animator;
     public enum WEAPONS
     {
@@ -19,6 +20,7 @@ public class ChooseWeapon : MonoBehaviour
     private void Start()
     {
         playerInteract = GetComponent<PlayerInteract>();
+        playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         AmmoBG.SetActive(false);
         ThrowableBG.SetActive(false);
@@ -31,11 +33,13 @@ public class ChooseWeapon : MonoBehaviour
         playerInteract.Pistol.SetActive(false);
         AmmoBG.SetActive(false);
         animator.SetLayerWeight(3, 0);
+        animator.SetLayerWeight(4, 0);
     }
 
     public void SelectThrowable()
     {
         animator.SetLayerWeight(3, 0);
+        animator.SetLayerWeight(4, 0);
         if (hasThrowable)
         {
             weaponSelected = WEAPONS.THROWABLE;
@@ -57,9 +61,18 @@ public class ChooseWeapon : MonoBehaviour
             weaponSelected = WEAPONS.PRIMARY;
             playerInteract.Throwable.SetActive(false);
             playerInteract.Pistol.SetActive(true);
-            animator.SetLayerWeight(3, 1);
             AmmoBG.SetActive(true);
             ThrowableBG.SetActive(false);
+
+            if(playerController.IsCrouching)
+            {
+                animator.SetLayerWeight(4, 1);
+                animator.SetLayerWeight(3, 0);
+            } else
+            {
+                animator.SetLayerWeight(4, 0);
+                animator.SetLayerWeight(3, 1);
+            }
             // Debug.Log("Primary selected");
         } else
         {

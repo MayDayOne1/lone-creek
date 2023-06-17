@@ -93,11 +93,22 @@ public class PlayerController : MonoBehaviour
         {
             speed = crouchSpeed;
             animator.SetBool("isAimingPistol", true);
+            if(IsCrouching)
+            {
+                AimCam.gameObject.SetActive(false);
+                CrouchAimCam.gameObject.SetActive(true);
+            } else
+            {
+                AimCam.gameObject.SetActive(true);
+                CrouchAimCam.gameObject.SetActive(false);
+            }
         }
         else
         {
             animator.SetBool("isAimingPistol", false);
             speed = runSpeed;
+            AimCam.gameObject.SetActive(false);
+            CrouchAimCam.gameObject.SetActive(false);
         }
     }
     private void InputSystemMove()
@@ -141,12 +152,12 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
-
     public void Crouch()
     {
         IsCrouching = !IsCrouching;
         if(IsCrouching)
         {
+            // Debug.Log("crouch");
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             NormalCam.gameObject.SetActive(false);
@@ -155,11 +166,11 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetLayerWeight(3, 0);
                 animator.SetLayerWeight(4, 1);
-                // Debug.Log("Has gun, crouching");
             }
             animator.SetLayerWeight(1, 1);
         } else
         {
+            // Debug.Log("stand up");
             controller.height = standingHeight;
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             NormalCam.gameObject.SetActive(true);
@@ -168,7 +179,6 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetLayerWeight(3, 1);
                 animator.SetLayerWeight(4, 0);
-                // Debug.Log("Has gun, standing up");
             }
             animator.SetLayerWeight(1, 0);
         }

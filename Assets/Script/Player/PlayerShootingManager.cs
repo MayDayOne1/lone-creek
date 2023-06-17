@@ -20,6 +20,7 @@ public class PlayerShootingManager : MonoBehaviour
     public Camera cam;
     public CinemachineFreeLook normalCam;
     public CinemachineFreeLook AimCam;
+    public CinemachineFreeLook CrouchCam;
     public CinemachineFreeLook CrouchAimCam;
     public Image Crosshair;
 
@@ -243,9 +244,11 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 if(playerController.IsCrouching)
                 {
+                    CrouchCam.gameObject.SetActive(true);
                     CrouchAimCam.gameObject.SetActive(true);
                 } else
                 {
+                    CrouchCam.gameObject.SetActive(false);
                     AimCam.gameObject.SetActive(true);
                 }
                 StartAimingThrowable();
@@ -253,10 +256,12 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 if (playerController.IsCrouching)
                 {
+                    CrouchCam.gameObject.SetActive(true);
                     CrouchAimCam.gameObject.SetActive(false);
                 }
                 else
                 {
+                    CrouchCam.gameObject.SetActive(false);
                     AimCam.gameObject.SetActive(false);
                 }
                 StopAimingThrowable();
