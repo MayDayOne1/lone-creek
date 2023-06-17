@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
         animator.SetLayerWeight(1, 0);
 
         PauseMenu.SetActive(false);
+
+        Time.timeScale = 1;
+        NormalCam.enabled = true;
+        this.gameObject.SetActive(true);
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -188,8 +192,14 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Time.timeScale = 0;
+        NormalCam.enabled = false;
+        AimCam.enabled = false;
+        CrouchCam.enabled = false;
+        CrouchAimCam.enabled = false;
         this.gameObject.SetActive(false);
         GameOverScreen.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
     public void PlayerTakeDamage(float damage)
     {
@@ -198,7 +208,7 @@ public class PlayerController : MonoBehaviour
         {
             // Debug.Log("Player is dead");
             health = 0f;
-            // Die();
+            Die();
         }
         healthSlider.value = health;
     }
