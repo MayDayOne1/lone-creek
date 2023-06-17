@@ -91,7 +91,7 @@ public class PlayerShootingManager : MonoBehaviour
     private void EnableAim()
     {
         Crosshair.gameObject.SetActive(true);
-        if(playerController.IsCrouching)
+        if (playerController.IsCrouching)
         {
             CrouchAimCam.gameObject.SetActive(true);
         } else
@@ -127,6 +127,9 @@ public class PlayerShootingManager : MonoBehaviour
             dummyTransform.position = hit.point;
             mouseWorldPos = hit.point;
             hitTransform = hit.transform;
+
+            if (hitTransform.tag.Equals("Enemy")) Crosshair.color = Color.red;
+            else Crosshair.color = Color.white;
         }
     }
     private void StartAimingThrowable()
@@ -235,7 +238,8 @@ public class PlayerShootingManager : MonoBehaviour
         // Debug.Log("Aim value " + aimValue);
         if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
         {
-            if(aimValue == 1f)
+            DisableAim();
+            if (aimValue == 1f)
             {
                 if(playerController.IsCrouching)
                 {
