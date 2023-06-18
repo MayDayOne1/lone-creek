@@ -99,6 +99,7 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
+        EnableAim();
         Gunshot.Play();
         MuzzleFlash.Play();
         // Debug.Log("Start shooting");
