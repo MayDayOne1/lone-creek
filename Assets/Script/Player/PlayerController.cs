@@ -241,4 +241,14 @@ public class PlayerController : MonoBehaviour
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
+    public void VictorySetup()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 0;
+        NormalCam.enabled = false;
+        AimCam.enabled = false;
+        CrouchCam.enabled = false;
+        CrouchAimCam.enabled = false;
+    }
 }
