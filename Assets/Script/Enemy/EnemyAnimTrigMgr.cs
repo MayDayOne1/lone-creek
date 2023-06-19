@@ -10,10 +10,12 @@ public class EnemyAnimTrigMgr : StateMachineBehaviour
         ai = FindFirstObjectByType<AI>();
         if (ai.GetCanAttackPlayer())
         {
+            // Debug.Log("Can attack player");
             animator.SetTrigger("Shoot");
         }
         else
         {
+            // Debug.Log("Cannot attack player");
             animator.ResetTrigger("Shoot");
         }
     }
@@ -27,7 +29,17 @@ public class EnemyAnimTrigMgr : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //    
+    //    ai = FindFirstObjectByType<AI>();
+    //    if (ai.GetCanAttackPlayer())
+    //    {
+    //        Debug.Log("Can attack player");
+    //        animator.SetTrigger("Shoot");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Cannot attack player");
+    //        animator.ResetTrigger("Shoot");
+    //    }
     //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
