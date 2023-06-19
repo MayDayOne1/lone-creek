@@ -139,7 +139,9 @@ public class PlayerInteract : MonoBehaviour
         {
             chooseWeapon.hasPistol = true;
             chooseWeapon.SelectPrimary();
-            playerShootingManager.SetAmmo(24);
+            string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
+            int ammo = int.Parse(ammoText);
+            playerShootingManager.SetAmmo(ammo);
             Destroy(obj);
         }
     }

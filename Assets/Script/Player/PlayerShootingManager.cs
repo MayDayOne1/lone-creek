@@ -84,8 +84,14 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void SetAmmo(int ammo)
     {
-        currentClip = clipCapacity;
-        currentAmmo = ammo - currentClip;
+        if(ammo <= clipCapacity)
+        {
+            currentClip = ammo;
+        } else
+        {
+            currentClip = clipCapacity;
+            currentAmmo = ammo - currentClip;
+        }
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
