@@ -20,7 +20,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SceneTunnel");
+        SceneManager.LoadScene("Tunnel");
     }
 
     public void QuitGame()
