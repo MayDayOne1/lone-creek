@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Cinemachine;
 using UnityEngine.Animations.Rigging;
 using TMPro;
 using static ChooseWeapon;
@@ -12,17 +11,13 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private InputActionReference aimAction;
     [SerializeField] private Rig aimRig;
     private ChooseWeapon chooseWeapon;
-    private Animator animator;
+    private PlayerAnimManager animManager;
     private PlayerInteract playerInteract;
     private PlayerController playerController;
+    private PlayerCamManager camManager;
     private float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
-    public CinemachineFreeLook normalCam;
-    public CinemachineFreeLook AimCam;
-    public CinemachineFreeLook CrouchCam;
-    public CinemachineFreeLook CrouchAimCam;
-    public Image Crosshair;
 
 
     [Header("THROW")]
@@ -35,10 +30,15 @@ public class PlayerShootingManager : MonoBehaviour
     private GameObject BottleToInstantiate;
     public bool IsAimingThrowable = false;
 
+    private const string IS_AIMING_THROWABLE = "isAimingThrowable";
+    private const string THROW = "Throw";
+    private const string RELOAD = "Reload";
+
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform dummyTransform;
     [SerializeField] private TextMeshProUGUI ClipUI;
+    [SerializeField] private Image Crosshair;
     public TextMeshProUGUI TotalAmmoUI;
     public int maxAmmo = 24;
     public int currentAmmo = 0;
@@ -56,15 +56,13 @@ public class PlayerShootingManager : MonoBehaviour
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
-        animator = GetComponent<Animator>();
+        animManager = GetComponent<PlayerAnimManager>();
         playerInteract = GetComponent<PlayerInteract>();
         playerController = GetComponent<PlayerController>();
+        camManager = GetComponent<PlayerCamManager>();
 
-        AimCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(false);
         currentClip = 0;
         cooldownTimer = cooldown;
-
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
         Crosshair.gameObject.SetActive(false);
@@ -100,12 +98,11 @@ public class PlayerShootingManager : MonoBehaviour
         Crosshair.gameObject.SetActive(true);
         if (playerController.IsCrouching)
         {
-            CrouchAimCam.gameObject.SetActive(true);
+            camManager.ActivateCrouchAim();
         } else
         {
-            AimCam.gameObject.SetActive(true);
+            camManager.ActivateAim();
         }
-        normalCam.gameObject.SetActive(false);
         aimRigWeight = 1f;
     }
     private void DisableAim()
@@ -113,13 +110,12 @@ public class PlayerShootingManager : MonoBehaviour
         Crosshair.gameObject.SetActive(false);
         if (playerController.IsCrouching)
         {
-            CrouchAimCam.gameObject.SetActive(false);
+            camManager.ActivateCrouch();
         }
         else
         {
-            AimCam.gameObject.SetActive(false);
+            camManager.ActivateNormal();
         }
-        normalCam.gameObject.SetActive(true);
         aimRigWeight = 0f;
         playerController.speed = playerController.runSpeed;
 
@@ -142,16 +138,16 @@ public class PlayerShootingManager : MonoBehaviour
     private void StartAimingThrowable()
     {
         IsAimingThrowable = true;
-        animator.SetLayerWeight(2, 1);
-        animator.SetBool("isAimingThrowable", true);
+        animManager.SetThrow(true);
+        animManager.SetBool(IS_AIMING_THROWABLE, true);
         DrawLine();
     }
     private void StopAimingThrowable()
     {
         IsAimingThrowable = false;
-        animator.SetLayerWeight(2, 0);
+        animManager.SetThrow(false);
         lineRenderer.enabled = false;
-        animator.SetBool("isAimingThrowable", false);
+        animManager.SetBool(IS_AIMING_THROWABLE, false);
     }
     private void DrawLine()
     {
@@ -181,10 +177,10 @@ public class PlayerShootingManager : MonoBehaviour
         //    }
         //}
 
-        animator.SetTrigger("Throw");
+        animManager.SetTrigger(THROW);
         playerInteract.Throwable.SetActive(false);
         PlayerBottle.gameObject.SetActive(false);
-        chooseWeapon.weaponSelected = WEAPONS.NONE;
+        chooseWeapon.SelectNone();
         Transform instancePos = PlayerBottle.transform;
         BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
         Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
@@ -250,25 +246,21 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 if(playerController.IsCrouching)
                 {
-                    CrouchCam.gameObject.SetActive(true);
-                    CrouchAimCam.gameObject.SetActive(true);
+                    camManager.ActivateCrouchAim();
                 } else
                 {
-                    CrouchCam.gameObject.SetActive(false);
-                    AimCam.gameObject.SetActive(true);
+                    camManager.ActivateAim();
                 }
                 StartAimingThrowable();
             } else
             {
                 if (playerController.IsCrouching)
                 {
-                    CrouchCam.gameObject.SetActive(true);
-                    CrouchAimCam.gameObject.SetActive(false);
+                    camManager.ActivateCrouch();
                 }
                 else
                 {
-                    CrouchCam.gameObject.SetActive(false);
-                    AimCam.gameObject.SetActive(false);
+                    camManager.ActivateNormal();
                 }
                 StopAimingThrowable();
             }
@@ -310,7 +302,7 @@ public class PlayerShootingManager : MonoBehaviour
             return;
         } else if(currentClip < 8)
         {
-            animator.SetTrigger("Reload");
+            // animator.SetTrigger("Reload");
             int ammoDiff = clipCapacity - currentClip;
             int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
             currentClip += ammoToReload;

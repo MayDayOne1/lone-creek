@@ -4,7 +4,7 @@ public class ChooseWeapon : MonoBehaviour
 {
     private PlayerInteract playerInteract;
     private PlayerController playerController;
-    private Animator animator;
+    private PlayerAnimManager animManager;
     public enum WEAPONS
     {
         NONE,
@@ -21,7 +21,7 @@ public class ChooseWeapon : MonoBehaviour
     {
         playerInteract = GetComponent<PlayerInteract>();
         playerController = GetComponent<PlayerController>();
-        animator = GetComponent<Animator>();
+        animManager = GetComponent<PlayerAnimManager>();
         AmmoBG.SetActive(false);
         ThrowableBG.SetActive(false);
     }
@@ -32,20 +32,19 @@ public class ChooseWeapon : MonoBehaviour
         playerInteract.Throwable.SetActive(false);
         playerInteract.Pistol.SetActive(false);
         AmmoBG.SetActive(false);
-        animator.SetLayerWeight(3, 0);
-        animator.SetLayerWeight(4, 0);
+        animManager.SetPistol(false);
+        animManager.SetPistolCrouch(false);
     }
 
     public void SelectThrowable()
     {
-        animator.SetLayerWeight(3, 0);
-        animator.SetLayerWeight(4, 0);
+        animManager.SetPistol(false);
+        animManager.SetPistolCrouch(false);
         if (hasThrowable)
         {
             weaponSelected = WEAPONS.THROWABLE;
             playerInteract.Throwable.SetActive(true);
             playerInteract.Pistol.SetActive(false);
-            // Debug.Log("Throwable selected");
             AmmoBG.SetActive(false);
             ThrowableBG.SetActive(true);
         } else
@@ -66,14 +65,13 @@ public class ChooseWeapon : MonoBehaviour
 
             if(playerController.IsCrouching)
             {
-                animator.SetLayerWeight(4, 1);
-                animator.SetLayerWeight(3, 0);
+                animManager.SetPistol(false);
+                animManager.SetPistolCrouch(true);
             } else
             {
-                animator.SetLayerWeight(4, 0);
-                animator.SetLayerWeight(3, 1);
+                animManager.SetPistol(true);
+                animManager.SetPistolCrouch(false);
             }
-            // Debug.Log("Primary selected");
         } else
         {
             SelectNone();
