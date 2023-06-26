@@ -65,19 +65,7 @@ public class PlayerShootingManager : MonoBehaviour
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
         Crosshair.gameObject.SetActive(false);
-
     }
-    #region AimActionEnableDisable
-    private void OnEnable()
-    {
-        aimAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        aimAction.action.Disable();
-    }
-    #endregion
 
     public void SetAmmo(int ammo)
     {
@@ -209,7 +197,7 @@ public class PlayerShootingManager : MonoBehaviour
         chooseWeapon.SelectNone();
         StopAimingPistol();
     }
-    private void ShootPistol()
+    private void CheckIfCanShoot()
     {
         if (currentClip < 1)
         {
@@ -228,8 +216,6 @@ public class PlayerShootingManager : MonoBehaviour
         {
             DisablePistol();
         }
-        
-        
     }
     public void Aim()
     {
@@ -243,14 +229,8 @@ public class PlayerShootingManager : MonoBehaviour
             else StopAimingThrowable();
         } else if (chooseWeapon.IsPrimarySelected)
         {
-            if(aimValue == 1f)
-            {
-                StartAimingPistol();
-            } else
-            {
-                
-                StopAimingPistol();
-            }
+            if(aimValue == 1f) StartAimingPistol();
+            else StopAimingPistol();
         } else
         {
             StopAimingThrowable();
@@ -264,7 +244,7 @@ public class PlayerShootingManager : MonoBehaviour
             Throw();
         } else if (IsAimingPistol && playerInteract.Pistol.activeSelf && CanShoot)
         {
-            ShootPistol();
+            CheckIfCanShoot();
         }
     }
     public void Reload()
