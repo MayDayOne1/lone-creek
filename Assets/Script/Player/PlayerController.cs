@@ -94,13 +94,20 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
     }
+    
+    private void Move()
+    {
+        AimingLogic();
+        InputSystemMove();
+        
+    }
     private void AimingLogic()
     {
         if (playerShootingManager.IsAimingPistol)
         {
             speed = crouchSpeed;
             animManager.SetBool(IS_AIMING_PISTOL, true);
-            if(IsCrouching) camManager.ActivateCrouchAim();
+            if (IsCrouching) camManager.ActivateCrouchAim();
             else camManager.ActivateAim();
         }
         else
@@ -127,12 +134,7 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-    private void Move()
-    {
-        AimingLogic();
-        InputSystemMove();
-        
-    }
+
     private void SpeedUpdater()
     {
         if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
@@ -196,9 +198,8 @@ public class PlayerController : MonoBehaviour
         health -= damage;
         if(health <= 0f)
         {
-            // Debug.Log("Player is dead");
             health = 0f;
-            Die();
+            // Die();
         }
         healthSlider.value = health;
     }

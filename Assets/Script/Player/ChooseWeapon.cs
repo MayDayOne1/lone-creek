@@ -5,30 +5,27 @@ public class ChooseWeapon : MonoBehaviour
     private PlayerInteract playerInteract;
     private PlayerController playerController;
     private PlayerAnimManager animManager;
-    public enum WEAPONS
-    {
-        NONE,
-        THROWABLE,
-        PRIMARY
-    }
-    public WEAPONS weaponSelected;
-    public bool hasThrowable;
-    public bool hasPistol;
+    
     public GameObject AmmoBG;
     public GameObject ThrowableBG;
+
+    public bool IsThrowableSelected = false;
+    public bool IsPrimarySelected = false;
 
     private void Start()
     {
         playerInteract = GetComponent<PlayerInteract>();
         playerController = GetComponent<PlayerController>();
         animManager = GetComponent<PlayerAnimManager>();
+
         AmmoBG.SetActive(false);
         ThrowableBG.SetActive(false);
     }
 
     public void SelectNone()
     {
-        weaponSelected = WEAPONS.NONE;
+        IsThrowableSelected = false;
+        IsPrimarySelected = false;
         playerInteract.Throwable.SetActive(false);
         playerInteract.Pistol.SetActive(false);
         AmmoBG.SetActive(false);
@@ -38,11 +35,12 @@ public class ChooseWeapon : MonoBehaviour
 
     public void SelectThrowable()
     {
+        SelectNone();
         animManager.SetPistol(false);
         animManager.SetPistolCrouch(false);
-        if (hasThrowable)
+        if (playerInteract.hasThrowable)
         {
-            weaponSelected = WEAPONS.THROWABLE;
+            IsThrowableSelected = true;
             playerInteract.Throwable.SetActive(true);
             playerInteract.Pistol.SetActive(false);
             AmmoBG.SetActive(false);
@@ -51,13 +49,13 @@ public class ChooseWeapon : MonoBehaviour
         {
             SelectNone();
         }
-        
     }
     public void SelectPrimary()
     {
-        if(hasPistol)
+        SelectNone();
+        if (playerInteract.hasPrimary)
         {
-            weaponSelected = WEAPONS.PRIMARY;
+            IsPrimarySelected = true;
             playerInteract.Throwable.SetActive(false);
             playerInteract.Pistol.SetActive(true);
             AmmoBG.SetActive(true);

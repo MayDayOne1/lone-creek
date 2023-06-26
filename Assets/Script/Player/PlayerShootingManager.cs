@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using TMPro;
-using static ChooseWeapon;
 using UnityEngine.UI;
 
 public class PlayerShootingManager : MonoBehaviour
@@ -82,7 +81,7 @@ public class PlayerShootingManager : MonoBehaviour
 
     public void SetAmmo(int ammo)
     {
-        if(ammo <= clipCapacity)
+        if(ammo <= currentClip)
         {
             currentClip = ammo;
         } else
@@ -93,8 +92,9 @@ public class PlayerShootingManager : MonoBehaviour
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
-    private void EnableAim()
+    private void StartAimingPistol()
     {
+        IsAimingPistol = true;
         Crosshair.gameObject.SetActive(true);
         if (playerController.IsCrouching)
         {
@@ -105,8 +105,9 @@ public class PlayerShootingManager : MonoBehaviour
         }
         aimRigWeight = 1f;
     }
-    private void DisableAim()
+    private void StopAimingPistol()
     {
+        IsAimingPistol = false;
         Crosshair.gameObject.SetActive(false);
         if (playerController.IsCrouching)
         {
@@ -141,6 +142,9 @@ public class PlayerShootingManager : MonoBehaviour
         animManager.SetThrow(true);
         animManager.SetBool(IS_AIMING_THROWABLE, true);
         DrawLine();
+
+        if (playerController.IsCrouching) camManager.ActivateCrouchAim();
+        else camManager.ActivateAim();
     }
     private void StopAimingThrowable()
     {
@@ -148,6 +152,9 @@ public class PlayerShootingManager : MonoBehaviour
         animManager.SetThrow(false);
         lineRenderer.enabled = false;
         animManager.SetBool(IS_AIMING_THROWABLE, false);
+
+        if (playerController.IsCrouching) camManager.ActivateCrouch();
+        else camManager.ActivateNormal();
     }
     private void DrawLine()
     {
@@ -168,15 +175,6 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void Throw()
     {
-        //foreach (var obj in playerInteract.ObjectsTriggered)
-        //{
-        //    if (obj.gameObject.tag.Equals("Throwable"))
-        //    {
-        //        playerInteract.ObjectsTriggered.Remove(obj);
-        //        Debug.Log("throwing, removing object, ObjectsTriggered Count: " + playerInteract.ObjectsTriggered.Count);
-        //    }
-        //}
-
         animManager.SetTrigger(THROW);
         playerInteract.Throwable.SetActive(false);
         PlayerBottle.gameObject.SetActive(false);
@@ -186,7 +184,7 @@ public class PlayerShootingManager : MonoBehaviour
         Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
         bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
         Destroy(BottleToInstantiate, 2f);
-        chooseWeapon.hasThrowable = false;
+        playerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);
     }
@@ -209,7 +207,7 @@ public class PlayerShootingManager : MonoBehaviour
     private void DisablePistol()
     {
         chooseWeapon.SelectNone();
-        DisableAim();
+        StopAimingPistol();
     }
     private void ShootPistol()
     {
@@ -238,47 +236,25 @@ public class PlayerShootingManager : MonoBehaviour
         AimTowardsCrosshair();
         aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
         float aimValue = aimAction.action.ReadValue<float>();
-        // Debug.Log("Aim value " + aimValue);
-        if (chooseWeapon.weaponSelected == WEAPONS.THROWABLE)
+        if (chooseWeapon.IsThrowableSelected)
         {
-            DisableAim();
-            if (aimValue == 1f)
-            {
-                if(playerController.IsCrouching)
-                {
-                    camManager.ActivateCrouchAim();
-                } else
-                {
-                    camManager.ActivateAim();
-                }
-                StartAimingThrowable();
-            } else
-            {
-                if (playerController.IsCrouching)
-                {
-                    camManager.ActivateCrouch();
-                }
-                else
-                {
-                    camManager.ActivateNormal();
-                }
-                StopAimingThrowable();
-            }
-        } else if (chooseWeapon.weaponSelected == WEAPONS.PRIMARY)
+            StopAimingPistol();
+            if (aimValue == 1f) StartAimingThrowable();
+            else StopAimingThrowable();
+        } else if (chooseWeapon.IsPrimarySelected)
         {
             if(aimValue == 1f)
             {
-                IsAimingPistol = true;
-                EnableAim();
+                StartAimingPistol();
             } else
             {
-                IsAimingPistol = false;
-                DisableAim();
+                
+                StopAimingPistol();
             }
-        } else if (chooseWeapon.weaponSelected == WEAPONS.NONE)
+        } else
         {
-            DisableAim();
-            IsAimingPistol = false;
+            StopAimingThrowable();
+            StopAimingPistol();
         }   
     }
     public void Shoot()
@@ -302,7 +278,6 @@ public class PlayerShootingManager : MonoBehaviour
             return;
         } else if(currentClip < 8)
         {
-            // animator.SetTrigger("Reload");
             int ammoDiff = clipCapacity - currentClip;
             int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
             currentClip += ammoToReload;
@@ -310,7 +285,5 @@ public class PlayerShootingManager : MonoBehaviour
             ClipUI.text = currentClip.ToString();
             TotalAmmoUI.text = currentAmmo.ToString();
         }
-        // Debug.Log("Reloading!");
-        // Debug.Log("Current ammo: " + currentAmmo);
     }
 }

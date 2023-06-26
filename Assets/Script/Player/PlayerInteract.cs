@@ -4,100 +4,79 @@ using TMPro;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
-{ 
+{
+    private ChooseWeapon chooseWeapon;
+    private PlayerShootingManager shootingManager;
+    private List<GameObject> ObjectsTriggered = new List<GameObject>();
+
+    public bool hasThrowable = false;
+    public bool hasPrimary = false;
+
     public GameObject Throwable;
     public GameObject Pistol;
     public AudioSource audioSource;
 
-    public List<GameObject> ObjectsTriggered = new List<GameObject>();
-    private ChooseWeapon chooseWeapon;
-    private PlayerShootingManager playerShootingManager;
 
     private void Start()
     {
-        Throwable.SetActive(false);
-        Pistol.SetActive(false);
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
-        playerShootingManager = GetComponent<PlayerShootingManager>();
+        shootingManager = GetComponent<PlayerShootingManager>();
+        Throwable.SetActive(false);
+        Pistol.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
-            // Debug.Log("Triggered");
             ObjectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
 
-            if(other.gameObject.tag.Equals("Throwable") && chooseWeapon.hasThrowable)
+            if(other.gameObject.tag.Equals("Throwable") && hasThrowable)
             {
-                Image[] images = other.GetComponentsInChildren<Image>();
-                foreach(Image img in images)
-                {
-                    if (img.gameObject.tag.Equals("RedFilter"))
-                    {
-                        img.enabled = true;
-                        return;
-                    }
-                }
+                RedFilterManager(other.gameObject, true);
             }
 
             if((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
-                (playerShootingManager.currentAmmo + playerShootingManager.currentClip > 31))
+                (shootingManager.currentAmmo + shootingManager.currentClip > 31))
             {
-                Image[] images = other.GetComponentsInChildren<Image>();
-                foreach (Image img in images)
-                {
-                    if (img.gameObject.tag.Equals("RedFilter"))
-                    {
-                        img.enabled = true;
-                        return;
-                    }
-                }
+                RedFilterManager(other.gameObject, true);
             }
-            //foreach (var obj in ObjectsTriggered)
-            //{
-            //    Debug.Log(obj.name);
-            //}
-            //Debug.Log("ObjectsTriggered Count: " + ObjectsTriggered.Count);
         }
-        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        ObjectsTriggered.Remove(other.gameObject);
-        other.GetComponentInChildren<Canvas>().enabled = false;
-
-        if (other.gameObject.tag.Equals("Throwable") && chooseWeapon.hasThrowable)
+        if(LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
-            Image[] images = other.GetComponentsInChildren<Image>();
-            foreach (Image img in images)
+            ObjectsTriggered.Remove(other.gameObject);
+            other.GetComponentInChildren<Canvas>().enabled = false;
+
+            if (other.gameObject.tag.Equals("Throwable") && hasThrowable)
             {
-                if (img.gameObject.tag.Equals("RedFilter"))
-                {
-                    img.enabled = false;
-                    return;
-                }
+                RedFilterManager(other.gameObject, false);
+            }
+
+            if ((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
+                (shootingManager.currentAmmo + shootingManager.currentClip > 31))
+            {
+                RedFilterManager(other.gameObject, false);
             }
         }
+    }
 
-        if ((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
-            (playerShootingManager.currentAmmo + playerShootingManager.currentClip > 31))
+    private void RedFilterManager(GameObject other, bool enable)
+    {
+        Image[] images = other.GetComponentsInChildren<Image>();
+        foreach (Image img in images)
         {
-            Image[] images = other.GetComponentsInChildren<Image>();
-            foreach (Image img in images)
+            if (img.gameObject.tag.Equals("RedFilter"))
             {
-                if (img.gameObject.tag.Equals("RedFilter"))
-                {
-                    img.enabled = false;
-                    return;
-                }
+                img.enabled = enable;
+                return;
             }
         }
-
-        // Debug.Log("Exit, ObjectsTriggered Count: " + ObjectsTriggered.Count);
     }
 
     private GameObject ChooseInteractiveObject()
@@ -105,7 +84,6 @@ public class PlayerInteract : MonoBehaviour
         float dist;
         float minDist = float.MaxValue;
         int resultingIndex = 0;
-        // Debug.Log("interact");
         if (ObjectsTriggered.Count > 0)
         {
             for (int i = 0; i < ObjectsTriggered.Count; i++)
@@ -118,16 +96,13 @@ public class PlayerInteract : MonoBehaviour
                 }
             }
             return ObjectsTriggered[resultingIndex];
-        } else
-        {
-            return null;
-        }
+        } else return null;
     }
     private void PickupThrowable(GameObject obj)
     {
-        if (chooseWeapon.hasThrowable == false)
+        if (hasThrowable == false)
         {
-            chooseWeapon.hasThrowable = true;
+            hasThrowable = true;
             chooseWeapon.SelectThrowable();
             Destroy(obj);
         }
@@ -135,46 +110,45 @@ public class PlayerInteract : MonoBehaviour
     }
     private void PickupPistol(GameObject obj)
     {
-        if (chooseWeapon.hasPistol == false)
+        if (hasPrimary == false)
         {
-            chooseWeapon.hasPistol = true;
+            hasPrimary = true;
             chooseWeapon.SelectPrimary();
             string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
             int ammo = int.Parse(ammoText);
-            playerShootingManager.SetAmmo(ammo);
+            shootingManager.SetAmmo(ammo);
             Destroy(obj);
         }
     }
     private void PickupAmmo(GameObject obj)
     {
-        if (!chooseWeapon.hasPistol) return;
+        if (!hasPrimary) return;
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
         int ammo = int.Parse(ammoText);
         
-        int ammoDiff = playerShootingManager.maxAmmo - playerShootingManager.currentAmmo;
-        if(ammo <= ammoDiff)
-        {
-            // Debug.Log("Ammo <= ammoDiff");
-            ammo += playerShootingManager.currentAmmo;
-            playerShootingManager.currentAmmo = ammo;
-            playerShootingManager.TotalAmmoUI.text = ammo.ToString();
-            Destroy(obj);
-        } else if (ammo + playerShootingManager.currentAmmo > playerShootingManager.maxAmmo)
-        {
-            ammoDiff = ammo + playerShootingManager.currentAmmo - playerShootingManager.maxAmmo;
-            playerShootingManager.currentAmmo = playerShootingManager.maxAmmo;
-            playerShootingManager.TotalAmmoUI.text = playerShootingManager.maxAmmo.ToString();
+        CalculateAmmoFromPickup(obj, ammo);
+    }
 
+    private void CalculateAmmoFromPickup(GameObject obj, int ammoPickup)
+    {
+        int ammoDiff = shootingManager.maxAmmo - shootingManager.currentAmmo;
+
+        // case #1: ammoPickup has less or the same amount of ammo than you need
+        if (ammoPickup <= ammoDiff)
+        {
+            shootingManager.currentAmmo += ammoPickup;
+            shootingManager.TotalAmmoUI.text = shootingManager.currentAmmo.ToString();
+            Destroy(obj);
+        }
+        // case #2: ammoPickup has more ammo than you can have
+        else if (ammoPickup + shootingManager.currentAmmo > shootingManager.maxAmmo)
+        {
+            ammoDiff = ammoPickup + shootingManager.currentAmmo - shootingManager.maxAmmo;
+            shootingManager.currentAmmo = shootingManager.maxAmmo;
+            shootingManager.TotalAmmoUI.text = shootingManager.maxAmmo.ToString();
             obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
 
-        } else
-        {
-            Debug.Log("Ammo > ammoDiff");
-            ammoDiff += playerShootingManager.currentAmmo;
-            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammo - ammoDiff).ToString();
-            playerShootingManager.TotalAmmoUI.text = ammoDiff.ToString();
         }
-        
     }
     public void Interact()
     { 
@@ -188,7 +162,8 @@ public class PlayerInteract : MonoBehaviour
             else if (obj.tag == "Pistol")
             {
                 PickupPistol(obj);
-            } else if (obj.tag == "Ammo")
+            }
+            else if (obj.tag == "Ammo")
             {
                 PickupAmmo(obj);
             }
