@@ -8,9 +8,9 @@ public class PlayerAmmoManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ClipUI;
     [SerializeField] private TextMeshProUGUI TotalAmmoUI;
     private PlayerShootingManager shootingManager;
-    private int maxAmmo = 32;
+    private readonly int maxAmmo = 24;
     private int currentAmmo = 0;
-    private int clipCapacity = 8;
+    private readonly int clipCapacity = 8;
     private int currentClip;
 
     void Start()
@@ -32,12 +32,9 @@ public class PlayerAmmoManager : MonoBehaviour
         if (ammo <= currentClip)
         {
             currentClip = ammo;
-        }
-        else
-        {
-            currentClip = clipCapacity;
             currentAmmo = ammo - currentClip;
         }
+        
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
@@ -78,7 +75,7 @@ public class PlayerAmmoManager : MonoBehaviour
         else if (currentClip < 8)
         {
             int ammoDiff = clipCapacity - currentClip;
-            int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
+            int ammoToReload = currentAmmo < ammoDiff ? currentAmmo : ammoDiff;
             currentClip += ammoToReload;
             currentAmmo -= ammoToReload;
             ClipUI.text = currentClip.ToString();

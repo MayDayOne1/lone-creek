@@ -6,9 +6,8 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private ChooseWeapon chooseWeapon;
-    private PlayerShootingManager shootingManager;
     private PlayerAmmoManager ammoManager;
-    private List<GameObject> ObjectsTriggered = new List<GameObject>();
+    private readonly List<GameObject> ObjectsTriggered = new();
 
     public bool hasThrowable = false;
     public bool hasPrimary = false;
@@ -22,7 +21,6 @@ public class PlayerInteract : MonoBehaviour
     {
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
-        shootingManager = GetComponent<PlayerShootingManager>();
         ammoManager = GetComponent<PlayerAmmoManager>();
         Throwable.SetActive(false);
         Pistol.SetActive(false);
@@ -35,12 +33,12 @@ public class PlayerInteract : MonoBehaviour
             ObjectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
 
-            if(other.gameObject.tag.Equals("Throwable") && hasThrowable)
+            if(other.gameObject.CompareTag("Throwable") && hasThrowable)
             {
                 RedFilterManager(other.gameObject, true);
             }
 
-            if((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
+            if((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
                 !ammoManager.CanAcceptAmmo())
             {
                 RedFilterManager(other.gameObject, true);
@@ -54,12 +52,12 @@ public class PlayerInteract : MonoBehaviour
             ObjectsTriggered.Remove(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = false;
 
-            if (other.gameObject.tag.Equals("Throwable") && hasThrowable)
+            if (other.gameObject.CompareTag("Throwable") && hasThrowable)
             {
                 RedFilterManager(other.gameObject, false);
             }
 
-            if ((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
+            if ((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
                 ammoManager.CanAcceptAmmo())
             {
                 RedFilterManager(other.gameObject, false);
@@ -71,7 +69,7 @@ public class PlayerInteract : MonoBehaviour
         Image[] images = other.GetComponentsInChildren<Image>();
         foreach (Image img in images)
         {
-            if (img.gameObject.tag.Equals("RedFilter"))
+            if (img.gameObject.CompareTag("RedFilter"))
             {
                 img.enabled = enable;
                 return;
@@ -115,7 +113,7 @@ public class PlayerInteract : MonoBehaviour
             chooseWeapon.SelectPrimary();
             string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
             int ammo = int.Parse(ammoText);
-            ammoManager.SetAmmo(ammo);
+            ammoManager.CalculateAmmoFromPickup(obj, ammo);
             Destroy(obj);
         }
     }
@@ -136,11 +134,11 @@ public class PlayerInteract : MonoBehaviour
             {
                 PickupThrowable(obj);
             }
-            else if (obj.tag == "Pistol")
+            else if (obj.CompareTag("Pistol"))
             {
                 PickupPistol(obj);
             }
-            else if (obj.tag == "Ammo")
+            else if (obj.CompareTag("Ammo"))
             {
                 PickupAmmo(obj);
             }

@@ -32,15 +32,14 @@ public class PlayerShootingManager : MonoBehaviour
 
     private const string IS_AIMING_THROWABLE = "isAimingThrowable";
     private const string THROW = "Throw";
-    private const string RELOAD = "Reload";
 
     [Header("PISTOL")]
-    [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField] private LayerMask aimColliderLayerMask = new();
     [SerializeField] private Transform dummyTransform;
     [SerializeField] private Image Crosshair;
     [SerializeField] private GameObject hitEffect;
-    [SerializeField] private ParticleSystem particles;
-    private float cooldown = .5f;
+    [SerializeField] private ParticleSystem fireEffect;
+    private readonly float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
     public bool IsAimingPistol = false;
@@ -91,7 +90,7 @@ public class PlayerShootingManager : MonoBehaviour
     private void AimTowardsCrosshair()
     {
         
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector2 screenCenterPoint = new (Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
         {
@@ -99,7 +98,7 @@ public class PlayerShootingManager : MonoBehaviour
             mouseWorldPos = hit.point;
             hitTransform = hit.transform;
 
-            if (hitTransform.tag.Equals("Enemy")) Crosshair.color = Color.red;
+            if (hitTransform.CompareTag("Enemy")) Crosshair.color = Color.red;
             else Crosshair.color = Color.white;
         }
     }
@@ -157,14 +156,14 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void Fire()
     {
-        particles.Play();
+        fireEffect.Play();
         playerInteract.audioSource.Play();
         ammoManager.DecrementClip();
         if (hitTransform != null)
         {
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
             Destroy(hitParticles, 2.0f);
-            if(hitTransform.tag == "Enemy")
+            if(hitTransform.CompareTag("Enemy"))
             {
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
             }
