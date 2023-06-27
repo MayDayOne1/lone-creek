@@ -7,6 +7,7 @@ public class PlayerInteract : MonoBehaviour
 {
     private ChooseWeapon chooseWeapon;
     private PlayerShootingManager shootingManager;
+    private PlayerAmmoManager ammoManager;
     private List<GameObject> ObjectsTriggered = new List<GameObject>();
 
     public bool hasThrowable = false;
@@ -22,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
         shootingManager = GetComponent<PlayerShootingManager>();
+        ammoManager = GetComponent<PlayerAmmoManager>();
         Throwable.SetActive(false);
         Pistol.SetActive(false);
     }
@@ -39,13 +41,12 @@ public class PlayerInteract : MonoBehaviour
             }
 
             if((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
-                (shootingManager.currentAmmo + shootingManager.currentClip > 31))
+                !ammoManager.CanAcceptAmmo())
             {
                 RedFilterManager(other.gameObject, true);
             }
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if(LayerMask.LayerToName(other.gameObject.layer) == "Items")
@@ -59,13 +60,12 @@ public class PlayerInteract : MonoBehaviour
             }
 
             if ((other.gameObject.tag.Equals("Ammo") || other.gameObject.tag.Equals("Pistol")) &&
-                (shootingManager.currentAmmo + shootingManager.currentClip > 31))
+                ammoManager.CanAcceptAmmo())
             {
                 RedFilterManager(other.gameObject, false);
             }
         }
     }
-
     private void RedFilterManager(GameObject other, bool enable)
     {
         Image[] images = other.GetComponentsInChildren<Image>();
@@ -78,7 +78,6 @@ public class PlayerInteract : MonoBehaviour
             }
         }
     }
-
     private GameObject ChooseInteractiveObject()
     {
         float dist;
@@ -116,7 +115,7 @@ public class PlayerInteract : MonoBehaviour
             chooseWeapon.SelectPrimary();
             string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
             int ammo = int.Parse(ammoText);
-            shootingManager.SetAmmo(ammo);
+            ammoManager.SetAmmo(ammo);
             Destroy(obj);
         }
     }
@@ -126,29 +125,7 @@ public class PlayerInteract : MonoBehaviour
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
         int ammo = int.Parse(ammoText);
         
-        CalculateAmmoFromPickup(obj, ammo);
-    }
-
-    private void CalculateAmmoFromPickup(GameObject obj, int ammoPickup)
-    {
-        int ammoDiff = shootingManager.maxAmmo - shootingManager.currentAmmo;
-
-        // case #1: ammoPickup has less or the same amount of ammo than you need
-        if (ammoPickup <= ammoDiff)
-        {
-            shootingManager.currentAmmo += ammoPickup;
-            shootingManager.TotalAmmoUI.text = shootingManager.currentAmmo.ToString();
-            Destroy(obj);
-        }
-        // case #2: ammoPickup has more ammo than you can have
-        else if (ammoPickup + shootingManager.currentAmmo > shootingManager.maxAmmo)
-        {
-            ammoDiff = ammoPickup + shootingManager.currentAmmo - shootingManager.maxAmmo;
-            shootingManager.currentAmmo = shootingManager.maxAmmo;
-            shootingManager.TotalAmmoUI.text = shootingManager.maxAmmo.ToString();
-            obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
-
-        }
+        ammoManager.CalculateAmmoFromPickup(obj, ammo);
     }
     public void Interact()
     { 

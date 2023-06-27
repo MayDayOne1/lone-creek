@@ -32,7 +32,6 @@ public class ChooseWeapon : MonoBehaviour
         animManager.SetPistol(false);
         animManager.SetPistolCrouch(false);
     }
-
     public void SelectThrowable()
     {
         SelectNone();

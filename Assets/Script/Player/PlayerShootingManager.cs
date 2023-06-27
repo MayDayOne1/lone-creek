@@ -14,6 +14,7 @@ public class PlayerShootingManager : MonoBehaviour
     private PlayerInteract playerInteract;
     private PlayerController playerController;
     private PlayerCamManager camManager;
+    private PlayerAmmoManager ammoManager;
     private float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
@@ -36,19 +37,13 @@ public class PlayerShootingManager : MonoBehaviour
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform dummyTransform;
-    [SerializeField] private TextMeshProUGUI ClipUI;
     [SerializeField] private Image Crosshair;
-    public TextMeshProUGUI TotalAmmoUI;
-    public int maxAmmo = 24;
-    public int currentAmmo = 0;
-    private int clipCapacity = 8;
-    public int currentClip;
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private ParticleSystem particles;
     private float cooldown = .5f;
     private float cooldownTimer;
     private Transform hitTransform = null;
     public bool IsAimingPistol = false;
-    public GameObject hitEffect;
-    public ParticleSystem particles;
     public float PistolDamage = .2f;
     public bool CanShoot = false;
 
@@ -59,26 +54,10 @@ public class PlayerShootingManager : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
         playerController = GetComponent<PlayerController>();
         camManager = GetComponent<PlayerCamManager>();
+        ammoManager = GetComponent<PlayerAmmoManager>();
 
-        currentClip = 0;
         cooldownTimer = cooldown;
-        ClipUI.text = currentClip.ToString();
-        TotalAmmoUI.text = currentAmmo.ToString();
         Crosshair.gameObject.SetActive(false);
-    }
-
-    public void SetAmmo(int ammo)
-    {
-        if(ammo <= currentClip)
-        {
-            currentClip = ammo;
-        } else
-        {
-            currentClip = clipCapacity;
-            currentAmmo = ammo - currentClip;
-        }
-        ClipUI.text = currentClip.ToString();
-        TotalAmmoUI.text = currentAmmo.ToString();
     }
     private void StartAimingPistol()
     {
@@ -180,8 +159,7 @@ public class PlayerShootingManager : MonoBehaviour
     {
         particles.Play();
         playerInteract.audioSource.Play();
-        currentClip--;
-        ClipUI.text = currentClip.ToString();
+        ammoManager.DecrementClip();
         if (hitTransform != null)
         {
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
@@ -192,22 +170,22 @@ public class PlayerShootingManager : MonoBehaviour
             }
         }
     }
-    private void DisablePistol()
+    public void DisablePistol()
     {
         chooseWeapon.SelectNone();
         StopAimingPistol();
     }
     private void CheckIfCanShoot()
     {
-        if (currentClip < 1)
+        if (!ammoManager.HasAmmoToShoot())
         {
-            Reload();
+            ammoManager.Reload();
         }
         if (Time.time - cooldownTimer < cooldown)
         {
             return;
         }
-        else if (currentClip > 0)
+        else if (ammoManager.HasAmmoToShoot())
         {
             cooldownTimer = Time.time;
             Fire();
@@ -245,25 +223,6 @@ public class PlayerShootingManager : MonoBehaviour
         } else if (IsAimingPistol && playerInteract.Pistol.activeSelf && CanShoot)
         {
             CheckIfCanShoot();
-        }
-    }
-    public void Reload()
-    {
-        if(currentAmmo < 1 && currentClip < 1)
-        {
-            DisablePistol();
-            return;
-        } else if (currentClip >= 8 || currentAmmo < 1)
-        {
-            return;
-        } else if(currentClip < 8)
-        {
-            int ammoDiff = clipCapacity - currentClip;
-            int ammoToReload = currentAmmo < ammoDiff ? ammoToReload = currentAmmo : ammoToReload = ammoDiff;
-            currentClip += ammoToReload;
-            currentAmmo -= ammoToReload;
-            ClipUI.text = currentClip.ToString();
-            TotalAmmoUI.text = currentAmmo.ToString();
         }
     }
 }
