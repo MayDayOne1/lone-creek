@@ -185,6 +185,7 @@ public class Patrol : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
+        anim.SetLayerWeight(1, 0);
         // Debug.Log("State patrol for " + _npc.name);
     }
 
@@ -243,6 +244,12 @@ public class Pursue : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);
+
+        if (CanAttackPlayer())
+            anim.SetLayerWeight(1, 1);
+        else
+            anim.SetLayerWeight(1, 0);
+
         // Debug.Log("State pursue for " + _npc.name);
     }
 
@@ -270,6 +277,7 @@ public class Attack : State
     {
         stateName = STATE.ATTACK;
         // Debug.Log("State attack for " + _npc.name);
+        anim.SetLayerWeight(1, 1);
     }
 
     public override void Enter()

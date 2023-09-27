@@ -126,10 +126,5 @@ public class AI : MonoBehaviour
                 }
             }
         }
-
-        //if(currentState.CanAttackPlayer())
-        //{
-        //    Invoke(nameof(ShootAtPlayer), 2f);
-        //}
     }
 }
