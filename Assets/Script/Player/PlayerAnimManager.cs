@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAnimManager : MonoBehaviour
 {
     private Animator anim;
-    private string currentState;
 
     private const int CROUCHING_LAYER = 1;
     private const int THROWING_LAYER = 2;

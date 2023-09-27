@@ -162,7 +162,7 @@ public class PlayerShootingManager : MonoBehaviour
         if (hitTransform != null)
         {
             GameObject hitParticles = Instantiate(hitEffect, mouseWorldPos, Quaternion.identity);
-            Destroy(hitParticles, 2.0f);
+            Destroy(hitParticles, .1f);
             if(hitTransform.CompareTag("Enemy"))
             {
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
