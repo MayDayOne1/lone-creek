@@ -1,4 +1,3 @@
-using System.IO.Pipes;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -244,13 +243,7 @@ public class Pursue : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);
-
-        if (CanAttackPlayer())
-            anim.SetLayerWeight(1, 1);
-        else
-            anim.SetLayerWeight(1, 0);
-
-        // Debug.Log("State pursue for " + _npc.name);
+        anim.SetLayerWeight(1, 0);
     }
 
     public override void Enter()
@@ -276,7 +269,6 @@ public class Attack : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.ATTACK;
-        // Debug.Log("State attack for " + _npc.name);
         anim.SetLayerWeight(1, 1);
     }
 

@@ -54,7 +54,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Firing Rifle
+  m_Name: Rifle Walk Aim Alt
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -67,7 +67,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c23e80942fa13cb4fb1059a21694cb69, type: 2}
+  m_Motion: {fileID: 7400000, guid: d7b277470f96b9c4cad6f92b6c26e165, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -219,7 +219,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: AimLayer
     m_StateMachine: {fileID: 1160657625996990096}
-    m_Mask: {fileID: 31900000, guid: e2d1fd72d23df70479b6b6058535e1c2, type: 2}
+    m_Mask: {fileID: 31900000, guid: 4ace7aadf941b134d828ec72c36dc7c0, type: 2}
     m_Motions:
     - serializedVersion: 2
       m_State: {fileID: 9038102686130920874}
@@ -232,7 +232,7 @@ AnimatorController:
       m_Motion: {fileID: 7400000, guid: 18a5bc8838957654690d4b12a65fb60e, type: 2}
     m_Behaviours: []
     m_BlendingMode: 0
-    m_SyncedLayerIndex: -1
+    m_SyncedLayerIndex: 0
     m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
@@ -354,7 +354,7 @@ AnimatorStateMachine:
     m_Position: {x: 290, y: 470, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6023031621482728866}
-    m_Position: {x: 290, y: 340, z: 0}
+    m_Position: {x: 290, y: 330, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

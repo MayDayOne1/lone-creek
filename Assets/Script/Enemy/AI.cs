@@ -17,6 +17,7 @@ public class AI : MonoBehaviour
 
     protected State currentState;
     public Transform Player;
+    public Transform targetForEnemy;
     public GameObject[] waypoints;
     // public GameObject bullet;
     // public Transform muzzle;
@@ -114,9 +115,9 @@ public class AI : MonoBehaviour
             MuzzleFlash.Play();
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
-            Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
-            if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
-            else dirTowardsPlayer.y += 1f;
+            Vector3 dirTowardsPlayer = targetForEnemy.position - this.transform.position;
+            //if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
+            //else dirTowardsPlayer.y += 1f;
             RaycastHit hit;
             if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
             {
