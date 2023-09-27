@@ -1,3 +1,4 @@
+using System.IO.Pipes;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,7 +6,7 @@ public class State
 {
     public enum STATE
     {
-        IDLE, PATROL, PURSUIT, ATTACK, DEAD
+        IDLE, PATROL, PURSUIT, ATTACK
     };
 
     public enum EVENT
@@ -23,9 +24,11 @@ public class State
     public float visDist = 12.0f;
     public float visAngle = 60.0f;
     public float attackDist = 10.0f;
-    public float Cooldown = 2f;
 
     PlayerController playerController;
+
+    protected float attackCooldown = 2f;
+    protected float attackTimer = 0f;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -35,7 +38,6 @@ public class State
         this.waypoints = waypoints;
         animator = anim;
         playerController = player.gameObject.GetComponent<PlayerController>();
-
     }
 
     public virtual void Enter()
@@ -83,30 +85,34 @@ public class State
     }
     public bool CanAttackPlayer()
     {
-        Vector3 direction = player.position - npc.transform.position;
-        float angle = Vector3.Angle(direction, npc.transform.forward);
-        if (direction.magnitude < attackDist && angle < visAngle)
+        if(agent.enabled)
         {
-            return true;
+            Vector3 direction = player.position - npc.transform.position;
+            float angle = Vector3.Angle(direction, npc.transform.forward);
+            if (direction.magnitude < attackDist && angle < visAngle)
+            {
+                return true;
+            }
         }
-
         return false;
     }
-
     public void WalkTowardsPlayer()
     {
-        agent.SetDestination(player.position);
-        if (agent.hasPath)
+        if(agent.enabled)
         {
-            if (CanAttackPlayer())
+            agent.SetDestination(player.position);
+            if (agent.hasPath && stateName != STATE.ATTACK)
             {
-                nextState = new Attack(npc, player, agent, waypoints, animator);
-                eventName = EVENT.EXIT;
-            }
-            else if (!CanSeePlayer())
-            {
-                nextState = new Patrol(npc, player, agent, waypoints, animator);
-                eventName = EVENT.EXIT;
+                if (CanAttackPlayer())
+                {
+                    nextState = new Attack(npc, player, agent, waypoints, animator);
+                    eventName = EVENT.EXIT;
+                }
+                else if (!CanSeePlayer())
+                {
+                    nextState = new Patrol(npc, player, agent, waypoints, animator);
+                    eventName = EVENT.EXIT;
+                }
             }
         }
     }
@@ -122,6 +128,21 @@ public class State
 
         return this;
     }
+    public void ShootWithCooldown()
+    {
+        if (stateName == STATE.ATTACK)
+        {
+            if (attackTimer < attackCooldown)
+            {
+                attackTimer += Time.deltaTime;
+            }
+            else
+            {
+                npc.GetComponent<AI>().ShootAtPlayer();
+                attackTimer = 0f;
+            }
+        }
+    }
 }
 public class Idle : State
 {
@@ -131,7 +152,7 @@ public class Idle : State
         stateName = STATE.IDLE;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", false);
-        // Debug.Log("Idle");
+        // Debug.Log("State idle for " + _npc.name);
     }
 
     public override void Enter()
@@ -164,7 +185,7 @@ public class Patrol : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
-        // Debug.Log("Patrol");
+        // Debug.Log("State patrol for " + _npc.name);
     }
 
     public override void Enter()
@@ -222,7 +243,7 @@ public class Pursue : State
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);
-        // Debug.Log("Pursue");
+        // Debug.Log("State pursue for " + _npc.name);
     }
 
     public override void Enter()
@@ -248,8 +269,7 @@ public class Attack : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.ATTACK;
-        anim.SetTrigger("Shoot");
-        // Debug.Log("Attack");
+        // Debug.Log("State attack for " + _npc.name);
     }
 
     public override void Enter()
@@ -268,12 +288,12 @@ public class Attack : State
                                     Quaternion.LookRotation(direction),
                                     rotationSpeed * Time.deltaTime);
 
-        if(!CanAttackPlayer())
+        ShootWithCooldown();
+
+        if (!CanAttackPlayer())
         {
             nextState = new Idle(npc, player, agent, waypoints, animator);
             eventName = EVENT.EXIT;
         }
     }
 }
-
-

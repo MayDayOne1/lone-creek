@@ -1,3 +1,5 @@
+using System.Transactions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -18,7 +20,6 @@ public class AI : MonoBehaviour
     public GameObject[] waypoints;
     // public GameObject bullet;
     // public Transform muzzle;
-    public float bulletSpeed = 10f;
     public Slider HealthSlider;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
@@ -45,7 +46,8 @@ public class AI : MonoBehaviour
         if (currentState.CanSeePlayer())
         {
             EnableAim();
-        } else
+        }
+        else
         {
             DisableAim();
         }
@@ -70,12 +72,17 @@ public class AI : MonoBehaviour
             r.isKinematic = false;
         }
     }
-    public bool GetCanAttackPlayer() => currentState.CanAttackPlayer();
     private void PursuePlayerWhenShot()
     {
-        currentState.WalkTowardsPlayer();
-        anim.SetBool("IsPursuing", true);
-        agent.speed = 4;
+        if(currentState.stateName != State.STATE.ATTACK)
+        {
+            currentState.WalkTowardsPlayer();
+            agent.isStopped = false;
+            //anim.SetBool("IsPatrolling", false);
+            //anim.SetBool("IsPursuing", true);
+            agent.speed = 4;
+        }       
+        
     }
     public void TakeDamage(float damage)
     {
@@ -99,21 +106,30 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
-        EnableAim();
-        Gunshot.Play();
-        MuzzleFlash.Play();
-        // Debug.Log("Start shooting");
-        Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
-        if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
-        else dirTowardsPlayer.y += 1f;
-        RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
+        if(agent.enabled)
         {
-            if(hit.transform.gameObject.tag.Equals("Player"))
+            // Debug.Log("Shooting");
+            EnableAim();
+            Gunshot.Play();
+            MuzzleFlash.Play();
+            anim.SetTrigger("Shoot");
+            // Debug.Log("Shot by " + this.name);
+            Vector3 dirTowardsPlayer = Player.transform.position - this.transform.position;
+            if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
+            else dirTowardsPlayer.y += 1f;
+            RaycastHit hit;
+            if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
             {
-                Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+                if (hit.transform.gameObject.tag.Equals("Player"))
+                {
+                    Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+                }
             }
         }
+
+        //if(currentState.CanAttackPlayer())
+        //{
+        //    Invoke(nameof(ShootAtPlayer), 2f);
+        //}
     }
-    
 }
