@@ -27,6 +27,7 @@ public class PlayerShootingManager : MonoBehaviour
     [SerializeField] private float ThrowStrength = 20f;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
+    [SerializeField] private AudioClip audioClip;
     private GameObject BottleToInstantiate;
     public bool IsAimingThrowable = false;
 
@@ -104,13 +105,17 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void StartAimingThrowable()
     {
-        IsAimingThrowable = true;
-        animManager.SetThrow(true);
-        animManager.SetBool(IS_AIMING_THROWABLE, true);
-        DrawLine();
+        if(playerInteract.hasThrowable)
+        {
+            IsAimingThrowable = true;
+            animManager.SetThrow(true);
+            animManager.SetBool(IS_AIMING_THROWABLE, true);
+            DrawLine();
 
-        if (playerController.IsCrouching) camManager.ActivateCrouchAim();
-        else camManager.ActivateAim();
+            if (playerController.IsCrouching) camManager.ActivateCrouchAim();
+            else camManager.ActivateAim();
+        }
+        
     }
     private void StopAimingThrowable()
     {
@@ -144,12 +149,11 @@ public class PlayerShootingManager : MonoBehaviour
         animManager.SetTrigger(THROW);
         playerInteract.Throwable.SetActive(false);
         PlayerBottle.gameObject.SetActive(false);
-        chooseWeapon.SelectNone();
         Transform instancePos = PlayerBottle.transform;
         BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
         Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
         bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
-        Destroy(BottleToInstantiate, 2f);
+        if(BottleToInstantiate != null) Destroy(BottleToInstantiate, 2f);
         playerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);

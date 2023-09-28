@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class DestroyOnContact : MonoBehaviour
 {
-    private int collisionCount = 0;
     public float ThrowableDamage = .1f;
+    public AudioClip glassShatterSound;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(!collision.gameObject.tag.Equals("Player"))
+        if (!collision.gameObject.tag.Equals("Player"))
         {
+            // AudioSource.PlayClipAtPoint(glassShatterSound, collision.transform.position);
             Destroy(gameObject);
-            if(collision.gameObject.tag.Equals("Enemy"))
+            Debug.Log(collision.gameObject.name);
+            if(collision.gameObject.tag == "Enemy")
             {
-                collisionCount++;
-                // Debug.Log(collision.gameObject.name);
                 // Debug.Log("Enemy hit with throwable");
-                if(collisionCount > 0)
-                    collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
+                collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
             }
         }
     }
