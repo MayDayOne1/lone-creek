@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
+    public float GetHealth() => health;
+
     public void SetSpeed(float otherSpeed)
     {
         speed = otherSpeed;
@@ -213,8 +215,14 @@ public class PlayerController : MonoBehaviour
             health = 0f;
             // Die();
         }
-        healthSlider.value = health;
+        healthSlider.DOValue(health, .2f, false);
         bloodOverlayAnim();
+    }
+    public void PlayerRestoreHealth (float healthAmount)
+    {
+        if (health + healthAmount > 1f) health = 1f;
+        else health += healthAmount;
+        healthSlider.DOValue(health, .5f, false);
     }
     public void TogglePauseMenu()
     {

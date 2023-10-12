@@ -7,7 +7,8 @@ public class PlayerInteract : MonoBehaviour
 {
     private ChooseWeapon chooseWeapon;
     private PlayerAmmoManager ammoManager;
-    private readonly List<GameObject> ObjectsTriggered = new();
+    private PlayerController playerController;
+    private List<GameObject> ObjectsTriggered = new();
 
     public bool hasThrowable = false;
     public bool hasPrimary = false;
@@ -22,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
         audioSource = Pistol.GetComponent<AudioSource>();
         chooseWeapon = GetComponent<ChooseWeapon>();
         ammoManager = GetComponent<PlayerAmmoManager>();
+        playerController = GetComponent<PlayerController>();
         Throwable.SetActive(false);
         Pistol.SetActive(false);
     }
@@ -43,6 +45,11 @@ public class PlayerInteract : MonoBehaviour
             {
                 RedFilterManager(other.gameObject, true);
             }
+
+            if(other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() == 1f)
+            { 
+                RedFilterManager(other.gameObject, true);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -59,6 +66,11 @@ public class PlayerInteract : MonoBehaviour
 
             if ((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
                 ammoManager.CanAcceptAmmo())
+            {
+                RedFilterManager(other.gameObject, false);
+            }
+
+            if (other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() < 1f)
             {
                 RedFilterManager(other.gameObject, false);
             }
@@ -124,6 +136,14 @@ public class PlayerInteract : MonoBehaviour
         
         ammoManager.CalculateAmmoFromPickup(obj, ammo);
     }
+    private void PickupHealth(GameObject obj)
+    {
+        if(playerController.GetHealth() < 1f)
+        {
+            playerController.PlayerRestoreHealth(.25f);
+            Destroy(obj);
+        }
+    }
     public void Interact()
     { 
         if(ObjectsTriggered.Count > 0)
@@ -140,6 +160,10 @@ public class PlayerInteract : MonoBehaviour
             else if (obj.CompareTag("Ammo"))
             {
                 PickupAmmo(obj);
+            }
+            else if (obj.CompareTag("HealthKit"))
+            {
+                PickupHealth(obj);
             }
             
             ObjectsTriggered.Remove(obj); 
