@@ -8455,12 +8455,11 @@ MonoBehaviour:
     type: 3}
   gravityValue: -9.81
   rotationSpeed: 4
-  crouchSpeed: 3
+  crouchSpeed: 3.5
   standingHeight: 1.8
   crouchingHeight: 1
-  runSpeed: 4
+  runSpeed: 5
   Sensitivity: 1
-  speed: 0
   IsCrouching: 0
   isShowingPauseMenu: 0
   healthSlider: {fileID: 8576472249720179884}
@@ -8522,6 +8521,7 @@ MonoBehaviour:
   ThrowStrength: 20
   LinePoints: 25
   TimeBetweenPoints: 0.1
+  audioClip: {fileID: 0}
   IsAimingThrowable: 0
   aimColliderLayerMask:
     serializedVersion: 2

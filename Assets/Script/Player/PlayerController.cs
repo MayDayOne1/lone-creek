@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchingHeight = 1.0f;
     private PlayerAnimManager animManager;
     private PlayerCamManager camManager;
+    private float speed;
     public float runSpeed = 4.0f;
     public float Sensitivity = 1f;
 
@@ -28,7 +29,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector3 playerVelocity;
 
-    public float speed;
     private bool groundedPlayer;
     public bool IsCrouching;
 
@@ -84,6 +84,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CalculateCharacterRotation();  
+    }
+
+    public void SetSpeed(float otherSpeed)
+    {
+        speed = otherSpeed;
     }
 
     private void IsPlayerGrounded()

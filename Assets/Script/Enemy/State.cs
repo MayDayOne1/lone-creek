@@ -21,13 +21,15 @@ public class State
     protected GameObject[] waypoints;
     protected Animator animator;
     public float visDist = 12.0f;
-    public float visAngle = 60.0f;
+    public float visAngle = 90.0f;
     public float attackDist = 10.0f;
 
     PlayerController playerController;
 
     protected float attackCooldown = 2f;
     protected float attackTimer = 0f;
+    protected float patrolSpeed = 2f;
+    protected float pursueSpeed = 3f;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -180,7 +182,7 @@ public class Patrol : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.PATROL;
-        agent.speed = 3;
+        agent.speed = patrolSpeed;
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
@@ -239,7 +241,7 @@ public class Pursue : State
         : base(_npc, _player, _agent, waypoints, anim)
     {
         stateName = STATE.PURSUIT;
-        agent.speed = 4;
+        agent.speed = pursueSpeed;
         agent.isStopped = false;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", true);

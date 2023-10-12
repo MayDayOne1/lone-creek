@@ -119,7 +119,6 @@ public class PlayerInteract : MonoBehaviour
     }
     private void PickupAmmo(GameObject obj)
     {
-        if (!hasPrimary) return;
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
         int ammo = int.Parse(ammoText);
         
