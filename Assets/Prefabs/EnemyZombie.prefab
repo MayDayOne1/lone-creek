@@ -2531,6 +2531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimRig: {fileID: 5539851256870222426}
   Player: {fileID: 0}
+  targetForEnemy: {fileID: 0}
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -2538,7 +2539,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  bulletSpeed: 10
   HealthSlider: {fileID: 8813298522464038295}
   Gunshot: {fileID: 4650150729981386552}
   MuzzleFlash: {fileID: 4818575802456699461}
@@ -4752,6 +4752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111027466721813711, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+        type: 3}
+      propertyPath: LightsModule.randomDistribution
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2111027466721813711, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
         type: 3}
