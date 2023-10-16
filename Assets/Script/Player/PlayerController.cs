@@ -1,7 +1,7 @@
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchingHeight = 1.0f;
     private PlayerAnimManager animManager;
     private PlayerCamManager camManager;
+    private float speed;
     public float runSpeed = 4.0f;
     public float Sensitivity = 1f;
 
@@ -28,12 +29,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector3 playerVelocity;
 
-    public float speed;
     private bool groundedPlayer;
     public bool IsCrouching;
 
     private float health = 1f;
     public bool isShowingPauseMenu = false;
+    public Image bloodOverlay;
 
     public Slider healthSlider;
     public GameObject GameOverScreen;
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
         animManager.DisableAllLayers();
 
         PauseMenu.SetActive(false);
+        bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
 
         Time.timeScale = 1;
         camManager.EnableAll(true);
@@ -86,6 +88,17 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
+    public float GetHealth() => health;
+
+    public void SetSpeed(float otherSpeed)
+    {
+        speed = otherSpeed;
+    }
+    private void bloodOverlayAnim()
+    {
+        bloodOverlay.DOFade(60f, 1f);
+        bloodOverlay.DOFade(0f, 1f);
+    }
     private void IsPlayerGrounded()
     {
         groundedPlayer = controller.isGrounded;
@@ -201,7 +214,14 @@ public class PlayerController : MonoBehaviour
             health = 0f;
             // Die();
         }
-        healthSlider.value = health;
+        healthSlider.DOValue(health, .2f, false);
+        bloodOverlayAnim();
+    }
+    public void PlayerRestoreHealth (float healthAmount)
+    {
+        if (health + healthAmount > 1f) health = 1f;
+        else health += healthAmount;
+        healthSlider.DOValue(health, .5f, false);
     }
     public void TogglePauseMenu()
     {

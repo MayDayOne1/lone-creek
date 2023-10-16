@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour

@@ -85,7 +85,7 @@ public class PlayerShootingManager : MonoBehaviour
             camManager.ActivateNormal();
         }
         aimRigWeight = 0f;
-        playerController.speed = playerController.runSpeed;
+        playerController.SetSpeed(playerController.runSpeed);
 
     }
     private void AimTowardsCrosshair()
