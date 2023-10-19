@@ -60,8 +60,8 @@ public class State
     {
         
         Vector3 direction = player.position - npc.transform.position;
-        if (playerController.IsCrouching) direction.y += .5f;
-        else direction.y += 1f;
+        // if (playerController.IsCrouching) direction.y += .5f;
+        // else direction.y += 1f;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
         if(direction.magnitude < visDist && angle < visAngle)
