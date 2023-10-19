@@ -8,14 +8,18 @@ public class ItemIconSetter : MonoBehaviour
     public void SetIconVisibility(float alpha)
     {
         Image[] images = GetComponentsInChildren<Image>();
-        foreach (Image img in images)
+        if(images != null && isActiveAndEnabled)
         {
-            if (!img.gameObject.CompareTag("RedFilter"))
+            foreach (Image img in images)
             {
-                img.DOFade(alpha, .1f);
-            } else
-            {
-                img.DOFade(0f, .1f);
+                if (!img.gameObject.CompareTag("RedFilter"))
+                {
+                    img.DOFade(alpha, .1f);
+                }
+                else
+                {
+                    img.DOFade(0f, .1f);
+                }
             }
         }
 

@@ -13,6 +13,8 @@ public class AI : MonoBehaviour
     [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
     private float aimRigWeight;
     private Rigidbody[] childrenRB;
+    public Transform DummyBullet;
+    public Transform muzzle;
 
     protected State currentState;
     public Transform Player;
@@ -115,6 +117,10 @@ public class AI : MonoBehaviour
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - this.transform.position;
+            Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
+            bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
+            Destroy(bullet.gameObject, .5f);
+
             RaycastHit hit;
             if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
             {
@@ -127,5 +133,6 @@ public class AI : MonoBehaviour
                 }
             }
         }
+
     }
 }
