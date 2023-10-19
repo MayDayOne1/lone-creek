@@ -24,8 +24,6 @@ public class State
     public float visAngle = 90.0f;
     public float attackDist = 10.0f;
 
-    PlayerController playerController;
-
     protected float attackCooldown = 2f;
     protected float attackTimer = 0f;
     protected float patrolSpeed = 2f;
@@ -38,7 +36,6 @@ public class State
         eventName = EVENT.ENTER;
         this.waypoints = waypoints;
         animator = anim;
-        playerController = player.gameObject.GetComponent<PlayerController>();
     }
 
     public virtual void Enter()

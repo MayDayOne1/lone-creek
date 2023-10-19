@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 3542685124581805051}
   - component: {fileID: -8879607996169440658}
   - component: {fileID: 3474491498203994110}
+  - component: {fileID: 4224641219610381518}
   m_Layer: 7
   m_Name: PickupPistol
   m_TagString: Pistol
@@ -189,6 +190,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3
   m_Center: {x: 0, y: 0.050266325, z: -0.10166764}
+--- !u!114 &4224641219610381518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038479672614447662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698d08e6e02e82646861868c71496d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3048100501207297985
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +235,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7177689816922060449}
-  - {fileID: 5590324801100011233}
   m_Father: {fileID: 2405214144939536532}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
@@ -336,6 +348,7 @@ RectTransform:
   m_Children:
   - {fileID: 5420111232265554636}
   - {fileID: 8038419941664168533}
+  - {fileID: 5590324801100011233}
   m_Father: {fileID: 6711441941635530842}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -407,17 +420,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6550225663849959352}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6711441941635530842}
-  m_RootOrder: 1
+  m_Father: {fileID: 7177689816922060449}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 15}
+  m_AnchoredPosition: {x: -0, y: -0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5622290724974703767
@@ -435,7 +448,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6550225663849959352}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
