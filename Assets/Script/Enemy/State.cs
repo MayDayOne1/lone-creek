@@ -99,6 +99,7 @@ public class State
         if(agent.enabled)
         {
             agent.SetDestination(player.position);
+            animator.SetBool("IsPursuing", true);
             if (agent.hasPath && stateName != STATE.ATTACK)
             {
                 if (CanAttackPlayer())

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -99,7 +100,7 @@ public class AI : MonoBehaviour
         }
 
         health -= damage;
-        HealthSlider.value = health;
+        HealthSlider.DOValue(health, .2f, false);
         if (health < .01f)
         {
             health = 0f;
@@ -117,9 +118,9 @@ public class AI : MonoBehaviour
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - this.transform.position;
-            Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
-            bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
-            Destroy(bullet.gameObject, .5f);
+            // Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
+            // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
+            // Destroy(bullet.gameObject, .5f);
 
             RaycastHit hit;
             if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
