@@ -35,20 +35,22 @@ public class PlayerInteract : MonoBehaviour
             ObjectsTriggered.Add(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = true;
 
-            if(other.gameObject.CompareTag("Throwable") && hasThrowable)
+            if(other.gameObject.CompareTag("Throwable"))
             {
-                RedFilterManager(other.gameObject, true);
+                if(!hasThrowable) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
 
-            if((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
-                !ammoManager.CanAcceptAmmo())
+            if(other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol"))
             {
-                RedFilterManager(other.gameObject, true);
+                if(ammoManager.CanAcceptAmmo()) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
 
-            if(other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() == 1f)
-            { 
-                RedFilterManager(other.gameObject, true);
+            if(other.gameObject.CompareTag("HealthKit"))
+            {
+                if(playerController.GetHealth() < 1f) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
         }
     }
@@ -58,25 +60,9 @@ public class PlayerInteract : MonoBehaviour
         {
             ObjectsTriggered.Remove(other.gameObject);
             other.GetComponentInChildren<Canvas>().enabled = false;
-
-            if (other.gameObject.CompareTag("Throwable") && hasThrowable)
-            {
-                RedFilterManager(other.gameObject, false);
-            }
-
-            if ((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
-                ammoManager.CanAcceptAmmo())
-            {
-                RedFilterManager(other.gameObject, false);
-            }
-
-            if (other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() < 1f)
-            {
-                RedFilterManager(other.gameObject, false);
-            }
         }
     }
-    private void RedFilterManager(GameObject other, bool enable)
+    private void ActivateRedItemFilter(GameObject other, bool enable)
     {
         Image[] images = other.GetComponentsInChildren<Image>();
         foreach (Image img in images)

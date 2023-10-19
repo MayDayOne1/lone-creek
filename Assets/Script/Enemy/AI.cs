@@ -121,7 +121,7 @@ public class AI : MonoBehaviour
                 if (hit.transform.gameObject.tag.Equals("Player"))
                 {
                     float chance = Random.Range(0f, 1f);
-                    Debug.Log("hitChance: " + chance);
+                    // Debug.Log("chance: " + chance);
                     if(chance < hitChance)
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
                 }
