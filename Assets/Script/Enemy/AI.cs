@@ -1,9 +1,7 @@
-using System.Transactions;
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour
@@ -13,8 +11,11 @@ public class AI : MonoBehaviour
     private float health = 1f;
     private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
+    [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
     private float aimRigWeight;
     private Rigidbody[] childrenRB;
+    public Transform DummyBullet;
+    public Transform muzzle;
 
     protected State currentState;
     public Transform Player;
@@ -31,7 +32,7 @@ public class AI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        currentState = new Idle(this.gameObject, Player, agent, waypoints, anim);
+        currentState = new Idle(this.gameObject, targetForEnemy, agent, waypoints, anim);
         HealthSlider.gameObject.SetActive(false);
 
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
@@ -99,7 +100,7 @@ public class AI : MonoBehaviour
         }
 
         health -= damage;
-        HealthSlider.value = health;
+        HealthSlider.DOValue(health, .2f, false);
         if (health < .01f)
         {
             health = 0f;
@@ -117,16 +118,22 @@ public class AI : MonoBehaviour
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - this.transform.position;
-            //if (playerController.IsCrouching) dirTowardsPlayer.y += .5f;
-            //else dirTowardsPlayer.y += 1f;
+            // Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
+            // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
+            // Destroy(bullet.gameObject, .5f);
+
             RaycastHit hit;
             if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
             {
                 if (hit.transform.gameObject.tag.Equals("Player"))
                 {
-                    Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+                    float chance = Random.Range(0f, 1f);
+                    // Debug.Log("chance: " + chance);
+                    if(chance < hitChance)
+                        Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
                 }
             }
         }
+
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -33,22 +34,25 @@ public class PlayerInteract : MonoBehaviour
         if (LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
             ObjectsTriggered.Add(other.gameObject);
-            other.GetComponentInChildren<Canvas>().enabled = true;
+            ItemIconSetter iis = other.gameObject.GetComponentInChildren<ItemIconSetter>();
+            if(iis != null) iis.SetIconVisibility(1f);
 
-            if(other.gameObject.CompareTag("Throwable") && hasThrowable)
+            if (other.gameObject.CompareTag("Throwable"))
             {
-                RedFilterManager(other.gameObject, true);
+                if(!hasThrowable) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
 
-            if((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
-                !ammoManager.CanAcceptAmmo())
+            if(other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol"))
             {
-                RedFilterManager(other.gameObject, true);
+                if(ammoManager.CanAcceptAmmo()) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
 
-            if(other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() == 1f)
-            { 
-                RedFilterManager(other.gameObject, true);
+            if(other.gameObject.CompareTag("HealthKit"))
+            {
+                if(playerController.GetHealth() < 1f) ActivateRedItemFilter(other.gameObject, false);
+                else ActivateRedItemFilter(other.gameObject, true);
             }
         }
     }
@@ -57,37 +61,23 @@ public class PlayerInteract : MonoBehaviour
         if(LayerMask.LayerToName(other.gameObject.layer) == "Items")
         {
             ObjectsTriggered.Remove(other.gameObject);
-            other.GetComponentInChildren<Canvas>().enabled = false;
-
-            if (other.gameObject.CompareTag("Throwable") && hasThrowable)
-            {
-                RedFilterManager(other.gameObject, false);
-            }
-
-            if ((other.gameObject.CompareTag("Ammo") || other.gameObject.CompareTag("Pistol")) &&
-                ammoManager.CanAcceptAmmo())
-            {
-                RedFilterManager(other.gameObject, false);
-            }
-
-            if (other.gameObject.CompareTag("HealthKit") && playerController.GetHealth() < 1f)
-            {
-                RedFilterManager(other.gameObject, false);
-            }
+            ItemIconSetter iis = other.gameObject.GetComponentInChildren<ItemIconSetter>();
+            if (iis != null) iis.SetIconVisibility(0f);
         }
     }
-    private void RedFilterManager(GameObject other, bool enable)
+    private void ActivateRedItemFilter(GameObject other, bool enable)
     {
-        Image[] images = other.GetComponentsInChildren<Image>();
-        foreach (Image img in images)
+        foreach (Image img in other.GetComponentsInChildren<Image>())
         {
             if (img.gameObject.CompareTag("RedFilter"))
             {
-                img.enabled = enable;
+                // Debug.Log("Setting red filter...");
+                if (enable) img.DOFade(.6f, .1f);
                 return;
             }
         }
     }
+
     private GameObject ChooseInteractiveObject()
     {
         float dist;

@@ -26,7 +26,7 @@ public class PlayerAmmoManager : MonoBehaviour
         currentClip--;
         ClipUI.text = currentClip.ToString();
     }
-    public bool CanAcceptAmmo() => !(currentAmmo + currentClip > maxAmmo - 1);
+    public bool CanAcceptAmmo() => currentAmmo + currentClip < maxAmmo - 1;
     public void CalculateAmmoFromPickup(GameObject obj, int ammoPickup)
     {
         int ammoDiff = maxAmmo - currentAmmo;

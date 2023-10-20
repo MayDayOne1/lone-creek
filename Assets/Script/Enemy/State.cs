@@ -24,8 +24,6 @@ public class State
     public float visAngle = 90.0f;
     public float attackDist = 10.0f;
 
-    PlayerController playerController;
-
     protected float attackCooldown = 2f;
     protected float attackTimer = 0f;
     protected float patrolSpeed = 2f;
@@ -38,7 +36,6 @@ public class State
         eventName = EVENT.ENTER;
         this.waypoints = waypoints;
         animator = anim;
-        playerController = player.gameObject.GetComponent<PlayerController>();
     }
 
     public virtual void Enter()
@@ -60,8 +57,8 @@ public class State
     {
         
         Vector3 direction = player.position - npc.transform.position;
-        if (playerController.IsCrouching) direction.y += .5f;
-        else direction.y += 1f;
+        // if (playerController.IsCrouching) direction.y += .5f;
+        // else direction.y += 1f;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
         if(direction.magnitude < visDist && angle < visAngle)
@@ -102,6 +99,7 @@ public class State
         if(agent.enabled)
         {
             agent.SetDestination(player.position);
+            animator.SetBool("IsPursuing", true);
             if (agent.hasPath && stateName != STATE.ATTACK)
             {
                 if (CanAttackPlayer())

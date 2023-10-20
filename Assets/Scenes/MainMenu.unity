@@ -2984,6 +2984,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 2125901810}
@@ -4432,6 +4437,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 2125901810}
@@ -4848,6 +4858,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: playerController
@@ -5969,6 +5984,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: playerController
@@ -20126,6 +20146,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531628276}
   m_Mesh: {fileID: -2432090755550338912, guid: 03360d04ea8a0e74680b676e07c092d7, type: 3}
+--- !u!4 &1532938564 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8121316442732161690, guid: a6cf4704cb21df64bbb338dcfe072732,
+    type: 3}
+  m_PrefabInstance: {fileID: 2125901809}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1537133439
 GameObject:
   m_ObjectHideFlags: 0
@@ -23254,6 +23280,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 2125901810}
@@ -25232,6 +25263,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: targetForEnemy
+      value: 
+      objectReference: {fileID: 1532938564}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: playerController

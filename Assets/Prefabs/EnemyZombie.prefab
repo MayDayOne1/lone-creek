@@ -2530,6 +2530,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimRig: {fileID: 5539851256870222426}
+  hitChance: 0.7
+  DummyBullet: {fileID: 3313262516714831489}
+  muzzle: {fileID: 4653482430279220920}
   Player: {fileID: 0}
   targetForEnemy: {fileID: 0}
   waypoints:
@@ -4798,8 +4801,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 527027c8baf2f0540be3104a3ec38a99, type: 2}
+    - target: {fileID: 8246081941532960779, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
+--- !u!4 &3313262516714831489 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8246081941532960779, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6887381940529436298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4653482430279220920 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2233953637047134258, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6887381940529436298}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4818575802456699461 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2111027466721813711, guid: 930c2cf00d792e54fb886c57ff9b9dd2,

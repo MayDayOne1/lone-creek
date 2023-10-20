@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         speed = otherSpeed;
     }
-    private void bloodOverlayAnim()
+    private void BloodOverlayAnim()
     {
         bloodOverlay.DOFade(60f, 1f);
         bloodOverlay.DOFade(0f, 1f);
@@ -147,7 +147,6 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-
     private void SpeedUpdater()
     {
         if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour
             // Die();
         }
         healthSlider.DOValue(health, .2f, false);
-        bloodOverlayAnim();
+        BloodOverlayAnim();
     }
     public void PlayerRestoreHealth (float healthAmount)
     {

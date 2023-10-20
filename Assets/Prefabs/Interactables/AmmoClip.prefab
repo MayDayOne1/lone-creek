@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1176795647644579814}
   - component: {fileID: 1692693155}
   - component: {fileID: 1692693156}
+  - component: {fileID: 2872480345067796147}
   m_Layer: 7
   m_Name: AmmoClip
   m_TagString: Ammo
@@ -113,6 +114,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 268842a89a15145469c56ebf5d1208cb, type: 3}
+--- !u!114 &2872480345067796147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155055442005716886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698d08e6e02e82646861868c71496d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1552939649117105573
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,8 +156,8 @@ RectTransform:
   m_LocalScale: {x: 0.765322, y: 1.003436, z: 0.15306537}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6019733748411121433}
-  m_RootOrder: 1
+  m_Father: {fileID: 1366516214861992812}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -166,7 +179,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552939649117105573}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -298,7 +311,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1366516214861992812}
-  - {fileID: 666632948703845534}
   m_Father: {fileID: 1157356932005629852}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -314,7 +326,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5358502591509250575}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -547,6 +559,7 @@ RectTransform:
   m_Children:
   - {fileID: 6145551250850089382}
   - {fileID: 1592118070880829438}
+  - {fileID: 666632948703845534}
   m_Father: {fileID: 6019733748411121433}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

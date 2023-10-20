@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
-using TMPro;
 using UnityEngine.UI;
 
 public class PlayerShootingManager : MonoBehaviour
