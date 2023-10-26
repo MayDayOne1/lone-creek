@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetHealth()
     {
-        if(SceneManager.GetActiveScene().name == "SceneTunnel")
+        if(SceneManager.GetActiveScene().name == "SceneTunnel" || SceneManager.GetActiveScene().name == "PrzemoScene")
         {
             health = 1f;
         }

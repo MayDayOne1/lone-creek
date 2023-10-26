@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerAnimManager : MonoBehaviour
 {
     private Animator anim;
+    private float velocity = 1f;
+    private float smoothTime = .2f;
 
     private const int CROUCHING_LAYER = 1;
     private const int THROWING_LAYER = 2;
@@ -16,12 +19,24 @@ public class PlayerAnimManager : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void SmoothLayerSwitch(int layer, float weight)
+    {
+        var layerWeight = anim.GetLayerWeight(layer);
+        //layerWeight = Mathf.SmoothDamp(layerWeight, weight, ref velocity, smoothTime);
+        //anim.SetLayerWeight(layer, layerWeight);
+    }
+
     public void SetCrouch(bool isCrouching)
     {
         if (isCrouching)
-            anim.SetLayerWeight(CROUCHING_LAYER, 1);
+        {
+            SmoothLayerSwitch(CROUCHING_LAYER, 1f);
+        }
+            
         else
-            anim.SetLayerWeight(CROUCHING_LAYER, 0);
+        {
+            SmoothLayerSwitch(CROUCHING_LAYER, 0f);
+        }
     }
 
     public void SetThrow(bool isGonnaThrow)
