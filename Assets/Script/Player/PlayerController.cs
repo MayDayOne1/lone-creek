@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 [RequireComponent(typeof(CharacterController))]
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     public bool IsCrouching;
 
-    private float health = 1f;
+    private static float health;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
 
@@ -63,6 +64,8 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         camManager.EnableAll(true);
         this.gameObject.SetActive(true);
+
+        SetHealth();
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -86,6 +89,15 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CalculateCharacterRotation();  
+    }
+
+    private void SetHealth()
+    {
+        if(SceneManager.GetActiveScene().name == "SceneTunnel")
+        {
+            health = 1f;
+        }
+        healthSlider.value = health;
     }
 
     public float GetHealth() => health;
