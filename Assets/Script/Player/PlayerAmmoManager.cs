@@ -9,14 +9,14 @@ public class PlayerAmmoManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TotalAmmoUI;
     private PlayerShootingManager shootingManager;
     private readonly int maxAmmo = 24;
-    private int currentAmmo = 0;
+    private static int currentAmmo;
     private readonly int clipCapacity = 8;
-    private int currentClip;
+    private static int currentClip;
 
     void Start()
     {
         shootingManager = GetComponent<PlayerShootingManager>();
-        currentClip = 0;
+        if(!PlayerInteract.hasPrimary) currentClip = 0;
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }

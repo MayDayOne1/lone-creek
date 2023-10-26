@@ -11,8 +11,8 @@ public class PlayerInteract : MonoBehaviour
     private PlayerController playerController;
     private List<GameObject> ObjectsTriggered = new();
 
-    public bool hasThrowable = false;
-    public bool hasPrimary = false;
+    public static bool hasThrowable = false;
+    public static bool hasPrimary = false;
 
     public GameObject Throwable;
     public GameObject Pistol;
@@ -113,11 +113,12 @@ public class PlayerInteract : MonoBehaviour
         {
             hasPrimary = true;
             chooseWeapon.SelectPrimary();
-            string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
-            int ammo = int.Parse(ammoText);
-            ammoManager.CalculateAmmoFromPickup(obj, ammo);
             Destroy(obj);
         }
+
+        string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
+        int ammo = int.Parse(ammoText);
+        ammoManager.CalculateAmmoFromPickup(obj, ammo);
     }
     private void PickupAmmo(GameObject obj)
     {

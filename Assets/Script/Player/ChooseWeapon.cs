@@ -37,7 +37,7 @@ public class ChooseWeapon : MonoBehaviour
         SelectNone();
         animManager.SetPistol(false);
         animManager.SetPistolCrouch(false);
-        if (playerInteract.hasThrowable)
+        if (PlayerInteract.hasThrowable)
         {
             IsThrowableSelected = true;
             playerInteract.Throwable.SetActive(true);
@@ -52,7 +52,7 @@ public class ChooseWeapon : MonoBehaviour
     public void SelectPrimary()
     {
         SelectNone();
-        if (playerInteract.hasPrimary)
+        if (PlayerInteract.hasPrimary)
         {
             IsPrimarySelected = true;
             playerInteract.Throwable.SetActive(false);

@@ -8,7 +8,7 @@ public class ItemIconSetter : MonoBehaviour
     public void SetIconVisibility(float alpha)
     {
         Image[] images = GetComponentsInChildren<Image>();
-        if(images != null && isActiveAndEnabled)
+        if(isActiveAndEnabled && images != null)
         {
             foreach (Image img in images)
             {
