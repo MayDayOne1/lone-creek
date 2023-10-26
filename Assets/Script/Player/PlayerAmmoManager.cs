@@ -47,14 +47,14 @@ public class PlayerAmmoManager : MonoBehaviour
             obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
 
         }
-        if (currentClip < 1) Reload();
+        if (currentClip < 1 && currentAmmo > 0) Reload();
     }
     public bool HasAmmoToShoot() => currentClip > 0;
     public void Reload()
     {
         if (currentAmmo < 1 && currentClip < 1)
         {
-            shootingManager.DisablePistol();
+            // shootingManager.DisablePistol();
             return;
         }
         else if (currentClip >= 8 || currentAmmo < 1)

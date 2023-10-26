@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
     }
-    public void PlayerRestoreHealth (float healthAmount)
+    public void PlayerRestoreHealth(float healthAmount)
     {
         if (health + healthAmount > 1f) health = 1f;
         else health += healthAmount;
