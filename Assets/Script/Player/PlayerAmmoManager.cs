@@ -52,12 +52,8 @@ public class PlayerAmmoManager : MonoBehaviour
     public bool HasAmmoToShoot() => currentClip > 0;
     public void Reload()
     {
-        if (currentAmmo < 1 && currentClip < 1)
-        {
-            // shootingManager.DisablePistol();
-            return;
-        }
-        else if (currentClip >= 8 || currentAmmo < 1)
+        if ((currentAmmo < 1 && currentClip < 1) ||
+            (currentClip >= 8 || currentAmmo < 1))
         {
             return;
         }

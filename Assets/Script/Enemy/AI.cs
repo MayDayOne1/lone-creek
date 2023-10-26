@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -10,6 +11,7 @@ public class AI : MonoBehaviour
     private Animator anim;
     private float health = 1f;
     private float rifleDamage = .25f;
+    private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
     [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
     private float aimRigWeight;
@@ -89,23 +91,36 @@ public class AI : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        if(health > .01f)
+        if(!isInvincible)
         {
-            PursuePlayerWhenShot();
-        }
+            if (health > .01f)
+            {
+                PursuePlayerWhenShot();
+            }
 
-        if(!HealthSlider.gameObject.activeSelf)
-        {
-            HealthSlider.gameObject.SetActive(true);
-        }
+            if (!HealthSlider.gameObject.activeSelf)
+            {
+                HealthSlider.gameObject.SetActive(true);
+            }
 
-        health -= damage;
-        HealthSlider.DOValue(health, .2f, false);
-        if (health < .01f)
-        {
-            health = 0f;
-            Die();
+            health -= damage;
+            HealthSlider.DOValue(health, .2f, false);
+            if (health < .01f)
+            {
+                health = 0f;
+                Die();
+            }
+            StartCoroutine("Invincibility");
         }
+        
+    }
+
+    private IEnumerator Invincibility()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(.25f);
+        isInvincible = false;
+        // Debug.Log("not invincible");
     }
     public void ShootAtPlayer()
     {
