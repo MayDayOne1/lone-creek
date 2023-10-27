@@ -9,14 +9,18 @@ public class PlayerAmmoManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TotalAmmoUI;
     private PlayerShootingManager shootingManager;
     private readonly int maxAmmo = 24;
-    private int currentAmmo = 0;
+    private static int currentAmmo;
     private readonly int clipCapacity = 8;
-    private int currentClip;
+    private static int currentClip;
 
     void Start()
     {
         shootingManager = GetComponent<PlayerShootingManager>();
-        currentClip = 0;
+        if (!PlayerInteract.hasPrimary)
+        {
+            currentClip = 0;
+            currentAmmo = 0;
+        }
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }
@@ -47,17 +51,13 @@ public class PlayerAmmoManager : MonoBehaviour
             obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
 
         }
-        if (currentClip < 1) Reload();
+        if (currentClip < 1 && currentAmmo > 0) Reload();
     }
     public bool HasAmmoToShoot() => currentClip > 0;
     public void Reload()
     {
-        if (currentAmmo < 1 && currentClip < 1)
-        {
-            shootingManager.DisablePistol();
-            return;
-        }
-        else if (currentClip >= 8 || currentAmmo < 1)
+        if ((currentAmmo < 1 && currentClip < 1) ||
+            (currentClip >= 8 || currentAmmo < 1))
         {
             return;
         }

@@ -104,7 +104,7 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void StartAimingThrowable()
     {
-        if(playerInteract.hasThrowable)
+        if(PlayerInteract.hasThrowable)
         {
             IsAimingThrowable = true;
             animManager.SetThrow(true);
@@ -153,7 +153,7 @@ public class PlayerShootingManager : MonoBehaviour
         Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
         bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
         if(BottleToInstantiate != null) Destroy(BottleToInstantiate, 2f);
-        playerInteract.hasThrowable = false;
+        PlayerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);
     }
