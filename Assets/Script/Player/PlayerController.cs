@@ -4,6 +4,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using UnityEngine.Analytics;
+#endif
+
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
@@ -76,6 +80,12 @@ public class PlayerController : MonoBehaviour
         {
             rb.isKinematic = true;
         }
+
+        if(SceneManager.GetActiveScene().name == "SceneDesert")
+        {
+            Analytics.CustomEvent("level1Completed");
+        }
+
     }
     #region MovementControlEnableDisable
     private void OnEnable()
