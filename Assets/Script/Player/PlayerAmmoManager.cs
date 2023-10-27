@@ -16,7 +16,11 @@ public class PlayerAmmoManager : MonoBehaviour
     void Start()
     {
         shootingManager = GetComponent<PlayerShootingManager>();
-        if(!PlayerInteract.hasPrimary) currentClip = 0;
+        if (!PlayerInteract.hasPrimary)
+        {
+            currentClip = 0;
+            currentAmmo = 0;
+        }
         ClipUI.text = currentClip.ToString();
         TotalAmmoUI.text = currentAmmo.ToString();
     }

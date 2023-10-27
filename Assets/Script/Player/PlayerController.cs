@@ -39,8 +39,11 @@ public class PlayerController : MonoBehaviour
 
     public Slider healthSlider;
     public GameObject GameOverScreen;
+    public GameObject HUD;
 
     [SerializeField] private GameObject PauseMenu;
+
+    private Rigidbody[] childrenRB;
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         animManager.DisableAllLayers();
 
         PauseMenu.SetActive(false);
+        HUD.SetActive(true);
         bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
 
         Time.timeScale = 1;
@@ -66,6 +70,12 @@ public class PlayerController : MonoBehaviour
         this.gameObject.SetActive(true);
 
         SetHealth();
+
+        childrenRB = this.GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in childrenRB)
+        {
+            rb.isKinematic = true;
+        }
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -210,10 +220,19 @@ public class PlayerController : MonoBehaviour
     }
     private void Die()
     {
+        foreach (Rigidbody r in childrenRB)
+        {
+            r.isKinematic = false;
+        }
+        health = 1f;
+        PlayerInteract.hasThrowable = false;
+        PlayerInteract.hasPrimary = false;
+
         Time.timeScale = 0;
         camManager.EnableAll(false);
         this.gameObject.SetActive(false);
         GameOverScreen.SetActive(true);
+        HUD.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -223,7 +242,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
-            // Die();
+            Die();
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
