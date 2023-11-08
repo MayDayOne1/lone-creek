@@ -206,26 +206,15 @@ public class PlayerController : MonoBehaviour
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             camManager.ActivateCrouch();
-            if(playerInteract.Pistol.activeSelf)
-            {
-                animManager.SetPistol(false);
-                animManager.SetPistolCrouch(true);
-            }
+            animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
             
-            animManager.SetCrouch(true);
-            
-        } else
+        }
+        else
         {
             controller.height = standingHeight;
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             camManager.ActivateNormal();
-            if (playerInteract.Pistol.activeSelf)
-            {
-                animManager.SetPistol(true);
-                animManager.SetPistolCrouch(false);
-            }
-            
-            animManager.SetCrouch(false);
+            animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
         }
     }
     private void Die()

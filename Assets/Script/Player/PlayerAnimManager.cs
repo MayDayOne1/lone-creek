@@ -6,8 +6,7 @@ using DG.Tweening;
 public class PlayerAnimManager : MonoBehaviour
 {
     private Animator anim;
-    private float velocity = 1f;
-    private float smoothTime = .2f;
+    [SerializeField] private float layerBlendTime = .15f;
 
     private const int CROUCHING_LAYER = 1;
     private const int THROWING_LAYER = 2;
@@ -22,45 +21,76 @@ public class PlayerAnimManager : MonoBehaviour
     private void SmoothLayerSwitch(int layer, float weight)
     {
         var layerWeight = anim.GetLayerWeight(layer);
-        //layerWeight = Mathf.SmoothDamp(layerWeight, weight, ref velocity, smoothTime);
-        //anim.SetLayerWeight(layer, layerWeight);
+        LeanTween.value(gameObject, layerWeight, weight, layerBlendTime)
+            .setOnUpdate((value) =>
+            {
+                anim.SetLayerWeight(layer, value);
+            });
     }
 
-    public void SetCrouch(bool isCrouching)
+    public void SetCrouch(bool isCrouching, bool hasPistol)
     {
         if (isCrouching)
         {
             SmoothLayerSwitch(CROUCHING_LAYER, 1f);
+            if (hasPistol)
+            {
+                SmoothLayerSwitch(PISTOL_LAYER, 0f);
+                SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 1f);
+            }
         }
-            
         else
         {
             SmoothLayerSwitch(CROUCHING_LAYER, 0f);
+            SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 0f);
+            if (hasPistol)
+            {
+                SmoothLayerSwitch(PISTOL_LAYER, 1f);
+            } else
+            {
+                SmoothLayerSwitch(PISTOL_LAYER, 0f);
+            }
         }
     }
-
     public void SetThrow(bool isGonnaThrow)
     {
         if (isGonnaThrow)
-            anim.SetLayerWeight(THROWING_LAYER, 1);
+        {
+            SmoothLayerSwitch(THROWING_LAYER, 1f);
+        }
         else
-            anim.SetLayerWeight(THROWING_LAYER, 0);
+        {
+            SmoothLayerSwitch(THROWING_LAYER, 0f);
+        }
     }
-
-    public void SetPistol(bool hasPistol)
+    public void SetPistol(bool hasPistol, bool isCrouching)
     {
         if (hasPistol)
-            anim.SetLayerWeight(PISTOL_LAYER, 1);
+        {
+            if(isCrouching)
+            {
+                SmoothLayerSwitch(PISTOL_LAYER, 0f);
+                SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 1f);
+            }
+            else
+            {
+                SmoothLayerSwitch(PISTOL_LAYER, 1f);
+                SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 0f);
+            }
+        }
         else
-            anim.SetLayerWeight(PISTOL_LAYER, 0);
-    }
-
-    public void SetPistolCrouch(bool hasPistolWhenCrouching)
-    {
-        if (hasPistolWhenCrouching)
-            anim.SetLayerWeight(PISTOL_CROUCH_LAYER, 1);
-        else
-            anim.SetLayerWeight(PISTOL_CROUCH_LAYER, 0);
+        {
+            SmoothLayerSwitch(PISTOL_LAYER, 0f);
+            SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 0f);
+            if (isCrouching)
+            {
+                SmoothLayerSwitch(CROUCHING_LAYER, 1f);
+            }
+            else
+            {
+                SmoothLayerSwitch(CROUCHING_LAYER, 0f);
+            }
+        }
     }
 
     public void DisableAllLayers()
