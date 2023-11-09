@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System.Collections;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
     [SerializeField] private float blendSpaceDampTime = .1f;
+    private PlayerInput playerInput;
     private PlayerAnimManager animManager;
     private PlayerCamManager camManager;
     private float speed;
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         controller = gameObject.GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
         playerInteract = GetComponent<PlayerInteract>();
@@ -80,7 +83,9 @@ public class PlayerController : MonoBehaviour
         camManager = GetComponent<PlayerCamManager>();
         cameraMainTransform = Camera.main.transform;
 
+        playerInput.ActivateInput();
         camManager.ActivateNormal();
+        animManager.AnimatorSetter(true);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -232,20 +237,22 @@ public class PlayerController : MonoBehaviour
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
         }
     }
-    private void Die()
+    private IEnumerator Die()
     {
+        playerInput.DeactivateInput();
+        camManager.EnableAll(false);
+        HUD.SetActive(false);
+        animManager.AnimatorSetter(false);
         foreach (Rigidbody r in childrenRB)
         {
             r.isKinematic = false;
         }
-
+        yield return new WaitForSeconds(2f);
         LoadFromCheckpoint();
 
         Time.timeScale = 0;
-        camManager.EnableAll(false);
-        this.gameObject.SetActive(false);
+
         GameOverScreen.SetActive(true);
-        HUD.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -255,7 +262,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
-            Die();
+            StartCoroutine("Die");
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();

@@ -140,7 +140,7 @@ public class AI : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
             {
-                Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
+                // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
                 if (hit.transform.gameObject.tag.Equals("Player"))
                 {
                     float chance = Random.Range(0f, 1f);

@@ -115,4 +115,6 @@ public class PlayerAnimManager : MonoBehaviour
     {
         anim.SetFloat(name, value, dampTime, time);
     }
+
+    public void AnimatorSetter(bool enable) => anim.enabled = enable;
 }
