@@ -111,8 +111,8 @@ public class PlayerAnimManager : MonoBehaviour
         anim.SetTrigger(name);
     }
 
-    public void SetFloat(string name, float value)
+    public void SetFloat(string name, float value, float dampTime, float time)
     {
-        anim.SetFloat(name, value);
+        anim.SetFloat(name, value, dampTime, time);
     }
 }

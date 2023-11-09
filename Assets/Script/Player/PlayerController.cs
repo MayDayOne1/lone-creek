@@ -168,8 +168,8 @@ public class PlayerController : MonoBehaviour
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
         Vector3 normalizedMove = Vector3.Normalize(move);
-        animManager.SetFloat("Forward", normalizedMove.x);
-        animManager.SetFloat("Strafe", normalizedMove.z);
+        animManager.SetFloat("Forward", normalizedMove.x, .1f, Time.deltaTime);
+        animManager.SetFloat("Strafe", normalizedMove.z, .1f, Time.deltaTime);
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
