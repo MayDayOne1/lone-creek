@@ -132,14 +132,15 @@ public class AI : MonoBehaviour
             MuzzleFlash.Play();
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
-            Vector3 dirTowardsPlayer = targetForEnemy.position - this.transform.position;
+            Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
             // Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
             // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
             // Destroy(bullet.gameObject, .5f);
 
             RaycastHit hit;
-            if (Physics.Raycast(this.transform.position, dirTowardsPlayer, out hit, 999f))
+            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
             {
+                Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
                 if (hit.transform.gameObject.tag.Equals("Player"))
                 {
                     float chance = Random.Range(0f, 1f);
