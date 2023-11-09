@@ -15,13 +15,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float crouchSpeed = 2.0f;
+    [SerializeField] private float crouchSpeed;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
+    [SerializeField] private float blendSpaceDampTime = .1f;
     private PlayerAnimManager animManager;
     private PlayerCamManager camManager;
     private float speed;
-    public float runSpeed = 4.0f;
+    public float runSpeed;
     public float Sensitivity = 1f;
 
     private const string IS_CROUCHING = "isCrouching";
@@ -168,23 +169,25 @@ public class PlayerController : MonoBehaviour
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
         Vector3 normalizedMove = Vector3.Normalize(move);
-        animManager.SetFloat("Forward", normalizedMove.x, .1f, Time.deltaTime);
-        animManager.SetFloat("Strafe", normalizedMove.z, .1f, Time.deltaTime);
+
+        animManager.SetFloat("Forward", normalizedMove.x, blendSpaceDampTime, Time.deltaTime);
+        animManager.SetFloat("Strafe", normalizedMove.z, blendSpaceDampTime, Time.deltaTime);
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
-        SpeedUpdater();
+        UpdateSpeed();
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-    private void SpeedUpdater()
+    private void UpdateSpeed()
     {
         if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
         {
             speed = crouchSpeed;
-        } else
+        }
+        else
         {
             speed = runSpeed;
         }
@@ -207,7 +210,6 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             camManager.ActivateCrouch();
             animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
-            
         }
         else
         {
