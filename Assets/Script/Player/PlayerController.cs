@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody[] childrenRB;
 
     public static float savedHealth;
-
     private void Checkpoint()
     {
         savedHealth = health;
@@ -90,6 +89,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
+
         IsCrouching = false;
         animManager.DisableAllLayers();
 
@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviour
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
         }
     }
+
     private IEnumerator Die()
     {
         playerInput.DeactivateInput();
@@ -251,7 +252,6 @@ public class PlayerController : MonoBehaviour
         LoadFromCheckpoint();
 
         Time.timeScale = 0;
-
         GameOverScreen.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
