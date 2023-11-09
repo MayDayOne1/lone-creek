@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     public float runSpeed;
     public float Sensitivity = 1f;
 
-    private const string IS_CROUCHING = "isCrouching";
     private const string IS_AIMING_PISTOL = "isAimingPistol";
 
     private CharacterController controller;
@@ -38,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     public bool IsCrouching;
 
-    private static float health;
+    private static float health = 1f;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
 
@@ -49,6 +48,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject PauseMenu;
 
     private Rigidbody[] childrenRB;
+
+    public static float savedHealth;
+
+    private void Checkpoint()
+    {
+        savedHealth = health;
+        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
+        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
+        healthSlider.value = savedHealth;
+        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
+        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
+    }
+
+    private void LoadFromCheckpoint()
+    {
+        health = savedHealth;
+        PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
+        PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
+        healthSlider.value = health;
+        PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
+        PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+    }
+
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
@@ -74,7 +96,7 @@ public class PlayerController : MonoBehaviour
         camManager.EnableAll(true);
         this.gameObject.SetActive(true);
 
-        SetHealth();
+        Checkpoint();
 
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
@@ -110,15 +132,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CalculateCharacterRotation();  
-    }
-
-    private void SetHealth()
-    {
-        if(SceneManager.GetActiveScene().name == "SceneTunnel" || SceneManager.GetActiveScene().name == "PrzemoScene")
-        {
-            health = 1f;
-        }
-        healthSlider.value = health;
     }
 
     public float GetHealth() => health;
@@ -225,9 +238,8 @@ public class PlayerController : MonoBehaviour
         {
             r.isKinematic = false;
         }
-        health = 1f;
-        PlayerInteract.hasThrowable = false;
-        PlayerInteract.hasPrimary = false;
+
+        LoadFromCheckpoint();
 
         Time.timeScale = 0;
         camManager.EnableAll(false);

@@ -14,6 +14,9 @@ public class PlayerInteract : MonoBehaviour
     public static bool hasThrowable = false;
     public static bool hasPrimary = false;
 
+    public static bool savedThrowable;
+    public static bool savedPrimary;
+
     public GameObject Throwable;
     public GameObject Pistol;
     public AudioSource audioSource;
