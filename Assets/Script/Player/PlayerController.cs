@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
 
         if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
+            Debug.Log("Desert");
             Analytics.CustomEvent("level1Completed");
         }
 
