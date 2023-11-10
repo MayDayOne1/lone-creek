@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System.Collections;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -15,16 +16,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float crouchSpeed = 2.0f;
+    [SerializeField] private float crouchSpeed;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
+    [SerializeField] private float blendSpaceDampTime = .1f;
+    private PlayerInput playerInput;
     private PlayerAnimManager animManager;
     private PlayerCamManager camManager;
     private float speed;
-    public float runSpeed = 4.0f;
+    public float runSpeed;
     public float Sensitivity = 1f;
 
-    private const string IS_CROUCHING = "isCrouching";
     private const string IS_AIMING_PISTOL = "isAimingPistol";
 
     private CharacterController controller;
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     public bool IsCrouching;
 
-    private static float health;
+    private static float health = 1f;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
 
@@ -48,8 +50,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject PauseMenu;
 
     private Rigidbody[] childrenRB;
+
+    public static float savedHealth;
+    private void Checkpoint()
+    {
+        savedHealth = health;
+        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
+        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
+        healthSlider.value = savedHealth;
+        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
+        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
+    }
+
+    private void LoadFromCheckpoint()
+    {
+        health = savedHealth;
+        PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
+        PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
+        healthSlider.value = health;
+        PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
+        PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+    }
+
     private void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         controller = gameObject.GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
         playerInteract = GetComponent<PlayerInteract>();
@@ -57,11 +82,14 @@ public class PlayerController : MonoBehaviour
         camManager = GetComponent<PlayerCamManager>();
         cameraMainTransform = Camera.main.transform;
 
+        playerInput.ActivateInput();
         camManager.ActivateNormal();
+        animManager.AnimatorSetter(true);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameOverScreen.SetActive(false);
+
         IsCrouching = false;
         animManager.DisableAllLayers();
 
@@ -73,7 +101,7 @@ public class PlayerController : MonoBehaviour
         camManager.EnableAll(true);
         this.gameObject.SetActive(true);
 
-        SetHealth();
+        Checkpoint();
 
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
@@ -109,15 +137,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         CalculateCharacterRotation();  
-    }
-
-    private void SetHealth()
-    {
-        if(SceneManager.GetActiveScene().name == "SceneTunnel" || SceneManager.GetActiveScene().name == "PrzemoScene")
-        {
-            health = 1f;
-        }
-        healthSlider.value = health;
     }
 
     public float GetHealth() => health;
@@ -168,23 +187,25 @@ public class PlayerController : MonoBehaviour
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
         Vector3 normalizedMove = Vector3.Normalize(move);
-        animManager.SetFloat("Forward", normalizedMove.x);
-        animManager.SetFloat("Strafe", normalizedMove.z);
+
+        animManager.SetFloat("Forward", normalizedMove.x, blendSpaceDampTime, Time.deltaTime);
+        animManager.SetFloat("Strafe", normalizedMove.z, blendSpaceDampTime, Time.deltaTime);
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
-        SpeedUpdater();
+        UpdateSpeed();
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-    private void SpeedUpdater()
+    private void UpdateSpeed()
     {
         if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
         {
             speed = crouchSpeed;
-        } else
+        }
+        else
         {
             speed = runSpeed;
         }
@@ -206,43 +227,32 @@ public class PlayerController : MonoBehaviour
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             camManager.ActivateCrouch();
-            if(playerInteract.Pistol.activeSelf)
-            {
-                animManager.SetPistol(false);
-                animManager.SetPistolCrouch(true);
-            }
-            
-            animManager.SetCrouch(true);
-            
-        } else
+            animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
+        }
+        else
         {
             controller.height = standingHeight;
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             camManager.ActivateNormal();
-            if (playerInteract.Pistol.activeSelf)
-            {
-                animManager.SetPistol(true);
-                animManager.SetPistolCrouch(false);
-            }
-            
-            animManager.SetCrouch(false);
+            animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
         }
     }
-    private void Die()
+
+    private IEnumerator Die()
     {
+        playerInput.DeactivateInput();
+        camManager.EnableAll(false);
+        HUD.SetActive(false);
+        animManager.AnimatorSetter(false);
         foreach (Rigidbody r in childrenRB)
         {
             r.isKinematic = false;
         }
-        health = 1f;
-        PlayerInteract.hasThrowable = false;
-        PlayerInteract.hasPrimary = false;
+        yield return new WaitForSeconds(2f);
+        LoadFromCheckpoint();
 
         Time.timeScale = 0;
-        camManager.EnableAll(false);
-        this.gameObject.SetActive(false);
         GameOverScreen.SetActive(true);
-        HUD.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -252,7 +262,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
-            Die();
+            StartCoroutine("Die");
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();

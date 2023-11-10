@@ -11,16 +11,14 @@ public class DestroyOnContact : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.tag.Equals("Player"))
+        AudioSource.PlayClipAtPoint(glassShatterSound, collision.transform.position);
+        Destroy(gameObject);
+        // Debug.Log(collision.gameObject.name);
+        if(collision.gameObject.tag == "Enemy")
         {
-            // AudioSource.PlayClipAtPoint(glassShatterSound, collision.transform.position);
-            Destroy(gameObject);
-            // Debug.Log(collision.gameObject.name);
-            if(collision.gameObject.tag == "Enemy")
-            {
-                // Debug.Log("Enemy hit with throwable");
-                collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
-            }
+            // Debug.Log("Enemy hit with throwable");
+            collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);
         }
+        
     }
 }

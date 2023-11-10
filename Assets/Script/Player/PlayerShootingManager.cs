@@ -58,6 +58,11 @@ public class PlayerShootingManager : MonoBehaviour
         cooldownTimer = cooldown;
         Crosshair.gameObject.SetActive(false);
     }
+
+    private void Update()
+    {
+        // Debug.Log("Cam transform forward: " + cam.transform.forward);
+    }
     private void StartAimingPistol()
     {
         IsAimingPistol = true;
@@ -151,7 +156,7 @@ public class PlayerShootingManager : MonoBehaviour
         Transform instancePos = PlayerBottle.transform;
         BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
         Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
-        bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.VelocityChange);
+        bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.Impulse);
         if(BottleToInstantiate != null) Destroy(BottleToInstantiate, 2f);
         PlayerInteract.hasThrowable = false;
         IsAimingThrowable = false;

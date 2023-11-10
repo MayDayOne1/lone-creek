@@ -29,14 +29,12 @@ public class ChooseWeapon : MonoBehaviour
         playerInteract.Throwable.SetActive(false);
         playerInteract.Pistol.SetActive(false);
         AmmoBG.SetActive(false);
-        animManager.SetPistol(false);
-        animManager.SetPistolCrouch(false);
+        
     }
     public void SelectThrowable()
     {
         SelectNone();
-        animManager.SetPistol(false);
-        animManager.SetPistolCrouch(false);
+        animManager.SetPistol(false, playerController.IsCrouching);
         if (PlayerInteract.hasThrowable)
         {
             IsThrowableSelected = true;
@@ -60,18 +58,7 @@ public class ChooseWeapon : MonoBehaviour
             AmmoBG.SetActive(true);
             ThrowableBG.SetActive(false);
 
-            if(playerController.IsCrouching)
-            {
-                animManager.SetPistol(false);
-                animManager.SetPistolCrouch(true);
-            } else
-            {
-                animManager.SetPistol(true);
-                animManager.SetPistolCrouch(false);
-            }
-        } else
-        {
-            SelectNone();
+            animManager.SetPistol(true, playerController.IsCrouching);
         }
     }
 }
