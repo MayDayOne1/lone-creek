@@ -44,7 +44,8 @@ public class PlayerController : MonoBehaviour
     public Image bloodOverlay;
 
     public Slider healthSlider;
-    public GameObject GameOverScreen;
+    public CanvasGroup GameOverScreen;
+    public CanvasGroup gameOverBlackout;
     public GameObject HUD;
 
     [SerializeField] private GameObject PauseMenu;
@@ -74,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        LeanTween.cancelAll();
+        DOTween.ClearCachedTweens();
+
         playerInput = GetComponent<PlayerInput>();
         controller = gameObject.GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
@@ -88,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        GameOverScreen.SetActive(false);
+        ShowGameOverScreen(false);
 
         IsCrouching = false;
         animManager.DisableAllLayers();
@@ -196,6 +200,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateSpeed();
 
+        Debug.Log(controller.velocity.magnitude);
+
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -239,8 +245,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void SmoothTimeScaleSetter(float timeValue)
+    {
+        LeanTween.value(gameObject, 1f, timeValue, .4f)
+        .setEaseOutQuart()
+        .setOnUpdate((timeValue) =>
+            {
+                Time.timeScale = timeValue;
+                Time.fixedDeltaTime = Time.fixedDeltaTime * timeValue;
+            });
+    }
+
+    private void ShowGameOverScreen(bool show)
+    {
+        if(show)
+        {
+            GameOverScreen.DOFade(1f, .4f);
+            GameOverScreen.interactable = true;
+            GameOverScreen.blocksRaycasts = true;
+        }
+        else
+        {
+            gameOverBlackout.DOFade(0f, 0f);
+            GameOverScreen.DOFade(0f, 0f);
+            GameOverScreen.interactable = false;
+            GameOverScreen.blocksRaycasts = false;
+        }
+    }
+
+    private void ScreenBlackout()
+    {
+        gameOverBlackout.DOFade(1f, 2f);
+    }
+
     private IEnumerator Die()
     {
+        SmoothTimeScaleSetter(.5f);
         playerInput.DeactivateInput();
         camManager.EnableAll(false);
         HUD.SetActive(false);
@@ -249,11 +289,15 @@ public class PlayerController : MonoBehaviour
         {
             r.isKinematic = false;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
+        ScreenBlackout();
         LoadFromCheckpoint();
+        yield return new WaitForSeconds(2.5f);
+        ShowGameOverScreen(true);
+        yield return new WaitForSeconds(.4f);
 
-        Time.timeScale = 0;
-        GameOverScreen.SetActive(true);
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = .02f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
