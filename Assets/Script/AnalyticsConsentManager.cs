@@ -20,7 +20,7 @@ public class AnalyticsConsentManager : MonoBehaviour
         {
             Debug.Log(e.ToString());
         }
-        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
+        Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         int consentInt = PlayerPrefs.GetInt("isConsentGiven");
         if (consentInt == 0) isConsentGiven = false;
         else if (consentInt == 1)
@@ -45,7 +45,7 @@ public class AnalyticsConsentManager : MonoBehaviour
         isConsentGiven = true;
         PlayerPrefs.SetInt("isConsentGiven", 1);
         PlayerPrefs.Save();
-        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
+        Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         ShowConsentWindow(false);
     }
 
@@ -59,7 +59,7 @@ public class AnalyticsConsentManager : MonoBehaviour
             PlayerPrefs.Save();
         }
         
-        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
+        Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         ShowConsentWindow(false);
     }
 

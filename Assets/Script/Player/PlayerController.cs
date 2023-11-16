@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
+using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -53,6 +55,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody[] childrenRB;
 
     public static float savedHealth;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    private static int enemiesKilled = 0;
+    private float level1TimeSpent = 0f;
+    private float level2TimeSpent = 0f;
+    private static int playerAmmoClipCount = 0;
+    private static int playerBottleCount = 0;
+    private static int playerBottleThrowCount = 0;
+    private static int playerDeathCount = 0;
+    private static int playerHealthKitCount = 0;
+    private static int playerPistolAmmo = 0;
+    private static int playerShotsFiredCount = 0;
+#endif
     private void Checkpoint()
     {
         savedHealth = health;
@@ -112,13 +127,16 @@ public class PlayerController : MonoBehaviour
         {
             rb.isKinematic = true;
         }
-
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
         if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
             Debug.Log("Desert");
-            Analytics.CustomEvent("level1Completed");
+            AnalyticsService.Instance.CustomData("level1Completed", new Dictionary<string, object>()
+            {
+                { "playerHealth", health }
+            });
         }
-
+#endif
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -200,7 +218,7 @@ public class PlayerController : MonoBehaviour
 
         UpdateSpeed();
 
-        Debug.Log(controller.velocity.magnitude);
+        // Debug.Log(controller.velocity.magnitude);
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -251,8 +269,8 @@ public class PlayerController : MonoBehaviour
         .setEaseOutQuart()
         .setOnUpdate((timeValue) =>
             {
+                Time.fixedDeltaTime *= timeValue;
                 Time.timeScale = timeValue;
-                Time.fixedDeltaTime = Time.fixedDeltaTime * timeValue;
             });
     }
 
@@ -280,6 +298,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Die()
     {
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerDeathCount++;
+#endif
         SmoothTimeScaleSetter(.5f);
         playerInput.DeactivateInput();
         camManager.EnableAll(false);
@@ -307,7 +328,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
-            StartCoroutine("Die");
+            StartCoroutine(Die());
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
@@ -317,6 +338,9 @@ public class PlayerController : MonoBehaviour
         if (health + healthAmount > 1f) health = 1f;
         else health += healthAmount;
         healthSlider.DOValue(health, .5f, false);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerHealthKitCount++;
+#endif
     }
     public void TogglePauseMenu()
     {
@@ -344,5 +368,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
         camManager.EnableAll(false);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        Analytics.CustomEvent("level2Completed");
+#endif
     }
 }

@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using UnityEngine.Analytics;
+#endif
+
 public class TriggerVictory : MonoBehaviour
 {
     public GameObject VictoryScreen;
@@ -13,7 +17,7 @@ public class TriggerVictory : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag.Equals("Player"))
+        if(other.gameObject.CompareTag("Player"))
         {
             VictoryScreen.SetActive(true);
             playerController.VictorySetup();
