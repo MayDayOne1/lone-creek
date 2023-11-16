@@ -20,6 +20,10 @@ public class PlayerInteract : MonoBehaviour
     public GameObject Throwable;
     public GameObject Pistol;
     public AudioSource audioSource;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    public static int playerBottleCount = 0;
+    public static int playerAmmoClipCount = 0;
+#endif
 
 
     private void Start()
@@ -107,6 +111,9 @@ public class PlayerInteract : MonoBehaviour
             hasThrowable = true;
             chooseWeapon.SelectThrowable();
             Destroy(obj);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            playerBottleCount++;
+#endif
         }
         else return;
     }
@@ -122,6 +129,9 @@ public class PlayerInteract : MonoBehaviour
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
         int ammo = int.Parse(ammoText);
         ammoManager.CalculateAmmoFromPickup(obj, ammo);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerAmmoClipCount++;
+#endif
     }
     private void PickupAmmo(GameObject obj)
     {
@@ -129,6 +139,9 @@ public class PlayerInteract : MonoBehaviour
         int ammo = int.Parse(ammoText);
         
         ammoManager.CalculateAmmoFromPickup(obj, ammo);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerAmmoClipCount++;
+#endif
     }
     private void PickupHealth(GameObject obj)
     {

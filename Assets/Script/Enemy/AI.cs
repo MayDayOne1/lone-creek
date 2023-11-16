@@ -76,6 +76,9 @@ public class AI : MonoBehaviour
         {
             r.isKinematic = false;
         }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        PlayerController.enemiesKilled++;
+#endif
     }
     private void PursuePlayerWhenShot()
     {
@@ -149,6 +152,9 @@ public class AI : MonoBehaviour
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
                 }
             }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            PlayerController.enemyShotsFiredCount++;
+#endif
         }
 
     }

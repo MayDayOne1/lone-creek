@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -41,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     public bool IsCrouching;
 
-    private static float health = 1f;
+    public static float health = 1f;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
 
@@ -57,16 +56,13 @@ public class PlayerController : MonoBehaviour
     public static float savedHealth;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-    private static int enemiesKilled = 0;
-    private float level1TimeSpent = 0f;
-    private float level2TimeSpent = 0f;
-    private static int playerAmmoClipCount = 0;
-    private static int playerBottleCount = 0;
-    private static int playerBottleThrowCount = 0;
-    private static int playerDeathCount = 0;
-    private static int playerHealthKitCount = 0;
-    private static int playerPistolAmmo = 0;
-    private static int playerShotsFiredCount = 0;
+    public static int enemiesKilled = 0;
+    public static int enemyShotsFiredCount = 0;
+    public static int playerDeathCount = 0;
+    public static int playerHealthKitCount = 0;
+    public float onboardingTimeSpent = 0f;
+    public float level1TimeSpent = 0f;
+    public float level2TimeSpent = 0f;
 #endif
     private void Checkpoint()
     {
@@ -128,13 +124,12 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = true;
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        if(SceneManager.GetActiveScene().name == "SceneDesert")
+        if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            Debug.Log("Desert");
-            AnalyticsService.Instance.CustomData("level1Completed", new Dictionary<string, object>()
-            {
-                { "playerHealth", health }
-            });
+            level1TimeSpent += Time.deltaTime;
+        } else if(SceneManager.GetActiveScene().name == "SceneDesert")
+        {
+            level2TimeSpent += Time.deltaTime;
         }
 #endif
     }

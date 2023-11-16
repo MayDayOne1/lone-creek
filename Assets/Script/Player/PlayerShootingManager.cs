@@ -46,6 +46,11 @@ public class PlayerShootingManager : MonoBehaviour
     public float PistolDamage = .2f;
     public bool CanShoot = false;
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    public static int playerBottleThrowCount = 0;
+    public static int playerShotsFiredCount = 0;
+#endif
+
     private void Start()
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
@@ -161,6 +166,9 @@ public class PlayerShootingManager : MonoBehaviour
         PlayerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerBottleThrowCount++;
+#endif
     }
     private void Fire()
     {
@@ -176,6 +184,9 @@ public class PlayerShootingManager : MonoBehaviour
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
             }
         }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerShotsFiredCount++;
+#endif
     }
     public void DisablePistol()
     {
