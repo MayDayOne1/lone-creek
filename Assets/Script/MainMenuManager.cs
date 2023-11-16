@@ -65,19 +65,13 @@ public class MainMenuManager : MonoBehaviour
         settings.gameObject.SetActive(true);
         
         ShowCanvasGroup(mainMenu, false);
-        StartCoroutine(TweenWindow(settings));
+        ShowCanvasGroup(settings, true);
     }
     public void HideSettings()
     {
         ShowCanvasGroup(settings, false);
-        StartCoroutine(TweenWindow(mainMenu));
+        ShowCanvasGroup(mainMenu, true);
         settings.gameObject.SetActive(false);
-    }
-
-    private IEnumerator TweenWindow(CanvasGroup group)
-    {
-        yield return new WaitForSeconds(.2f);
-        ShowCanvasGroup(group, true);
     }
 
     private void ShowCanvasGroup(CanvasGroup group, bool show)
@@ -86,11 +80,11 @@ public class MainMenuManager : MonoBehaviour
         group.blocksRaycasts = show;
         if (show)
         {
-            group.DOFade(1f, .1f);
+            group.DOFade(1f, .2f);
         }
         else
         {
-            group.DOFade(0f, .1f);
+            group.DOFade(0f, .2f);
         }
     }
 }

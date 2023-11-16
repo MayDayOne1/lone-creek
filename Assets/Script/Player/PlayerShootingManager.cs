@@ -63,11 +63,6 @@ public class PlayerShootingManager : MonoBehaviour
         cooldownTimer = cooldown;
         Crosshair.gameObject.SetActive(false);
     }
-
-    private void Update()
-    {
-        // Debug.Log("Cam transform forward: " + cam.transform.forward);
-    }
     private void StartAimingPistol()
     {
         IsAimingPistol = true;
@@ -192,6 +187,7 @@ public class PlayerShootingManager : MonoBehaviour
     {
         chooseWeapon.SelectNone();
         StopAimingPistol();
+        animManager.SetPistol(false, playerController.IsCrouching);
     }
     private void CheckIfCanShoot()
     {

@@ -82,7 +82,7 @@ public class AI : MonoBehaviour
     }
     private void PursuePlayerWhenShot()
     {
-        if(currentState.stateName != State.STATE.ATTACK)
+        if(currentState.stateName != State.STATE.ATTACK) 
         {
             currentState.WalkTowardsPlayer();
             agent.isStopped = false;
@@ -113,7 +113,7 @@ public class AI : MonoBehaviour
                 health = 0f;
                 Die();
             }
-            StartCoroutine("Invincibility");
+            StartCoroutine(Invincibility());
         }
         
     }
@@ -127,7 +127,7 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
-        if(agent.enabled)
+        if(agent.enabled && playerController.GetHealth() > 0f)
         {
             // Debug.Log("Shooting");
             EnableAim();
@@ -144,7 +144,7 @@ public class AI : MonoBehaviour
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
             {
                 // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
-                if (hit.transform.gameObject.tag.Equals("Player"))
+                if (hit.transform.gameObject.CompareTag("Player"))
                 {
                     float chance = Random.Range(0f, 1f);
                     // Debug.Log("chance: " + chance);

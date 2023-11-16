@@ -200,9 +200,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5807162970272755127}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ShowOnboarding
+      - m_Target: {fileID: 6334441287791649222}
+        m_TargetAssemblyTypeName: AnalyticsConsentManager, Assembly-CSharp
+        m_MethodName: OptIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1708,6 +1708,7 @@ MonoBehaviour:
   mainMenu: {fileID: 7309710854153034008}
   settings: {fileID: 2334602383109448705}
   onboarding: {fileID: 321636897243801742}
+  onboardingTimeSpent: 0
 --- !u!1 &3481772807899261343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,9 +2513,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5807162970272755127}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ShowOnboarding
+      - m_Target: {fileID: 6334441287791649222}
+        m_TargetAssemblyTypeName: AnalyticsConsentManager, Assembly-CSharp
+        m_MethodName: OptOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
