@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
+using DG.Tweening;
 
 public class AnalyticsConsentManager : MonoBehaviour
 {
@@ -19,11 +20,15 @@ public class AnalyticsConsentManager : MonoBehaviour
         {
             Debug.Log(e.ToString());
         }
-
-        //int consentInt = PlayerPrefs.GetInt("isConsentGiven");
-        //if (consentInt == 0) isConsentGiven = false;
-        //else if (consentInt == 1) isConsentGiven = true;
-        //else isConsentGiven = null;
+        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
+        int consentInt = PlayerPrefs.GetInt("isConsentGiven");
+        if (consentInt == 0) isConsentGiven = false;
+        else if (consentInt == 1)
+        {
+            isConsentGiven = true;
+            AnalyticsService.Instance.StartDataCollection();
+        }
+        else isConsentGiven = null;
 
         if (isConsentGiven == null)
         {
@@ -38,21 +43,27 @@ public class AnalyticsConsentManager : MonoBehaviour
     {
         AnalyticsService.Instance.StartDataCollection();
         isConsentGiven = true;
-       // PlayerPrefs.SetInt("isConsentGiven", 1);
-       // PlayerPrefs.Save();
+        PlayerPrefs.SetInt("isConsentGiven", 1);
+        PlayerPrefs.Save();
+        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         ShowConsentWindow(false);
     }
 
     public void OptOut()
     {
-        AnalyticsService.Instance.StopDataCollection();
-        isConsentGiven = false;
-       // PlayerPrefs.SetInt("isConsentGiven", 0);
-       // PlayerPrefs.Save();
+        if(isConsentGiven == true)
+        {
+            AnalyticsService.Instance.StopDataCollection();
+            isConsentGiven = false;
+            PlayerPrefs.SetInt("isConsentGiven", 0);
+            PlayerPrefs.Save();
+        }
+        
+        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         ShowConsentWindow(false);
     }
 
-    private void ShowConsentWindow(bool show)
+    public void ShowConsentWindow(bool show)
     {
         consentWindow.SetActive(show);
     }
