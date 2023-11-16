@@ -58,11 +58,16 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;
     public static int enemyShotsFiredCount = 0;
+    public static int enemyShotsHit = 0;
     public static int playerDeathCount = 0;
     public static int playerHealthKitCount = 0;
     public float onboardingTimeSpent = 0f;
     public float level1TimeSpent = 0f;
     public float level2TimeSpent = 0f;
+    public static int playerTimesCrouched = 0;
+    public static float playerTimeSpentCrouching = 0f;
+    public static float playerTimeSpentStanding = 0f;
+
 #endif
     private void Checkpoint()
     {
@@ -239,6 +244,18 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
+
+    private IEnumerator CountStandingTime()
+    {
+        playerTimeSpentStanding += Time.deltaTime;
+        yield return null;
+    }    
+
+    private IEnumerator CountCrouchTime()
+    {
+        playerTimeSpentCrouching += Time.deltaTime;
+        yield return null;
+    }
     public void Crouch()
     {
         IsCrouching = !IsCrouching;
@@ -248,6 +265,11 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             camManager.ActivateCrouch();
             animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            playerTimesCrouched++;
+            StopCoroutine(CountStandingTime());
+            StartCoroutine(CountCrouchTime());
+#endif
         }
         else
         {
@@ -255,6 +277,10 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             camManager.ActivateNormal();
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            StopCoroutine(CountCrouchTime());
+            StartCoroutine(CountStandingTime());
+#endif
         }
     }
 

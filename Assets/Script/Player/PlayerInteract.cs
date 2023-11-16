@@ -23,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleCount = 0;
     public static int playerAmmoClipCount = 0;
+    public static int playerPistolsPickedUp = 0;
 #endif
 
 
@@ -131,6 +132,7 @@ public class PlayerInteract : MonoBehaviour
         ammoManager.CalculateAmmoFromPickup(obj, ammo);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerAmmoClipCount++;
+        playerPistolsPickedUp++;
 #endif
     }
     private void PickupAmmo(GameObject obj)

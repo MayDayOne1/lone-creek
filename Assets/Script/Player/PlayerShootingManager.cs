@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerShootingManager : MonoBehaviour
 {
@@ -49,6 +50,9 @@ public class PlayerShootingManager : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleThrowCount = 0;
     public static int playerShotsFiredCount = 0;
+    public static int playerShotsHit = 0;
+    public static int playerTimesAimed = 0;
+    public static float playerTimeSpentAiming = 0f;
 #endif
 
     private void Start()
@@ -63,6 +67,13 @@ public class PlayerShootingManager : MonoBehaviour
         cooldownTimer = cooldown;
         Crosshair.gameObject.SetActive(false);
     }
+
+    private IEnumerator CountAimingTime()
+    {
+        playerTimeSpentAiming += Time.deltaTime;
+        yield return null;
+    }
+
     private void StartAimingPistol()
     {
         IsAimingPistol = true;
@@ -75,6 +86,10 @@ public class PlayerShootingManager : MonoBehaviour
             camManager.ActivateAim();
         }
         aimRigWeight = 1f;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerTimesAimed++;
+        StartCoroutine(CountAimingTime());
+#endif
     }
     private void StopAimingPistol()
     {
@@ -90,6 +105,9 @@ public class PlayerShootingManager : MonoBehaviour
         }
         aimRigWeight = 0f;
         playerController.SetSpeed(playerController.runSpeed);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        StopCoroutine(CountAimingTime());
+#endif
 
     }
     private void AimTowardsCrosshair()
@@ -119,7 +137,10 @@ public class PlayerShootingManager : MonoBehaviour
             if (playerController.IsCrouching) camManager.ActivateCrouchAim();
             else camManager.ActivateAim();
         }
-        
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerTimesAimed++;
+        StartCoroutine(CountAimingTime());
+#endif
     }
     private void StopAimingThrowable()
     {
@@ -130,6 +151,10 @@ public class PlayerShootingManager : MonoBehaviour
 
         if (playerController.IsCrouching) camManager.ActivateCrouch();
         else camManager.ActivateNormal();
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        StopCoroutine(CountAimingTime());
+#endif
     }
     private void DrawLine()
     {
@@ -177,6 +202,9 @@ public class PlayerShootingManager : MonoBehaviour
             if(hitTransform.CompareTag("Enemy"))
             {
                 hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+                playerShotsHit++;
+#endif
             }
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS

@@ -149,7 +149,12 @@ public class AI : MonoBehaviour
                     float chance = Random.Range(0f, 1f);
                     // Debug.Log("chance: " + chance);
                     if(chance < hitChance)
+                    {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+                        PlayerController.enemyShotsHit++;
+#endif
+                    }
                 }
             }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS

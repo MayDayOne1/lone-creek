@@ -27,7 +27,15 @@ public class LoadDesert : MonoBehaviour
                 { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
                 { "level1TimeSpent", controller.level1TimeSpent },
                 { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount }
+                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerController.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerShootingManager.playerShotsHit },
+                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
+                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
+                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
+                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
+                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
             });
 #endif
         }
