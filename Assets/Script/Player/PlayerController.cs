@@ -324,7 +324,6 @@ public class PlayerController : MonoBehaviour
         playerDeathCount++;
         AnalyticsService.Instance.CustomData("playerDie", new Dictionary<string, object>()
             {
-                { "playerHealth", health },
                 { "playerHealthKitCount", playerHealthKitCount },
                 { "playerDeathCount", playerDeathCount },
                 { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },

@@ -13,7 +13,7 @@ public class AI : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private float health = 1f;
-    private float rifleDamage = .25f;
+    [SerializeField] private float rifleDamage = .25f;
     private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
     [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
