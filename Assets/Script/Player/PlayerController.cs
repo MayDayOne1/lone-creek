@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
+using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -321,6 +322,22 @@ public class PlayerController : MonoBehaviour
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerDeathCount++;
+        AnalyticsService.Instance.CustomData("playerDie", new Dictionary<string, object>()
+            {
+                { "playerHealth", health },
+                { "playerHealthKitCount", playerHealthKitCount },
+                { "playerDeathCount", playerDeathCount },
+                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
+                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerInteract.playerBottleCount },
+                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "enemiesKilled", enemiesKilled },
+                { "enemyShotsFiredCount", enemyShotsFiredCount },
+                { "enemyShotsHit", enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+            });
 #endif
         SmoothTimeScaleSetter(.5f);
         playerInput.DeactivateInput();

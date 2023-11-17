@@ -1,8 +1,11 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour
@@ -78,6 +81,22 @@ public class AI : MonoBehaviour
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerController.enemiesKilled++;
+        AnalyticsService.Instance.CustomData("enemyDie", new Dictionary<string, object>()
+            {
+                { "playerHealth", PlayerController.health },
+                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
+                { "playerDeathCount", PlayerController.playerDeathCount },
+                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
+                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerInteract.playerBottleCount },
+                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "enemiesKilled", PlayerController.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerController.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+            });
 #endif
     }
     private void PursuePlayerWhenShot()

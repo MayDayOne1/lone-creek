@@ -9219,6 +9219,9 @@ MonoBehaviour:
   gameOverBlackout: {fileID: 3919432272404079757}
   HUD: {fileID: 8131715214367094156}
   PauseMenu: {fileID: 7585729405906222680}
+  onboardingTimeSpent: 0
+  level1TimeSpent: 0
+  level2TimeSpent: 0
 --- !u!114 &5856383620854131658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10185,7 +10188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a38db2d6b8f7d40b8b2d2a30535093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 5856383619225992818}
+  controller: {fileID: 5856383619225992818}
 --- !u!1 &7645667619003759695
 GameObject:
   m_ObjectHideFlags: 0
