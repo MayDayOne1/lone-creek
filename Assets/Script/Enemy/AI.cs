@@ -1,8 +1,11 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour
@@ -10,7 +13,7 @@ public class AI : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private float health = 1f;
-    private float rifleDamage = .25f;
+    [SerializeField] private float rifleDamage = .25f;
     private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
     [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
@@ -76,10 +79,29 @@ public class AI : MonoBehaviour
         {
             r.isKinematic = false;
         }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        PlayerController.enemiesKilled++;
+        AnalyticsService.Instance.CustomData("enemyDie", new Dictionary<string, object>()
+            {
+                { "playerHealth", PlayerController.health },
+                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
+                { "playerDeathCount", PlayerController.playerDeathCount },
+                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
+                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerInteract.playerBottleCount },
+                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "enemiesKilled", PlayerController.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerController.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+            });
+#endif
     }
     private void PursuePlayerWhenShot()
     {
-        if(currentState.stateName != State.STATE.ATTACK)
+        if(currentState.stateName != State.STATE.ATTACK) 
         {
             currentState.WalkTowardsPlayer();
             agent.isStopped = false;
@@ -110,7 +132,7 @@ public class AI : MonoBehaviour
                 health = 0f;
                 Die();
             }
-            StartCoroutine("Invincibility");
+            StartCoroutine(Invincibility());
         }
         
     }
@@ -124,7 +146,7 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
-        if(agent.enabled)
+        if(agent.enabled && playerController.GetHealth() > 0f)
         {
             // Debug.Log("Shooting");
             EnableAim();
@@ -141,14 +163,22 @@ public class AI : MonoBehaviour
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
             {
                 // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
-                if (hit.transform.gameObject.tag.Equals("Player"))
+                if (hit.transform.gameObject.CompareTag("Player"))
                 {
                     float chance = Random.Range(0f, 1f);
                     // Debug.Log("chance: " + chance);
                     if(chance < hitChance)
+                    {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+                        PlayerController.enemyShotsHit++;
+#endif
+                    }
                 }
             }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            PlayerController.enemyShotsFiredCount++;
+#endif
         }
 
     }

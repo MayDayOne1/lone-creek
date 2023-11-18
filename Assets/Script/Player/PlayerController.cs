@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
+using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -39,12 +41,13 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     public bool IsCrouching;
 
-    private static float health = 1f;
+    public static float health = 1f;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
 
     public Slider healthSlider;
-    public GameObject GameOverScreen;
+    public CanvasGroup GameOverScreen;
+    public CanvasGroup gameOverBlackout;
     public GameObject HUD;
 
     [SerializeField] private GameObject PauseMenu;
@@ -52,6 +55,21 @@ public class PlayerController : MonoBehaviour
     private Rigidbody[] childrenRB;
 
     public static float savedHealth;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    public static int enemiesKilled = 0;
+    public static int enemyShotsFiredCount = 0;
+    public static int enemyShotsHit = 0;
+    public static int playerDeathCount = 0;
+    public static int playerHealthKitCount = 0;
+    public float onboardingTimeSpent = 0f;
+    public float level1TimeSpent = 0f;
+    public float level2TimeSpent = 0f;
+    public static int playerTimesCrouched = 0;
+    public static float playerTimeSpentCrouching = 0f;
+    public static float playerTimeSpentStanding = 0f;
+
+#endif
     private void Checkpoint()
     {
         savedHealth = health;
@@ -74,6 +92,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        LeanTween.cancelAll();
+        DOTween.ClearCachedTweens();
+
         playerInput = GetComponent<PlayerInput>();
         controller = gameObject.GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
@@ -88,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        GameOverScreen.SetActive(false);
+        ShowGameOverScreen(false);
 
         IsCrouching = false;
         animManager.DisableAllLayers();
@@ -108,12 +129,15 @@ public class PlayerController : MonoBehaviour
         {
             rb.isKinematic = true;
         }
-
-        if(SceneManager.GetActiveScene().name == "SceneDesert")
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            Analytics.CustomEvent("level1Completed");
+            level1TimeSpent += Time.deltaTime;
+        } else if(SceneManager.GetActiveScene().name == "SceneDesert")
+        {
+            level2TimeSpent += Time.deltaTime;
         }
-
+#endif
     }
     #region MovementControlEnableDisable
     private void OnEnable()
@@ -195,6 +219,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateSpeed();
 
+        // Debug.Log(controller.velocity.magnitude);
+
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -219,6 +245,18 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
+
+    private IEnumerator CountStandingTime()
+    {
+        playerTimeSpentStanding += Time.deltaTime;
+        yield return null;
+    }    
+
+    private IEnumerator CountCrouchTime()
+    {
+        playerTimeSpentCrouching += Time.deltaTime;
+        yield return null;
+    }
     public void Crouch()
     {
         IsCrouching = !IsCrouching;
@@ -228,6 +266,11 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
             camManager.ActivateCrouch();
             animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            playerTimesCrouched++;
+            StopCoroutine(CountStandingTime());
+            StartCoroutine(CountCrouchTime());
+#endif
         }
         else
         {
@@ -235,11 +278,67 @@ public class PlayerController : MonoBehaviour
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
             camManager.ActivateNormal();
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            StopCoroutine(CountCrouchTime());
+            StartCoroutine(CountStandingTime());
+#endif
         }
+    }
+
+    private void SmoothTimeScaleSetter(float timeValue)
+    {
+        LeanTween.value(gameObject, 1f, timeValue, .4f)
+        .setEaseOutQuart()
+        .setOnUpdate((timeValue) =>
+            {
+                Time.fixedDeltaTime *= timeValue;
+                Time.timeScale = timeValue;
+            });
+    }
+
+    private void ShowGameOverScreen(bool show)
+    {
+        if(show)
+        {
+            GameOverScreen.DOFade(1f, .4f);
+            GameOverScreen.interactable = true;
+            GameOverScreen.blocksRaycasts = true;
+        }
+        else
+        {
+            gameOverBlackout.DOFade(0f, 0f);
+            GameOverScreen.DOFade(0f, 0f);
+            GameOverScreen.interactable = false;
+            GameOverScreen.blocksRaycasts = false;
+        }
+    }
+
+    private void ScreenBlackout()
+    {
+        gameOverBlackout.DOFade(1f, 2f);
     }
 
     private IEnumerator Die()
     {
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerDeathCount++;
+        AnalyticsService.Instance.CustomData("playerDie", new Dictionary<string, object>()
+            {
+                { "playerHealthKitCount", playerHealthKitCount },
+                { "playerDeathCount", playerDeathCount },
+                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
+                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerInteract.playerBottleCount },
+                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "enemiesKilled", enemiesKilled },
+                { "enemyShotsFiredCount", enemyShotsFiredCount },
+                { "enemyShotsHit", enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+            });
+#endif
+        SmoothTimeScaleSetter(.5f);
         playerInput.DeactivateInput();
         camManager.EnableAll(false);
         HUD.SetActive(false);
@@ -248,11 +347,15 @@ public class PlayerController : MonoBehaviour
         {
             r.isKinematic = false;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
+        ScreenBlackout();
         LoadFromCheckpoint();
+        yield return new WaitForSeconds(2.5f);
+        ShowGameOverScreen(true);
+        yield return new WaitForSeconds(.4f);
 
-        Time.timeScale = 0;
-        GameOverScreen.SetActive(true);
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = .02f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -262,7 +365,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
-            StartCoroutine("Die");
+            StartCoroutine(Die());
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
@@ -272,6 +375,9 @@ public class PlayerController : MonoBehaviour
         if (health + healthAmount > 1f) health = 1f;
         else health += healthAmount;
         healthSlider.DOValue(health, .5f, false);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        playerHealthKitCount++;
+#endif
     }
     public void TogglePauseMenu()
     {
@@ -299,5 +405,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
         camManager.EnableAll(false);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        Analytics.CustomEvent("level2Completed");
+#endif
     }
 }
