@@ -1,30 +1,90 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using System.Collections;
+using Unity.Services.Analytics;
+using System.Collections.Generic;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using UnityEngine.Analytics;
+#endif
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private CanvasGroup mainMenu;
+    [SerializeField] private CanvasGroup settings;
     [SerializeField] private GameObject onboarding;
+    private bool isViewingOnboarding = false;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    public float onboardingTimeSpent = 0f;
+#endif
 
     private void Start()
     {
-        mainMenu.SetActive(true);
+        mainMenu.gameObject.SetActive(true);
+        settings.gameObject.SetActive(false);
         onboarding.SetActive(false);
     }
 
     public void ShowOnboarding()
     {
-        mainMenu.SetActive(false);
+        mainMenu.gameObject.SetActive(false);
         onboarding.SetActive(true);
+        isViewingOnboarding = true;
+        StartCoroutine(CountOnboardingTime());
+    }
+
+    private IEnumerator CountOnboardingTime()
+    {
+        while(isViewingOnboarding)
+        {
+            onboardingTimeSpent += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void StartGame()
     {
+        isViewingOnboarding = false;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
+        {
+            { "onboardingTimeSpent", onboardingTimeSpent }
+        });
+#endif
         SceneManager.LoadScene("SceneTunnel");
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void ShowSettings()
+    {
+        settings.gameObject.SetActive(true);
+        
+        ShowCanvasGroup(mainMenu, false);
+        ShowCanvasGroup(settings, true);
+    }
+    public void HideSettings()
+    {
+        ShowCanvasGroup(settings, false);
+        ShowCanvasGroup(mainMenu, true);
+        settings.gameObject.SetActive(false);
+    }
+
+    private void ShowCanvasGroup(CanvasGroup group, bool show)
+    {
+        group.interactable = show;
+        group.blocksRaycasts = show;
+        if (show)
+        {
+            group.DOFade(1f, .2f);
+        }
+        else
+        {
+            group.DOFade(0f, .2f);
+        }
     }
 }
