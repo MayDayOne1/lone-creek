@@ -70,26 +70,7 @@ public class PlayerController : MonoBehaviour
     public static float playerTimeSpentStanding = 0f;
 
 #endif
-    private void Checkpoint()
-    {
-        savedHealth = health;
-        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
-        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
-        healthSlider.value = savedHealth;
-        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
-        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
-    }
-
-    private void LoadFromCheckpoint()
-    {
-        health = savedHealth;
-        PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
-        PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
-        healthSlider.value = health;
-        PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
-        PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
-    }
-
+  
     private void Start()
     {
         LeanTween.cancelAll();
@@ -121,8 +102,8 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         camManager.EnableAll(true);
         this.gameObject.SetActive(true);
-
         Checkpoint();
+        LoadFromCheckpoint();
 
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
@@ -163,8 +144,38 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
+    private void Checkpoint()
+    {
+        savedHealth = health;
+        healthSlider.value = savedHealth;
+        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
+        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
+        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
+        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
+    }
+    private void LoadFromCheckpoint()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            Debug.Log("Tunnels loaded!");
+            health = 1;
+            healthSlider.value = health;
+            PlayerInteract.hasThrowable = false;
+            PlayerInteract.hasPrimary = false;
+            PlayerAmmoManager.currentAmmo = 0;
+            PlayerAmmoManager.currentClip = 0;
+        }
+        else
+        {
+            health = savedHealth;
+            PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
+            PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
+            healthSlider.value = health;
+            PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
+            PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+        }
+    }
     public float GetHealth() => health;
-
     public void SetSpeed(float otherSpeed)
     {
         speed = otherSpeed;
@@ -182,7 +193,6 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
     }
-    
     private void Move()
     {
         AimingLogic();
@@ -245,13 +255,11 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
-
     private IEnumerator CountStandingTime()
     {
         playerTimeSpentStanding += Time.deltaTime;
         yield return null;
     }    
-
     private IEnumerator CountCrouchTime()
     {
         playerTimeSpentCrouching += Time.deltaTime;
@@ -284,7 +292,6 @@ public class PlayerController : MonoBehaviour
 #endif
         }
     }
-
     private void SmoothTimeScaleSetter(float timeValue)
     {
         LeanTween.value(gameObject, 1f, timeValue, .4f)
@@ -295,7 +302,6 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = timeValue;
             });
     }
-
     private void ShowGameOverScreen(bool show)
     {
         if(show)
@@ -312,12 +318,10 @@ public class PlayerController : MonoBehaviour
             GameOverScreen.blocksRaycasts = false;
         }
     }
-
     private void ScreenBlackout()
     {
         gameOverBlackout.DOFade(1f, 2f);
     }
-
     private IEnumerator Die()
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -349,7 +353,6 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(.5f);
         ScreenBlackout();
-        LoadFromCheckpoint();
         yield return new WaitForSeconds(2.5f);
         ShowGameOverScreen(true);
         yield return new WaitForSeconds(.4f);

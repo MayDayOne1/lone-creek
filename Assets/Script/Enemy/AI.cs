@@ -75,6 +75,7 @@ public class AI : MonoBehaviour
         this.enabled = false;
         anim.enabled = false;
         HealthSlider.gameObject.SetActive(false);
+        this.gameObject.tag = "Untagged";
         foreach (Rigidbody r in childrenRB)
         {
             r.isKinematic = false;
@@ -159,8 +160,7 @@ public class AI : MonoBehaviour
             // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
             // Destroy(bullet.gameObject, .5f);
 
-            RaycastHit hit;
-            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
+            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
             {
                 // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
                 if (hit.transform.gameObject.CompareTag("Player"))
