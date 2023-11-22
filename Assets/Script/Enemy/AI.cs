@@ -16,7 +16,7 @@ public class AI : MonoBehaviour
     [SerializeField] private float rifleDamage = .25f;
     private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
-    [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
+    [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     private float aimRigWeight;
     private Rigidbody[] childrenRB;
     public Transform DummyBullet;
@@ -106,8 +106,6 @@ public class AI : MonoBehaviour
         {
             currentState.WalkTowardsPlayer();
             agent.isStopped = false;
-            //anim.SetBool("IsPatrolling", false);
-            //anim.SetBool("IsPursuing", true);
             agent.speed = 4;
         }       
         
@@ -137,7 +135,6 @@ public class AI : MonoBehaviour
         }
         
     }
-
     private IEnumerator Invincibility()
     {
         isInvincible = true;
@@ -156,17 +153,15 @@ public class AI : MonoBehaviour
             anim.SetTrigger("Shoot");
             // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
-            // Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
-            // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
-            // Destroy(bullet.gameObject, .5f);
 
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
             {
-                // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
-                if (hit.transform.gameObject.CompareTag("Player"))
+                Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
+                Debug.Log(hit.transform.gameObject.name);
+                if (hit.transform.gameObject.layer == 6)
                 {
                     float chance = Random.Range(0f, 1f);
-                    // Debug.Log("chance: " + chance);
+                    Debug.Log("chance: " + chance);
                     if(chance < hitChance)
                     {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);

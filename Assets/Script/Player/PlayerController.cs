@@ -155,17 +155,7 @@ public class PlayerController : MonoBehaviour
     }
     private void LoadFromCheckpoint()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            Debug.Log("Tunnels loaded!");
-            health = 1;
-            healthSlider.value = health;
-            PlayerInteract.hasThrowable = false;
-            PlayerInteract.hasPrimary = false;
-            PlayerAmmoManager.currentAmmo = 0;
-            PlayerAmmoManager.currentClip = 0;
-        }
-        else
+        if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             health = savedHealth;
             PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
@@ -173,6 +163,15 @@ public class PlayerController : MonoBehaviour
             healthSlider.value = health;
             PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
             PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+        }
+        else
+        {
+            health = 1;
+            healthSlider.value = health;
+            PlayerInteract.hasThrowable = false;
+            PlayerInteract.hasPrimary = false;
+            PlayerAmmoManager.currentAmmo = 0;
+            PlayerAmmoManager.currentClip = 0;
         }
     }
     public float GetHealth() => health;
