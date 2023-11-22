@@ -75,9 +75,9 @@ public class AI : MonoBehaviour
         this.enabled = false;
         anim.enabled = false;
         HealthSlider.gameObject.SetActive(false);
-        this.gameObject.tag = "Untagged";
         foreach (Rigidbody r in childrenRB)
         {
+            r.gameObject.tag = "Untagged";
             r.isKinematic = false;
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
