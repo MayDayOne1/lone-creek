@@ -73,8 +73,13 @@ public class PlayerShootingManager : MonoBehaviour
         playerTimeSpentAiming += Time.deltaTime;
         yield return null;
     }
+    private void SetAimRigWeight(float newWeight)
+    {
+        aimRig.weight = Mathf.Lerp(aimRigWeight, newWeight, Time.deltaTime * 20f);
+    }
     private void StartAimingPistol()
     {
+        SetAimRigWeight(1f);
         IsAimingPistol = true;
         Crosshair.gameObject.SetActive(true);
         if (playerController.IsCrouching)
@@ -84,7 +89,6 @@ public class PlayerShootingManager : MonoBehaviour
         {
             camManager.ActivateAim();
         }
-        aimRigWeight = 1f;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerTimesAimed++;
         StartCoroutine(CountAimingTime());
@@ -102,26 +106,29 @@ public class PlayerShootingManager : MonoBehaviour
         {
             camManager.ActivateNormal();
         }
-        aimRigWeight = 0f;
+        SetAimRigWeight(0f);
         playerController.SetSpeed(playerController.runSpeed);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         StopCoroutine(CountAimingTime());
 #endif
 
     }
-    private void AimTowardsCrosshair()
+    private IEnumerator AimTowardsCrosshair()
     {
-        
-        Vector2 screenCenterPoint = new (Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
+        while(IsAimingPistol)
         {
-            dummyTransform.position = hit.point;
-            mouseWorldPos = hit.point;
-            hitTransform = hit.transform;
+            Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderLayerMask))
+            {
+                dummyTransform.position = hit.point;
+                mouseWorldPos = hit.point;
+                hitTransform = hit.transform;
 
-            if (hitTransform.CompareTag("Enemy")) Crosshair.color = Color.red;
-            else Crosshair.color = Color.white;
+                if (hitTransform.CompareTag("Enemy")) Crosshair.color = Color.red;
+                else Crosshair.color = Color.white;
+            }
+            yield return null;
         }
     }
     private void StartAimingThrowable()
@@ -129,12 +136,18 @@ public class PlayerShootingManager : MonoBehaviour
         if(PlayerInteract.hasThrowable)
         {
             IsAimingThrowable = true;
-            animManager.SetThrow(true);
-            animManager.SetBool(IS_AIMING_THROWABLE, true);
-            DrawLine();
+            if (playerController.IsCrouching)
+            {
+                Debug.Log("Activate crouch aim");
+                camManager.ActivateCrouchAim();
+            }
+            else
+            {
+                Debug.Log("Activate aim");
+                camManager.ActivateAim();
+            }
 
-            if (playerController.IsCrouching) camManager.ActivateCrouchAim();
-            else camManager.ActivateAim();
+            StartCoroutine(DrawLine());
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerTimesAimed++;
@@ -147,29 +160,33 @@ public class PlayerShootingManager : MonoBehaviour
         animManager.SetThrow(false);
         lineRenderer.enabled = false;
         animManager.SetBool(IS_AIMING_THROWABLE, false);
-
         if (playerController.IsCrouching) camManager.ActivateCrouch();
         else camManager.ActivateNormal();
+
+        StopCoroutine(DrawLine());
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         StopCoroutine(CountAimingTime());
 #endif
     }
-    private void DrawLine()
+    private IEnumerator DrawLine()
     {
-        lineRenderer.enabled = true;
-        lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
-        Vector3 startPos = PlayerBottle.position;
-        Vector3 startVelocity = ThrowStrength * cam.transform.forward;
-        // Debug.Log("Cam transform position: " + Cam.transform.position);
-        int i = 0;
-        lineRenderer.SetPosition(i, startPos);
-        for (float time = 0; time < LinePoints; time += TimeBetweenPoints)
+        while(IsAimingThrowable)
         {
-            i++;
-            Vector3 point = startPos + time * startVelocity;
-            point.y = startPos.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
-            lineRenderer.SetPosition(i, point);
+            lineRenderer.enabled = true;
+            lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
+            Vector3 startPos = PlayerBottle.position;
+            Vector3 startVelocity = ThrowStrength * cam.transform.forward;
+            int i = 0;
+            lineRenderer.SetPosition(i, startPos);
+            for (float time = 0; time < LinePoints; time += TimeBetweenPoints)
+            {
+                i++;
+                Vector3 point = startPos + time * startVelocity;
+                point.y = startPos.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
+                lineRenderer.SetPosition(i, point);
+            }
+            yield return null;
         }
     }
     private void Throw()
@@ -236,48 +253,34 @@ public class PlayerShootingManager : MonoBehaviour
             DisablePistol();
         }
     }
-
-    private IEnumerator AimingCoroutine(float aimValue)
+    public void Aim(InputAction.CallbackContext context)
     {
-        if(chooseWeapon.IsThrowableSelected)
+        if(context.performed)
         {
-            StopAimingPistol();
-            StartAimingThrowable();
-        } else if(chooseWeapon.IsPrimarySelected)
-        {
-            StartAimingPistol();
-            StopAimingThrowable();
-        } else
+            if (chooseWeapon.IsThrowableSelected)
+            {
+                StopAimingPistol();
+                StartAimingThrowable();
+                StartCoroutine(AimTowardsCrosshair());
+            }
+            else if (chooseWeapon.IsPrimarySelected)
+            {
+                StartAimingPistol();
+                StopAimingThrowable();
+                StartCoroutine(AimTowardsCrosshair());
+            }
+            else
+            {
+                StopAimingThrowable();
+                StopAimingPistol();
+                StopCoroutine(AimTowardsCrosshair());
+            }
+        }
+        else if(context.canceled)
         {
             StopAimingThrowable();
             StopAimingPistol();
         }
-        while(aimValue == 1)
-        {
-            AimTowardsCrosshair();
-            yield return null;
-        }
-    }
-    public void Aim()
-    {
-        Debug.Log("aiming");
-        float aimValue = aimAction.action.ReadValue<float>();
-        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
-        StartCoroutine(AimingCoroutine(aimValue));
-        //if (chooseWeapon.IsThrowableSelected)
-        //{
-        //    StopAimingPistol();
-        //    if (aimValue == 1f) StartAimingThrowable();
-        //    else StopAimingThrowable();
-        //} else if (chooseWeapon.IsPrimarySelected)
-        //{
-        //    if(aimValue == 1f) StartAimingPistol();
-        //    else StopAimingPistol();
-        //} else
-        //{
-        //    StopAimingThrowable();
-        //    StopAimingPistol();
-        //}   
     }
     public void Shoot()
     {

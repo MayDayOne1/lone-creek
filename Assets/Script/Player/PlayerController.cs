@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public float Sensitivity = 1f;
 
     private const string IS_AIMING_PISTOL = "isAimingPistol";
+    private const string IS_AIMING_THROWABLE = "isAimingThrowable";
 
     private CharacterController controller;
     private PlayerShootingManager playerShootingManager;
@@ -232,6 +233,22 @@ public class PlayerController : MonoBehaviour
         {
             speed = runSpeed;
             animManager.SetBool(IS_AIMING_PISTOL, false);
+            if (IsCrouching) camManager.ActivateCrouch();
+            else camManager.ActivateNormal();
+        }
+
+        if(playerShootingManager.IsAimingThrowable)
+        {
+            speed = crouchSpeed;
+            animManager.SetThrow(true);
+            animManager.SetBool(IS_AIMING_THROWABLE, true);
+            if (IsCrouching) camManager.ActivateCrouchAim();
+            else camManager.ActivateAim();
+        }
+        else
+        {
+            speed = runSpeed;
+            animManager.SetBool(IS_AIMING_THROWABLE, false);
             if (IsCrouching) camManager.ActivateCrouch();
             else camManager.ActivateNormal();
         }
