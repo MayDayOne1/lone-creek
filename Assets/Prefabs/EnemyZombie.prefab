@@ -1379,6 +1379,57 @@ Transform:
   m_Father: {fileID: 44993537942429464}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2066544821654422138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7406078574521150387}
+  - component: {fileID: 6438686167701602160}
+  m_Layer: 0
+  m_Name: EnemyMouthSoundEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7406078574521150387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066544821654422138}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.005, y: -0.026, z: 0.113}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7178413083760556443}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6438686167701602160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066544821654422138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d206425853fe44a80c99751d944a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ai: {fileID: 3636924020291663329}
+  idle1: {fileID: 8300000, guid: 674b92564d32a9a45973a4ffee1ce19a, type: 3}
+  idle2: {fileID: 8300000, guid: e9da1e12243c6c4429e048f23a7e3f25, type: 3}
+  idle3: {fileID: 8300000, guid: c316d89b447f9b64a80ea1a8e9f14ed0, type: 3}
+  damage: {fileID: 8300000, guid: f208b70d772aaa844bc81be63441460b, type: 3}
+  death: {fileID: 8300000, guid: 396c8acff31e5b84783c1b185d818982, type: 3}
+  isAlive: 1
 --- !u!1 &2075513601905486197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d9a6ffb84b9954da9b3823412cfce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundManager: {fileID: 6438686167701602160}
   rifleDamage: 0.25
   aimRig: {fileID: 5539851256870222426}
   hitChance: 0.8
@@ -3293,6 +3345,7 @@ Transform:
   - {fileID: 5388442106761805173}
   - {fileID: 3675479940381881302}
   - {fileID: 2244981142545033562}
+  - {fileID: 7406078574521150387}
   m_Father: {fileID: 7499767263594074337}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

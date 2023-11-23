@@ -5,7 +5,6 @@ using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour
@@ -13,10 +12,11 @@ public class AI : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private float health = 1f;
+    [SerializeField] private EnemySoundManager soundManager;
     [SerializeField] private float rifleDamage = .25f;
-    private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
     [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
+    private bool isInvincible = false;
     private float aimRigWeight;
     private Rigidbody[] childrenRB;
     public Transform DummyBullet;
@@ -75,6 +75,8 @@ public class AI : MonoBehaviour
         this.enabled = false;
         anim.enabled = false;
         HealthSlider.gameObject.SetActive(false);
+        soundManager.isAlive = false;
+        soundManager.EmitDeathSound();
         foreach (Rigidbody r in childrenRB)
         {
             r.gameObject.tag = "Untagged";
@@ -130,6 +132,10 @@ public class AI : MonoBehaviour
             {
                 health = 0f;
                 Die();
+            }
+            else
+            {
+                soundManager.EmitDamageSound();
             }
             StartCoroutine(Invincibility());
         }

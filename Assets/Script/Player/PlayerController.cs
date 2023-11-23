@@ -11,6 +11,7 @@ using Unity.Services.Analytics;
 #endif
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
 {
     [Header("MOVEMENT")]
