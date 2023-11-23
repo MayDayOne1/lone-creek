@@ -30,7 +30,14 @@ public class ChooseWeapon : MonoBehaviour
     {
         shootingManager.SetAimRigWeight(0f);
         shootingManager.SetCrosshairVisibility(false);
-        camManager.ActivateNormal();
+        if(controller.IsCrouching)
+        {
+            camManager.ActivateCrouch();
+        }
+        else
+        {
+            camManager.ActivateNormal();
+        }
         IsThrowableSelected = false;
         IsPrimarySelected = false;
         playerInteract.Throwable.SetActive(false);
