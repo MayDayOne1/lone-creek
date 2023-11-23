@@ -76,7 +76,12 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void SetAimRigWeight(float newWeight)
     {
-        aimRig.weight = Mathf.Lerp(aimRigWeight, newWeight, Time.deltaTime * 20f);
+        //aimRig.weight = Mathf.Lerp(aimRigWeight, newWeight, Time.deltaTime * 20f);
+        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
+            .setOnUpdate((value) =>
+            {
+                aimRig.weight = value;
+            });
     }
     private void StartAimingPistol()
     {
@@ -88,12 +93,10 @@ public class PlayerShootingManager : MonoBehaviour
         animManager.SetBool(IS_AIMING_PISTOL, true);
         if (controller.IsCrouching)
         {
-            Debug.Log("Activate crouch aim");
             camManager.ActivateCrouchAim();
         }
         else
         {
-            Debug.Log("Activate aim");
             camManager.ActivateAim();
         }
 
@@ -153,12 +156,10 @@ public class PlayerShootingManager : MonoBehaviour
 
             if (controller.IsCrouching)
             {
-                Debug.Log("Activate crouch aim");
                 camManager.ActivateCrouchAim();
             }
             else
             {
-                Debug.Log("Activate aim");
                 camManager.ActivateAim();
             }
 
