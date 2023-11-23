@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-using Unity.Services.Analytics;
 using System.Collections.Generic;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 public class MainMenuManager : MonoBehaviour
@@ -46,6 +45,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         isViewingOnboarding = false;
+        StopCoroutine(CountOnboardingTime());
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
         {

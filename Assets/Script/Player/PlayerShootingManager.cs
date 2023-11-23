@@ -19,7 +19,6 @@ public class PlayerShootingManager : MonoBehaviour
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
 
-
     [Header("THROW")]
     [SerializeField] private Transform PlayerBottle;
     [SerializeField] private GameObject ThrowablePlayerBottle;
@@ -65,6 +64,7 @@ public class PlayerShootingManager : MonoBehaviour
         ammoManager = GetComponent<PlayerAmmoManager>();
 
         cooldownTimer = cooldown;
+        aimRig.weight = 0f;
         Crosshair.gameObject.SetActive(false);
     }
 
@@ -73,7 +73,6 @@ public class PlayerShootingManager : MonoBehaviour
         playerTimeSpentAiming += Time.deltaTime;
         yield return null;
     }
-
     private void StartAimingPistol()
     {
         IsAimingPistol = true;
@@ -237,25 +236,48 @@ public class PlayerShootingManager : MonoBehaviour
             DisablePistol();
         }
     }
-    public void Aim()
+
+    private IEnumerator AimingCoroutine(float aimValue)
     {
-        AimTowardsCrosshair();
-        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
-        float aimValue = aimAction.action.ReadValue<float>();
-        if (chooseWeapon.IsThrowableSelected)
+        if(chooseWeapon.IsThrowableSelected)
         {
             StopAimingPistol();
-            if (aimValue == 1f) StartAimingThrowable();
-            else StopAimingThrowable();
-        } else if (chooseWeapon.IsPrimarySelected)
+            StartAimingThrowable();
+        } else if(chooseWeapon.IsPrimarySelected)
         {
-            if(aimValue == 1f) StartAimingPistol();
-            else StopAimingPistol();
+            StartAimingPistol();
+            StopAimingThrowable();
         } else
         {
             StopAimingThrowable();
             StopAimingPistol();
-        }   
+        }
+        while(aimValue == 1)
+        {
+            AimTowardsCrosshair();
+            yield return null;
+        }
+    }
+    public void Aim()
+    {
+        Debug.Log("aiming");
+        float aimValue = aimAction.action.ReadValue<float>();
+        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
+        StartCoroutine(AimingCoroutine(aimValue));
+        //if (chooseWeapon.IsThrowableSelected)
+        //{
+        //    StopAimingPistol();
+        //    if (aimValue == 1f) StartAimingThrowable();
+        //    else StopAimingThrowable();
+        //} else if (chooseWeapon.IsPrimarySelected)
+        //{
+        //    if(aimValue == 1f) StartAimingPistol();
+        //    else StopAimingPistol();
+        //} else
+        //{
+        //    StopAimingThrowable();
+        //    StopAimingPistol();
+        //}   
     }
     public void Shoot()
     {

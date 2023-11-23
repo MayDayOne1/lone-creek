@@ -146,23 +146,21 @@ public class AI : MonoBehaviour
     {
         if(agent.enabled && playerController.GetHealth() > 0f)
         {
-            // Debug.Log("Shooting");
             EnableAim();
             Gunshot.Play();
             MuzzleFlash.Play();
             anim.SetTrigger("Shoot");
-            // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
 
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
             {
-                Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
-                Debug.Log(hit.transform.gameObject.name);
+                // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
                 if (hit.transform.gameObject.layer == 6)
                 {
                     float chance = Random.Range(0f, 1f);
-                    Debug.Log("chance: " + chance);
-                    if(chance < hitChance)
+                    float roundChance = Mathf.Round(chance * 100f) / 100f;
+                    Debug.Log("chance: " + roundChance);
+                    if(roundChance < hitChance)
                     {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS

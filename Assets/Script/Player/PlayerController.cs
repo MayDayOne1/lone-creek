@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 [RequireComponent(typeof(CharacterController))]
@@ -56,6 +55,9 @@ public class PlayerController : MonoBehaviour
 
     public static float savedHealth;
 
+    public IEnumerator level1coroutine;
+    public IEnumerator level2coroutine;
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;
     public static int enemyShotsFiredCount = 0;
@@ -93,6 +95,7 @@ public class PlayerController : MonoBehaviour
         ShowGameOverScreen(false);
 
         IsCrouching = false;
+        StartCoroutine(CountStandingTime());
         animManager.DisableAllLayers();
 
         PauseMenu.SetActive(false);
@@ -111,12 +114,14 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = true;
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+        level1coroutine = Level1Timer();
+        level2coroutine = Level2Timer();
         if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            level1TimeSpent += Time.deltaTime;
+            StartCoroutine(level1coroutine);
         } else if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
-            level2TimeSpent += Time.deltaTime;
+            StartCoroutine(level2coroutine);
         }
 #endif
     }
@@ -136,7 +141,7 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerGrounded();
         Move();
-        playerShootingManager.Aim();
+        // playerShootingManager.Aim();
     }
 
     private void FixedUpdate()
@@ -144,6 +149,22 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
+    private IEnumerator Level1Timer()
+    {
+        while(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            level1TimeSpent += Time.deltaTime;
+            yield return null;
+        }
+    }
+    private IEnumerator Level2Timer()
+    {
+        while(SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            level2TimeSpent += Time.deltaTime;
+            yield return null;
+        }
+    }
     private void Checkpoint()
     {
         savedHealth = health;
@@ -256,13 +277,20 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator CountStandingTime()
     {
-        playerTimeSpentStanding += Time.deltaTime;
-        yield return null;
+        while(!IsCrouching)
+        {
+            playerTimeSpentStanding += Time.deltaTime;
+            yield return null;
+        }
+        
     }    
     private IEnumerator CountCrouchTime()
     {
-        playerTimeSpentCrouching += Time.deltaTime;
-        yield return null;
+        while(IsCrouching)
+        {
+            playerTimeSpentCrouching += Time.deltaTime;
+            yield return null;
+        }
     }
     public void Crouch()
     {
@@ -367,6 +395,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
+            StopAllCoroutines();
             StartCoroutine(Die());
         }
         healthSlider.DOValue(health, .2f, false);
@@ -403,12 +432,10 @@ public class PlayerController : MonoBehaviour
     }
     public void VictorySetup()
     {
+        StopCoroutine(level2coroutine);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
         camManager.EnableAll(false);
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-        Analytics.CustomEvent("level2Completed");
-#endif
     }
 }
