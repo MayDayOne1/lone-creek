@@ -12,7 +12,7 @@ public class PlayerShootingManager : MonoBehaviour
     private ChooseWeapon chooseWeapon;
     private PlayerAnimManager animManager;
     private PlayerInteract playerInteract;
-    private PlayerController playerController;
+    private PlayerController controller;
     private PlayerCamManager camManager;
     private PlayerAmmoManager ammoManager;
     private float aimRigWeight;
@@ -30,9 +30,6 @@ public class PlayerShootingManager : MonoBehaviour
     private GameObject BottleToInstantiate;
     public bool IsAimingThrowable = false;
 
-    private const string IS_AIMING_THROWABLE = "isAimingThrowable";
-    private const string THROW = "Throw";
-
     [Header("PISTOL")]
     [SerializeField] private LayerMask aimColliderLayerMask = new();
     [SerializeField] private Transform dummyTransform;
@@ -45,6 +42,10 @@ public class PlayerShootingManager : MonoBehaviour
     public bool IsAimingPistol = false;
     public float PistolDamage = .2f;
     public bool CanShoot = false;
+
+    private const string IS_AIMING_THROWABLE = "isAimingThrowable";
+    private const string THROW = "Throw";
+    private const string IS_AIMING_PISTOL = "isAimingPistol";
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleThrowCount = 0;
@@ -59,7 +60,7 @@ public class PlayerShootingManager : MonoBehaviour
         chooseWeapon = GetComponent<ChooseWeapon>();
         animManager = GetComponent<PlayerAnimManager>();
         playerInteract = GetComponent<PlayerInteract>();
-        playerController = GetComponent<PlayerController>();
+        controller = GetComponent<PlayerController>();
         camManager = GetComponent<PlayerCamManager>();
         ammoManager = GetComponent<PlayerAmmoManager>();
 
@@ -82,13 +83,20 @@ public class PlayerShootingManager : MonoBehaviour
         SetAimRigWeight(1f);
         IsAimingPistol = true;
         Crosshair.gameObject.SetActive(true);
-        if (playerController.IsCrouching)
+
+        controller.SetSpeed(controller.crouchSpeed);
+        animManager.SetBool(IS_AIMING_PISTOL, true);
+        if (controller.IsCrouching)
         {
+            Debug.Log("Activate crouch aim");
             camManager.ActivateCrouchAim();
-        } else
+        }
+        else
         {
+            Debug.Log("Activate aim");
             camManager.ActivateAim();
         }
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerTimesAimed++;
         StartCoroutine(CountAimingTime());
@@ -96,9 +104,13 @@ public class PlayerShootingManager : MonoBehaviour
     }
     private void StopAimingPistol()
     {
+        SetAimRigWeight(0f);
         IsAimingPistol = false;
         Crosshair.gameObject.SetActive(false);
-        if (playerController.IsCrouching)
+
+        controller.SetSpeed(controller.runSpeed);
+        animManager.SetBool(IS_AIMING_PISTOL, false);
+        if (controller.IsCrouching)
         {
             camManager.ActivateCrouch();
         }
@@ -106,8 +118,7 @@ public class PlayerShootingManager : MonoBehaviour
         {
             camManager.ActivateNormal();
         }
-        SetAimRigWeight(0f);
-        playerController.SetSpeed(playerController.runSpeed);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         StopCoroutine(CountAimingTime());
 #endif
@@ -136,7 +147,11 @@ public class PlayerShootingManager : MonoBehaviour
         if(PlayerInteract.hasThrowable)
         {
             IsAimingThrowable = true;
-            if (playerController.IsCrouching)
+            controller.SetSpeed(controller.crouchSpeed);
+            animManager.SetThrow(true);
+            animManager.SetBool(IS_AIMING_THROWABLE, true);
+
+            if (controller.IsCrouching)
             {
                 Debug.Log("Activate crouch aim");
                 camManager.ActivateCrouchAim();
@@ -157,11 +172,18 @@ public class PlayerShootingManager : MonoBehaviour
     private void StopAimingThrowable()
     {
         IsAimingThrowable = false;
+        controller.SetSpeed(controller.runSpeed);
         animManager.SetThrow(false);
-        lineRenderer.enabled = false;
         animManager.SetBool(IS_AIMING_THROWABLE, false);
-        if (playerController.IsCrouching) camManager.ActivateCrouch();
-        else camManager.ActivateNormal();
+        lineRenderer.enabled = false;
+        if (controller.IsCrouching)
+        {
+            camManager.ActivateCrouch();
+        }
+        else
+        {
+            camManager.ActivateNormal();
+        }
 
         StopCoroutine(DrawLine());
 
@@ -231,7 +253,7 @@ public class PlayerShootingManager : MonoBehaviour
     {
         chooseWeapon.SelectNone();
         StopAimingPistol();
-        animManager.SetPistol(false, playerController.IsCrouching);
+        animManager.SetPistol(false, controller.IsCrouching);
     }
     private void CheckIfCanShoot()
     {
@@ -265,8 +287,8 @@ public class PlayerShootingManager : MonoBehaviour
             }
             else if (chooseWeapon.IsPrimarySelected)
             {
-                StartAimingPistol();
                 StopAimingThrowable();
+                StartAimingPistol();
                 StartCoroutine(AimTowardsCrosshair());
             }
             else

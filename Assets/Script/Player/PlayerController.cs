@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float crouchSpeed;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
     [SerializeField] private float blendSpaceDampTime = .1f;
@@ -26,10 +25,8 @@ public class PlayerController : MonoBehaviour
     private PlayerCamManager camManager;
     private float speed;
     public float runSpeed;
+    public float crouchSpeed;
     public float Sensitivity = 1f;
-
-    private const string IS_AIMING_PISTOL = "isAimingPistol";
-    private const string IS_AIMING_THROWABLE = "isAimingThrowable";
 
     private CharacterController controller;
     private PlayerShootingManager playerShootingManager;
@@ -142,7 +139,6 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerGrounded();
         Move();
-        // playerShootingManager.Aim();
     }
 
     private void FixedUpdate()
@@ -216,42 +212,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Move()
     {
-        AimingLogic();
         InputSystemMove();
-        
-    }
-    private void AimingLogic()
-    {
-        if (playerShootingManager.IsAimingPistol)
-        {
-            speed = crouchSpeed;
-            animManager.SetBool(IS_AIMING_PISTOL, true);
-            if (IsCrouching) camManager.ActivateCrouchAim();
-            else camManager.ActivateAim();
-        }
-        else
-        {
-            speed = runSpeed;
-            animManager.SetBool(IS_AIMING_PISTOL, false);
-            if (IsCrouching) camManager.ActivateCrouch();
-            else camManager.ActivateNormal();
-        }
-
-        if(playerShootingManager.IsAimingThrowable)
-        {
-            speed = crouchSpeed;
-            animManager.SetThrow(true);
-            animManager.SetBool(IS_AIMING_THROWABLE, true);
-            if (IsCrouching) camManager.ActivateCrouchAim();
-            else camManager.ActivateAim();
-        }
-        else
-        {
-            speed = runSpeed;
-            animManager.SetBool(IS_AIMING_THROWABLE, false);
-            if (IsCrouching) camManager.ActivateCrouch();
-            else camManager.ActivateNormal();
-        }
     }
     private void InputSystemMove()
     {
@@ -316,7 +277,15 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-            camManager.ActivateCrouch();
+            if(playerShootingManager.IsAimingPistol ||
+                playerShootingManager.IsAimingThrowable)
+            {
+                camManager.ActivateCrouchAim();
+            }
+            else
+            {
+                camManager.ActivateCrouch();
+            }
             animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesCrouched++;
@@ -328,7 +297,15 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = standingHeight;
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-            camManager.ActivateNormal();
+            if(playerShootingManager.IsAimingPistol ||
+                playerShootingManager.IsAimingThrowable)
+            {
+                camManager.ActivateAim();
+            }
+            else
+            {
+                camManager.ActivateNormal();
+            }
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());

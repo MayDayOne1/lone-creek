@@ -31,7 +31,6 @@ public class PlayerCamManager : MonoBehaviour
         CrouchCam.gameObject.SetActive(true);
         CrouchAimCam.gameObject.SetActive(false);
     }
-
     public void ActivateCrouchAim()
     {
         NormalCam.gameObject.SetActive(false);
