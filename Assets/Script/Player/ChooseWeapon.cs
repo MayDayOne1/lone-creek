@@ -3,8 +3,10 @@ using UnityEngine;
 public class ChooseWeapon : MonoBehaviour
 {
     private PlayerInteract playerInteract;
-    private PlayerController playerController;
+    private PlayerController controller;
     private PlayerAnimManager animManager;
+    private PlayerShootingManager shootingManager;
+    PlayerCamManager camManager;
     
     public GameObject AmmoBG;
     public GameObject ThrowableBG;
@@ -15,8 +17,10 @@ public class ChooseWeapon : MonoBehaviour
     private void Start()
     {
         playerInteract = GetComponent<PlayerInteract>();
-        playerController = GetComponent<PlayerController>();
+        controller = GetComponent<PlayerController>();
         animManager = GetComponent<PlayerAnimManager>();
+        shootingManager = GetComponent<PlayerShootingManager>();
+        camManager = GetComponent<PlayerCamManager>();
 
         AmmoBG.SetActive(false);
         ThrowableBG.SetActive(false);
@@ -24,6 +28,9 @@ public class ChooseWeapon : MonoBehaviour
 
     public void SelectNone()
     {
+        shootingManager.SetAimRigWeight(0f);
+        shootingManager.SetCrosshairVisibility(false);
+        camManager.ActivateNormal();
         IsThrowableSelected = false;
         IsPrimarySelected = false;
         playerInteract.Throwable.SetActive(false);
@@ -34,7 +41,8 @@ public class ChooseWeapon : MonoBehaviour
     public void SelectThrowable()
     {
         SelectNone();
-        animManager.SetPistol(false, playerController.IsCrouching);
+        shootingManager.SetAimRigWeight(0f);
+        animManager.SetPistol(false, controller.IsCrouching);
         if (PlayerInteract.hasThrowable)
         {
             IsThrowableSelected = true;
@@ -57,8 +65,7 @@ public class ChooseWeapon : MonoBehaviour
             playerInteract.Pistol.SetActive(true);
             AmmoBG.SetActive(true);
             ThrowableBG.SetActive(false);
-
-            animManager.SetPistol(true, playerController.IsCrouching);
+            animManager.SetPistol(true, controller.IsCrouching);
         }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerShootingManager : MonoBehaviour
     private PlayerController controller;
     private PlayerCamManager camManager;
     private PlayerAmmoManager ammoManager;
-    private float aimRigWeight;
+    private readonly float aimRigWeight;
     private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
 
@@ -74,7 +74,7 @@ public class PlayerShootingManager : MonoBehaviour
         playerTimeSpentAiming += Time.deltaTime;
         yield return null;
     }
-    private void SetAimRigWeight(float newWeight)
+    public void SetAimRigWeight(float newWeight)
     {
         //aimRig.weight = Mathf.Lerp(aimRigWeight, newWeight, Time.deltaTime * 20f);
         LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
@@ -83,11 +83,12 @@ public class PlayerShootingManager : MonoBehaviour
                 aimRig.weight = value;
             });
     }
+    public void SetCrosshairVisibility(bool isVisible) => Crosshair.gameObject.SetActive(isVisible);
     private void StartAimingPistol()
     {
         SetAimRigWeight(1f);
         IsAimingPistol = true;
-        Crosshair.gameObject.SetActive(true);
+        SetCrosshairVisibility(true);
 
         controller.SetSpeed(controller.crouchSpeed);
         animManager.SetBool(IS_AIMING_PISTOL, true);
@@ -109,7 +110,7 @@ public class PlayerShootingManager : MonoBehaviour
     {
         SetAimRigWeight(0f);
         IsAimingPistol = false;
-        Crosshair.gameObject.SetActive(false);
+        SetCrosshairVisibility(false);
 
         controller.SetSpeed(controller.runSpeed);
         animManager.SetBool(IS_AIMING_PISTOL, false);
@@ -145,10 +146,11 @@ public class PlayerShootingManager : MonoBehaviour
             yield return null;
         }
     }
-    private void StartAimingThrowable()
+    public void StartAimingThrowable()
     {
         if(PlayerInteract.hasThrowable)
         {
+            SetAimRigWeight(0f);
             IsAimingThrowable = true;
             controller.SetSpeed(controller.crouchSpeed);
             animManager.SetThrow(true);
@@ -225,6 +227,7 @@ public class PlayerShootingManager : MonoBehaviour
         PlayerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);
+        StopAimingThrowable();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerBottleThrowCount++;
 #endif
