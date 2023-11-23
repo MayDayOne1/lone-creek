@@ -36,7 +36,8 @@ public class ChooseWeapon : MonoBehaviour
         playerInteract.Throwable.SetActive(false);
         playerInteract.Pistol.SetActive(false);
         AmmoBG.SetActive(false);
-        
+        ThrowableBG.SetActive(false);
+
     }
     public void SelectThrowable()
     {

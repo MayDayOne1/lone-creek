@@ -9,6 +9,7 @@ using Unity.Services.Analytics;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController controller;
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup settings;
     [SerializeField] private GameObject onboarding;
@@ -46,6 +47,7 @@ public class MainMenuManager : MonoBehaviour
     {
         isViewingOnboarding = false;
         StopCoroutine(CountOnboardingTime());
+        controller.ResetAnalyticsData();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
         {

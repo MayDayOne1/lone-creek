@@ -146,6 +146,31 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
+    public void ResetAnalyticsData()
+    {
+        enemiesKilled = 0;
+        enemyShotsFiredCount = 0;
+        enemyShotsHit = 0;
+        playerDeathCount = 0;
+        playerHealthKitCount = 0;
+        onboardingTimeSpent = 0f;
+        level1TimeSpent = 0f;
+        level2TimeSpent = 0f;
+        playerTimesCrouched = 0;
+        playerTimeSpentCrouching = 0f;
+        playerTimeSpentStanding = 0f;
+
+        // ammo reset in LoadFromCheckpoint(), no reason to do it twice
+        PlayerShootingManager.playerBottleThrowCount = 0;
+        PlayerShootingManager.playerShotsFiredCount = 0;
+        PlayerShootingManager.playerShotsHit = 0;
+        PlayerShootingManager.playerTimesAimed = 0;
+        PlayerShootingManager.playerTimeSpentAiming = 0;
+
+        PlayerInteract.playerAmmoClipCount = 0;
+        PlayerInteract.playerBottleCount = 0;
+        PlayerInteract.playerPistolsPickedUp = 0;
+}
     private IEnumerator Level1Timer()
     {
         while(SceneManager.GetActiveScene().buildIndex == 1)

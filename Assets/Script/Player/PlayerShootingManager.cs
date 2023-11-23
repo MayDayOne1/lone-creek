@@ -71,8 +71,11 @@ public class PlayerShootingManager : MonoBehaviour
 
     private IEnumerator CountAimingTime()
     {
-        playerTimeSpentAiming += Time.deltaTime;
-        yield return null;
+        while(IsAimingThrowable || IsAimingPistol)
+        {
+            playerTimeSpentAiming += Time.deltaTime;
+            yield return null;
+        }
     }
     public void SetAimRigWeight(float newWeight)
     {
@@ -102,7 +105,6 @@ public class PlayerShootingManager : MonoBehaviour
         }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerTimesAimed++;
         StartCoroutine(CountAimingTime());
 #endif
     }
@@ -168,7 +170,6 @@ public class PlayerShootingManager : MonoBehaviour
             StartCoroutine(DrawLine());
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerTimesAimed++;
         StartCoroutine(CountAimingTime());
 #endif
     }
@@ -295,12 +296,9 @@ public class PlayerShootingManager : MonoBehaviour
                 StartAimingPistol();
                 StartCoroutine(AimTowardsCrosshair());
             }
-            else
-            {
-                StopAimingThrowable();
-                StopAimingPistol();
-                StopCoroutine(AimTowardsCrosshair());
-            }
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            playerTimesAimed++;
+#endif
         }
         else if(context.canceled)
         {
