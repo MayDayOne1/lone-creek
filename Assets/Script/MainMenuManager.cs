@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-using Unity.Services.Analytics;
 using System.Collections.Generic;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 public class MainMenuManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController controller;
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup settings;
     [SerializeField] private GameObject onboarding;
@@ -46,13 +46,15 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         isViewingOnboarding = false;
+        StopCoroutine(CountOnboardingTime());
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+        controller.ResetAnalyticsData();
         AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
         {
             { "onboardingTimeSpent", onboardingTimeSpent }
         });
 #endif
-        SceneManager.LoadScene("SceneTunnel");
+        // SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

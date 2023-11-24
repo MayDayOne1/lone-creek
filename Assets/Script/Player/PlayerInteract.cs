@@ -110,7 +110,7 @@ public class PlayerInteract : MonoBehaviour
         if (hasThrowable == false)
         {
             hasThrowable = true;
-            chooseWeapon.SelectThrowable();
+            if(!hasPrimary) chooseWeapon.SelectThrowable();
             Destroy(obj);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerBottleCount++;
@@ -123,8 +123,11 @@ public class PlayerInteract : MonoBehaviour
         if (hasPrimary == false)
         {
             hasPrimary = true;
-            chooseWeapon.SelectPrimary();
+            if(!hasThrowable) chooseWeapon.SelectPrimary();
             Destroy(obj);
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+            playerPistolsPickedUp++;
+#endif
         }
 
         string ammoText = obj.GetComponentInChildren<TextMeshProUGUI>().text;
@@ -132,7 +135,6 @@ public class PlayerInteract : MonoBehaviour
         ammoManager.CalculateAmmoFromPickup(obj, ammo);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerAmmoClipCount++;
-        playerPistolsPickedUp++;
 #endif
     }
     private void PickupAmmo(GameObject obj)

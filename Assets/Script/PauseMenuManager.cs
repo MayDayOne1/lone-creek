@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 
@@ -19,8 +18,9 @@ public class PauseMenuManager : MonoBehaviour
     public void OnQuit()
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        if (SceneManager.GetActiveScene().name == "SceneTunnel")
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            controller.StopCoroutine(controller.level1coroutine);
             AnalyticsService.Instance.CustomData("level1quit", new Dictionary<string, object>()
             {
                 { "enemiesKilled", PlayerController.enemiesKilled },
@@ -44,8 +44,9 @@ public class PauseMenuManager : MonoBehaviour
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
             });
         }
-        else if (SceneManager.GetActiveScene().name == "SceneDesert")
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
+            controller.StopCoroutine(controller.level2coroutine);
             AnalyticsService.Instance.CustomData("level2quit", new Dictionary<string, object>()
             {
                 { "enemiesKilled", PlayerController.enemiesKilled },
@@ -77,6 +78,5 @@ public class PauseMenuManager : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-
     }
 }

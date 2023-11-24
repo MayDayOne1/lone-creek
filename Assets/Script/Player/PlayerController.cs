@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-using Unity.Services.Analytics;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 [RequireComponent(typeof(CharacterController))]
@@ -18,7 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float crouchSpeed;
     [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float crouchingHeight = 1.0f;
     [SerializeField] private float blendSpaceDampTime = .1f;
@@ -27,9 +25,8 @@ public class PlayerController : MonoBehaviour
     private PlayerCamManager camManager;
     private float speed;
     public float runSpeed;
+    public float crouchSpeed;
     public float Sensitivity = 1f;
-
-    private const string IS_AIMING_PISTOL = "isAimingPistol";
 
     private CharacterController controller;
     private PlayerShootingManager playerShootingManager;
@@ -56,6 +53,9 @@ public class PlayerController : MonoBehaviour
 
     public static float savedHealth;
 
+    public IEnumerator level1coroutine;
+    public IEnumerator level2coroutine;
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;
     public static int enemyShotsFiredCount = 0;
@@ -70,26 +70,7 @@ public class PlayerController : MonoBehaviour
     public static float playerTimeSpentStanding = 0f;
 
 #endif
-    private void Checkpoint()
-    {
-        savedHealth = health;
-        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
-        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
-        healthSlider.value = savedHealth;
-        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
-        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
-    }
-
-    private void LoadFromCheckpoint()
-    {
-        health = savedHealth;
-        PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
-        PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
-        healthSlider.value = health;
-        PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
-        PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
-    }
-
+  
     private void Start()
     {
         LeanTween.cancelAll();
@@ -112,6 +93,7 @@ public class PlayerController : MonoBehaviour
         ShowGameOverScreen(false);
 
         IsCrouching = false;
+        StartCoroutine(CountStandingTime());
         animManager.DisableAllLayers();
 
         PauseMenu.SetActive(false);
@@ -121,8 +103,8 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         camManager.EnableAll(true);
         this.gameObject.SetActive(true);
-
         Checkpoint();
+        LoadFromCheckpoint();
 
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
@@ -130,12 +112,14 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = true;
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+        level1coroutine = Level1Timer();
+        level2coroutine = Level2Timer();
         if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            level1TimeSpent += Time.deltaTime;
+            StartCoroutine(level1coroutine);
         } else if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
-            level2TimeSpent += Time.deltaTime;
+            StartCoroutine(level2coroutine);
         }
 #endif
     }
@@ -155,7 +139,6 @@ public class PlayerController : MonoBehaviour
     {
         IsPlayerGrounded();
         Move();
-        playerShootingManager.Aim();
     }
 
     private void FixedUpdate()
@@ -163,8 +146,78 @@ public class PlayerController : MonoBehaviour
         CalculateCharacterRotation();  
     }
 
-    public float GetHealth() => health;
+    public void ResetAnalyticsData()
+    {
+        enemiesKilled = 0;
+        enemyShotsFiredCount = 0;
+        enemyShotsHit = 0;
+        playerDeathCount = 0;
+        playerHealthKitCount = 0;
+        onboardingTimeSpent = 0f;
+        level1TimeSpent = 0f;
+        level2TimeSpent = 0f;
+        playerTimesCrouched = 0;
+        playerTimeSpentCrouching = 0f;
+        playerTimeSpentStanding = 0f;
 
+        // ammo reset in LoadFromCheckpoint(), no reason to do it twice
+        PlayerShootingManager.playerBottleThrowCount = 0;
+        PlayerShootingManager.playerShotsFiredCount = 0;
+        PlayerShootingManager.playerShotsHit = 0;
+        PlayerShootingManager.playerTimesAimed = 0;
+        PlayerShootingManager.playerTimeSpentAiming = 0;
+
+        PlayerInteract.playerAmmoClipCount = 0;
+        PlayerInteract.playerBottleCount = 0;
+        PlayerInteract.playerPistolsPickedUp = 0;
+}
+    private IEnumerator Level1Timer()
+    {
+        while(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            level1TimeSpent += Time.deltaTime;
+            yield return null;
+        }
+    }
+    private IEnumerator Level2Timer()
+    {
+        while(SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            level2TimeSpent += Time.deltaTime;
+            yield return null;
+        }
+    }
+    private void Checkpoint()
+    {
+        savedHealth = health;
+        healthSlider.value = savedHealth;
+        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
+        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
+        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
+        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
+    }
+    private void LoadFromCheckpoint()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            health = savedHealth;
+            PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
+            PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
+            healthSlider.value = health;
+            PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
+            PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+        }
+        else
+        {
+            health = 1;
+            healthSlider.value = health;
+            PlayerInteract.hasThrowable = false;
+            PlayerInteract.hasPrimary = false;
+            PlayerAmmoManager.currentAmmo = 0;
+            PlayerAmmoManager.currentClip = 0;
+        }
+    }
+    public float GetHealth() => health;
     public void SetSpeed(float otherSpeed)
     {
         speed = otherSpeed;
@@ -182,29 +235,9 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
     }
-    
     private void Move()
     {
-        AimingLogic();
         InputSystemMove();
-        
-    }
-    private void AimingLogic()
-    {
-        if (playerShootingManager.IsAimingPistol)
-        {
-            speed = crouchSpeed;
-            animManager.SetBool(IS_AIMING_PISTOL, true);
-            if (IsCrouching) camManager.ActivateCrouchAim();
-            else camManager.ActivateAim();
-        }
-        else
-        {
-            speed = runSpeed;
-            animManager.SetBool(IS_AIMING_PISTOL, false);
-            if (IsCrouching) camManager.ActivateCrouch();
-            else camManager.ActivateNormal();
-        }
     }
     private void InputSystemMove()
     {
@@ -245,17 +278,22 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
-
     private IEnumerator CountStandingTime()
     {
-        playerTimeSpentStanding += Time.deltaTime;
-        yield return null;
+        while(!IsCrouching)
+        {
+            playerTimeSpentStanding += Time.deltaTime;
+            yield return null;
+        }
+        
     }    
-
     private IEnumerator CountCrouchTime()
     {
-        playerTimeSpentCrouching += Time.deltaTime;
-        yield return null;
+        while(IsCrouching)
+        {
+            playerTimeSpentCrouching += Time.deltaTime;
+            yield return null;
+        }
     }
     public void Crouch()
     {
@@ -264,7 +302,15 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = crouchingHeight;
             controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-            camManager.ActivateCrouch();
+            if(playerShootingManager.IsAimingPistol ||
+                playerShootingManager.IsAimingThrowable)
+            {
+                camManager.ActivateCrouchAim();
+            }
+            else
+            {
+                camManager.ActivateCrouch();
+            }
             animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesCrouched++;
@@ -276,7 +322,15 @@ public class PlayerController : MonoBehaviour
         {
             controller.height = standingHeight;
             controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-            camManager.ActivateNormal();
+            if(playerShootingManager.IsAimingPistol ||
+                playerShootingManager.IsAimingThrowable)
+            {
+                camManager.ActivateAim();
+            }
+            else
+            {
+                camManager.ActivateNormal();
+            }
             animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());
@@ -284,7 +338,6 @@ public class PlayerController : MonoBehaviour
 #endif
         }
     }
-
     private void SmoothTimeScaleSetter(float timeValue)
     {
         LeanTween.value(gameObject, 1f, timeValue, .4f)
@@ -295,7 +348,6 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = timeValue;
             });
     }
-
     private void ShowGameOverScreen(bool show)
     {
         if(show)
@@ -312,12 +364,10 @@ public class PlayerController : MonoBehaviour
             GameOverScreen.blocksRaycasts = false;
         }
     }
-
     private void ScreenBlackout()
     {
         gameOverBlackout.DOFade(1f, 2f);
     }
-
     private IEnumerator Die()
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -349,7 +399,6 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(.5f);
         ScreenBlackout();
-        LoadFromCheckpoint();
         yield return new WaitForSeconds(2.5f);
         ShowGameOverScreen(true);
         yield return new WaitForSeconds(.4f);
@@ -365,6 +414,7 @@ public class PlayerController : MonoBehaviour
         if(health <= 0f)
         {
             health = 0f;
+            StopAllCoroutines();
             StartCoroutine(Die());
         }
         healthSlider.DOValue(health, .2f, false);
@@ -401,12 +451,10 @@ public class PlayerController : MonoBehaviour
     }
     public void VictorySetup()
     {
+        StopCoroutine(level2coroutine);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
         camManager.EnableAll(false);
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-        Analytics.CustomEvent("level2Completed");
-#endif
     }
 }

@@ -5,7 +5,6 @@ using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class AI : MonoBehaviour
@@ -13,10 +12,11 @@ public class AI : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private float health = 1f;
+    [SerializeField] private EnemySoundManager soundManager;
     [SerializeField] private float rifleDamage = .25f;
-    private bool isInvincible = false;
     [SerializeField] private Rig aimRig;
-    [SerializeField][Range (0f, 1f)] private float hitChance = .7f;
+    [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
+    private bool isInvincible = false;
     private float aimRigWeight;
     private Rigidbody[] childrenRB;
     public Transform DummyBullet;
@@ -75,8 +75,11 @@ public class AI : MonoBehaviour
         this.enabled = false;
         anim.enabled = false;
         HealthSlider.gameObject.SetActive(false);
+        soundManager.isAlive = false;
+        soundManager.EmitDeathSound();
         foreach (Rigidbody r in childrenRB)
         {
+            r.gameObject.tag = "Untagged";
             r.isKinematic = false;
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -105,8 +108,6 @@ public class AI : MonoBehaviour
         {
             currentState.WalkTowardsPlayer();
             agent.isStopped = false;
-            //anim.SetBool("IsPatrolling", false);
-            //anim.SetBool("IsPursuing", true);
             agent.speed = 4;
         }       
         
@@ -132,11 +133,14 @@ public class AI : MonoBehaviour
                 health = 0f;
                 Die();
             }
+            else
+            {
+                soundManager.EmitDamageSound();
+            }
             StartCoroutine(Invincibility());
         }
         
     }
-
     private IEnumerator Invincibility()
     {
         isInvincible = true;
@@ -148,26 +152,21 @@ public class AI : MonoBehaviour
     {
         if(agent.enabled && playerController.GetHealth() > 0f)
         {
-            // Debug.Log("Shooting");
             EnableAim();
             Gunshot.Play();
             MuzzleFlash.Play();
             anim.SetTrigger("Shoot");
-            // Debug.Log("Shot by " + this.name);
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
-            // Transform bullet = Instantiate(DummyBullet, dirTowardsPlayer, Quaternion.identity);
-            // bullet.GetComponent<Rigidbody>().AddForce(dirTowardsPlayer, ForceMode.Acceleration);
-            // Destroy(bullet.gameObject, .5f);
 
-            RaycastHit hit;
-            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out hit, 999f))
+            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
             {
                 // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
-                if (hit.transform.gameObject.CompareTag("Player"))
+                if (hit.transform.gameObject.layer == 6)
                 {
                     float chance = Random.Range(0f, 1f);
-                    // Debug.Log("chance: " + chance);
-                    if(chance < hitChance)
+                    float roundChance = Mathf.Round(chance * 100f) / 100f;
+                    Debug.Log("chance: " + roundChance);
+                    if(roundChance < hitChance)
                     {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS

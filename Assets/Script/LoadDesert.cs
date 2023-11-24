@@ -9,11 +9,12 @@ using UnityEngine.Analytics;
 
 public class LoadDesert : MonoBehaviour
 {
+    [SerializeField] private ASyncLoader asyncLoader;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.TryGetComponent<PlayerController>(out PlayerController controller))
         {
-            SceneManager.LoadScene("SceneDesert");
+            controller.StopCoroutine(controller.level1coroutine);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             AnalyticsService.Instance.CustomData("level1Completed", new Dictionary<string, object>()
             {
@@ -38,6 +39,7 @@ public class LoadDesert : MonoBehaviour
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
             });
 #endif
+            asyncLoader.LoadLevel(2);
         }
     }
 }

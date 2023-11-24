@@ -1,15 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using Unity.Services.Analytics;
-using UnityEngine.InputSystem.XR;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-using UnityEngine.Analytics;
+using Unity.Services.Analytics;
 #endif
 
 public class TriggerVictory : MonoBehaviour
 {
+    [SerializeField] private ASyncLoader asyncLoader;
     public GameObject VictoryScreen;
     public PlayerController controller;
 
@@ -35,7 +34,7 @@ public class TriggerVictory : MonoBehaviour
                 { "playerBottleCount",  PlayerInteract.playerBottleCount },
                 { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
                 { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
-                { "level1TimeSpent", controller.level1TimeSpent },
+                { "level2TimeSpent", controller.level2TimeSpent },
                 { "enemiesKilled", PlayerController.enemiesKilled },
                 { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
                 { "enemyShotsHit", PlayerController.enemyShotsHit },
@@ -53,6 +52,6 @@ public class TriggerVictory : MonoBehaviour
 
     public void OnReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        asyncLoader.LoadLevel(0);
     }
 }
