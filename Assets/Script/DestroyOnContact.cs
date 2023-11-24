@@ -14,7 +14,7 @@ public class DestroyOnContact : MonoBehaviour
         AudioSource.PlayClipAtPoint(glassShatterSound, collision.transform.position);
         Destroy(gameObject);
         // Debug.Log(collision.gameObject.name);
-        if(collision.gameObject.tag == "Enemy")
+        if(collision.gameObject.CompareTag("Enemy"))
         {
             // Debug.Log("Enemy hit with throwable");
             collision.gameObject.GetComponentInParent<AI>().TakeDamage(ThrowableDamage);

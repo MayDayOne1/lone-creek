@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
-using DG.Tweening;
 
 public class AnalyticsConsentManager : MonoBehaviour
 {
