@@ -12,13 +12,16 @@ public class ItemIconSetter : MonoBehaviour
         {
             foreach (Image img in images)
             {
-                if (!img.gameObject.CompareTag("RedFilter"))
+                if (img != null)
                 {
-                    img.DOFade(alpha, .1f);
-                }
-                else
-                {
-                    img.DOFade(0f, .1f);
+                    if (!img.gameObject.CompareTag("RedFilter"))
+                    {
+                        img.DOFade(alpha, .1f);
+                    }
+                    else
+                    {
+                        img.DOFade(0f, .1f);
+                    }
                 }
             }
         }
