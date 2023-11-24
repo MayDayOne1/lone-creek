@@ -8,6 +8,7 @@ using Unity.Services.Analytics;
 
 public class TriggerVictory : MonoBehaviour
 {
+    [SerializeField] private ASyncLoader asyncLoader;
     public GameObject VictoryScreen;
     public PlayerController controller;
 
@@ -51,6 +52,6 @@ public class TriggerVictory : MonoBehaviour
 
     public void OnReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        asyncLoader.LoadLevel(0);
     }
 }

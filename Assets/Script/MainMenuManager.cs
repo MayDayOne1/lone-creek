@@ -47,14 +47,14 @@ public class MainMenuManager : MonoBehaviour
     {
         isViewingOnboarding = false;
         StopCoroutine(CountOnboardingTime());
-        controller.ResetAnalyticsData();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+        controller.ResetAnalyticsData();
         AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
         {
             { "onboardingTimeSpent", onboardingTimeSpent }
         });
 #endif
-        SceneManager.LoadScene("SceneTunnel");
+        // SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

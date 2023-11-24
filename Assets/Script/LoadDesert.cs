@@ -9,6 +9,7 @@ using UnityEngine.Analytics;
 
 public class LoadDesert : MonoBehaviour
 {
+    [SerializeField] private ASyncLoader asyncLoader;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.TryGetComponent<PlayerController>(out PlayerController controller))
@@ -38,7 +39,7 @@ public class LoadDesert : MonoBehaviour
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
             });
 #endif
-            SceneManager.LoadScene("SceneDesert");
+            asyncLoader.LoadLevel(2);
         }
     }
 }
