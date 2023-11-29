@@ -18,43 +18,46 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
     [SerializeField] private float standingHeight = 1.8f;
-    [SerializeField] private float crouchingHeight = 1.0f;
     [SerializeField] private float blendSpaceDampTime = .1f;
-    private PlayerInput playerInput;
-    private PlayerAnimManager animManager;
-    private PlayerCamManager camManager;
-    private float speed;
     public float runSpeed;
-    public float crouchSpeed;
-    public float Sensitivity = 1f;
-
-    private CharacterController controller;
-    private PlayerShootingManager playerShootingManager;
-    private PlayerInteract playerInteract;
-    private Transform cameraMainTransform;
+    private float speed;
+    private bool isGrounded;
     private Vector2 movement;
     private Vector3 playerVelocity;
 
-    private bool groundedPlayer;
+    [Header("CROUCH")]
+    [SerializeField] private float crouchingHeight = 1.0f;
+    public float crouchSpeed;
     public bool IsCrouching;
 
-    public static float health = 1f;
+    [Header("CAMERA")]
+    private PlayerCamManager camManager;
+    private Transform cameraMainTransform;
+
+    [Header("UI")]
+    [SerializeField] private GameObject PauseMenu;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
-
     public Slider healthSlider;
     public CanvasGroup GameOverScreen;
     public CanvasGroup gameOverBlackout;
     public GameObject HUD;
 
-    [SerializeField] private GameObject PauseMenu;
-
+    [Header("HEALTH")]
+    public static float health = 1f;
+    public static float savedHealth;
     private Rigidbody[] childrenRB;
 
-    public static float savedHealth;
-
+    [Header("COROUTINES")]
     public IEnumerator level1coroutine;
     public IEnumerator level2coroutine;
+
+    private CharacterController controller;
+    private PlayerInput playerInput;
+    private PlayerAnimManager animManager;
+    private PlayerShootingManager playerShootingManager;
+    private PlayerInteract playerInteract;
+    private PlayerAudioManager audioManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;
@@ -77,11 +80,12 @@ public class PlayerController : MonoBehaviour
         DOTween.ClearCachedTweens();
 
         playerInput = GetComponent<PlayerInput>();
-        controller = gameObject.GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
         playerShootingManager = GetComponent<PlayerShootingManager>();
         playerInteract = GetComponent<PlayerInteract>();
         animManager = GetComponent<PlayerAnimManager>();
         camManager = GetComponent<PlayerCamManager>();
+        audioManager = GetComponent<PlayerAudioManager>();
         cameraMainTransform = Camera.main.transform;
 
         playerInput.ActivateInput();
@@ -229,8 +233,8 @@ public class PlayerController : MonoBehaviour
     }
     private void IsPlayerGrounded()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        isGrounded = controller.isGrounded;
+        if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
@@ -400,6 +404,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         ScreenBlackout();
         yield return new WaitForSeconds(2.5f);
+        audioManager.PlayGameOverSound();
         ShowGameOverScreen(true);
         yield return new WaitForSeconds(.4f);
 
