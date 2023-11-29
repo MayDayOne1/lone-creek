@@ -93,7 +93,7 @@ public class PlayerShootingManager : MonoBehaviour
         IsAimingPistol = true;
         SetCrosshairVisibility(true);
 
-        controller.SetSpeed(controller.crouchSpeed);
+        controller.Speed = controller.crouchSpeed;
         animManager.SetBool(IS_AIMING_PISTOL, true);
         if (controller.IsCrouching)
         {
@@ -114,7 +114,7 @@ public class PlayerShootingManager : MonoBehaviour
         IsAimingPistol = false;
         SetCrosshairVisibility(false);
 
-        controller.SetSpeed(controller.runSpeed);
+        controller.Speed = controller.runSpeed;
         animManager.SetBool(IS_AIMING_PISTOL, false);
         if (controller.IsCrouching)
         {
@@ -154,7 +154,7 @@ public class PlayerShootingManager : MonoBehaviour
         {
             SetAimRigWeight(0f);
             IsAimingThrowable = true;
-            controller.SetSpeed(controller.crouchSpeed);
+            controller.Speed = controller.crouchSpeed;
             animManager.SetThrow(true);
             animManager.SetBool(IS_AIMING_THROWABLE, true);
 
@@ -176,7 +176,7 @@ public class PlayerShootingManager : MonoBehaviour
     private void StopAimingThrowable()
     {
         IsAimingThrowable = false;
-        controller.SetSpeed(controller.runSpeed);
+        controller.Speed = controller.runSpeed;
         animManager.SetThrow(false);
         animManager.SetBool(IS_AIMING_THROWABLE, false);
         lineRenderer.enabled = false;

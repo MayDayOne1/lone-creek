@@ -59,7 +59,7 @@ public class PlayerInteract : MonoBehaviour
 
             if(other.gameObject.CompareTag("HealthKit"))
             {
-                if(playerController.GetHealth() < 1f) ActivateRedItemFilter(other.gameObject, false);
+                if(PlayerController.health < 1f) ActivateRedItemFilter(other.gameObject, false);
                 else ActivateRedItemFilter(other.gameObject, true);
             }
         }
@@ -85,7 +85,6 @@ public class PlayerInteract : MonoBehaviour
             }
         }
     }
-
     private GameObject ChooseInteractiveObject()
     {
         float dist;
@@ -149,7 +148,7 @@ public class PlayerInteract : MonoBehaviour
     }
     private void PickupHealth(GameObject obj)
     {
-        if(playerController.GetHealth() < 1f)
+        if(PlayerController.health < 1f)
         {
             playerController.PlayerRestoreHealth(.25f);
             Destroy(obj);

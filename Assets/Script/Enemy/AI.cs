@@ -150,7 +150,7 @@ public class AI : MonoBehaviour
     }
     public void ShootAtPlayer()
     {
-        if(agent.enabled && playerController.GetHealth() > 0f)
+        if(agent.enabled && PlayerController.health > 0f)
         {
             EnableAim();
             Gunshot.Play();

@@ -25,7 +25,6 @@ public class ChooseWeapon : MonoBehaviour
         AmmoBG.SetActive(false);
         ThrowableBG.SetActive(false);
     }
-
     public void SelectNone()
     {
         shootingManager.SetAimRigWeight(0f);
