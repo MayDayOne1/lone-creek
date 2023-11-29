@@ -3260,6 +3260,7 @@ RectTransform:
   - {fileID: 6396066041170299812}
   - {fileID: 8501799587723199451}
   - {fileID: 5770255139457702133}
+  - {fileID: 4783825342082129993}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5033,6 +5034,56 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7208485157955613614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4783825342082129993}
+  - component: {fileID: 170885070673502531}
+  m_Layer: 5
+  m_Name: AnalyticsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4783825342082129993
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208485157955613614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3481772807610168843}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &170885070673502531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208485157955613614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cf44186f221554cb03746ea437abfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consentWindow: {fileID: 4945477409979023204}
 --- !u!1 &7794588535817623769
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,7 +5097,6 @@ GameObject:
   - component: {fileID: 1036077700968747383}
   - component: {fileID: 4749143814185753938}
   - component: {fileID: 8288750681910185250}
-  - component: {fileID: 9061175429496552008}
   m_Layer: 5
   m_Name: ResetAnalytics
   m_TagString: Untagged
@@ -5157,7 +5207,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9061175429496552008}
+      - m_Target: {fileID: 170885070673502531}
         m_TargetAssemblyTypeName: AnalyticsConsentManager, Assembly-CSharp
         m_MethodName: ShowConsentWindow
         m_Mode: 6
@@ -5210,19 +5260,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &9061175429496552008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7794588535817623769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5cf44186f221554cb03746ea437abfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  consentWindow: {fileID: 4945477409979023204}
 --- !u!1 &8272266953713831529
 GameObject:
   m_ObjectHideFlags: 0

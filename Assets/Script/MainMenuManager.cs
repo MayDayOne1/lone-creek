@@ -54,7 +54,6 @@ public class MainMenuManager : MonoBehaviour
             { "onboardingTimeSpent", onboardingTimeSpent }
         });
 #endif
-        // SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

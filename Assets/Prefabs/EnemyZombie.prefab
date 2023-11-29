@@ -1424,9 +1424,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ai: {fileID: 3636924020291663329}
-  idle1: {fileID: 8300000, guid: 674b92564d32a9a45973a4ffee1ce19a, type: 3}
-  idle2: {fileID: 8300000, guid: e9da1e12243c6c4429e048f23a7e3f25, type: 3}
-  idle3: {fileID: 8300000, guid: c316d89b447f9b64a80ea1a8e9f14ed0, type: 3}
+  idles:
+  - {fileID: 8300000, guid: 674b92564d32a9a45973a4ffee1ce19a, type: 3}
+  - {fileID: 8300000, guid: e9da1e12243c6c4429e048f23a7e3f25, type: 3}
+  - {fileID: 8300000, guid: c316d89b447f9b64a80ea1a8e9f14ed0, type: 3}
   damage: {fileID: 8300000, guid: f208b70d772aaa844bc81be63441460b, type: 3}
   death: {fileID: 8300000, guid: 396c8acff31e5b84783c1b185d818982, type: 3}
   isAlive: 1
@@ -2479,6 +2480,7 @@ GameObject:
   - component: {fileID: 3636924020291663343}
   - component: {fileID: 3636924020291663342}
   - component: {fileID: 3636924020291663329}
+  - component: {fileID: 3635908420513639064}
   - component: {fileID: 3151008739763045879}
   - component: {fileID: 5119699273806449712}
   m_Layer: 0
@@ -2599,6 +2601,18 @@ MonoBehaviour:
   Gunshot: {fileID: 4650150729981386552}
   MuzzleFlash: {fileID: 4818575802456699461}
   playerController: {fileID: 0}
+--- !u!114 &3635908420513639064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4519814061946646946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4b32b3e41fdac4ca01d8e69398d3e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3151008739763045879
 MonoBehaviour:
   m_ObjectHideFlags: 0

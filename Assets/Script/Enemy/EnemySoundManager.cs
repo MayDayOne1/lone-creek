@@ -5,9 +5,7 @@ using UnityEngine;
 public class EnemySoundManager : MonoBehaviour
 {
     [SerializeField] private AI ai;
-    [SerializeField] private AudioClip idle1;
-    [SerializeField] private AudioClip idle2;
-    [SerializeField] private AudioClip idle3;
+    [SerializeField] private AudioClip[] idles;
     [SerializeField] private AudioClip damage;
     [SerializeField] private AudioClip death;
 
@@ -19,22 +17,15 @@ public class EnemySoundManager : MonoBehaviour
         idleGrowl = IdleGrowlEmitter();
         StartCoroutine(idleGrowl);
     }
-    private AudioClip SelectIdleClip()
+    private AudioClip SelectRandomIdleClip()
     {
-        int randomClipNumber = Random.Range(1, 4);
-        return randomClipNumber switch
-        {
-            1 => idle1,
-            2 => idle2,
-            3 => idle3,
-            _ => null,
-        };
+        return idles[Random.Range(0, idles.Length)];
     }
     private IEnumerator IdleGrowlEmitter()
     {
         while(isAlive)
         {
-            AudioClip clip = SelectIdleClip();
+            AudioClip clip = SelectRandomIdleClip();
             AudioSource.PlayClipAtPoint(clip, transform.position);
             yield return new WaitForSeconds(3f);
         }

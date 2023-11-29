@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerAudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip gameOverClip;
+    [SerializeField] private AudioClip gameOver;
+    [SerializeField] private AudioClip[] damages;
     private AudioSource audioSource;
 
     void Start()
@@ -15,7 +16,19 @@ public class PlayerAudioManager : MonoBehaviour
 
     public void PlayGameOverSound()
     {
-        audioSource.clip = gameOverClip;
+        audioSource.clip = gameOver;
+        audioSource.Play();
+    }
+
+    private AudioClip SelectRandomDamageClip()
+    {
+        return damages[Random.Range(0, damages.Length)];
+    }
+
+    public void PlayDamageSound()
+    {
+        AudioClip damage = SelectRandomDamageClip();
+        audioSource.clip = damage;
         audioSource.Play();
     }
 }

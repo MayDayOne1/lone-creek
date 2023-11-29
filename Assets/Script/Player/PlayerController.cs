@@ -424,6 +424,7 @@ public class PlayerController : MonoBehaviour
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
+        audioManager.PlayDamageSound();
     }
     public void PlayerRestoreHealth(float healthAmount)
     {
