@@ -1,10 +1,5 @@
 using System.Collections.Generic;
-using UnityEngine.UI;
-using TMPro;
 using UnityEngine;
-using DG.Tweening;
-using Unity.VisualScripting;
-using UnityEditor;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -16,23 +11,11 @@ public class PlayerInteract : MonoBehaviour
     public static bool savedThrowable;
     public static bool savedPrimary;
 
-    public GameObject Throwable;
-    public GameObject Pistol;
-    public AudioSource audioSource;
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleCount = 0;
     public static int playerAmmoClipCount = 0;
     public static int playerPistolsPickedUp = 0;
 #endif
-
-    private void Start()
-    {
-        audioSource = Pistol.GetComponent<AudioSource>();
-
-        Throwable.SetActive(false);
-        Pistol.SetActive(false);
-    }
 
     private void OnTriggerEnter(Collider other)
     {

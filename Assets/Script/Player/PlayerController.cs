@@ -1,10 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-using System.Collections;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerAnimManager animManager;
     private PlayerShootingManager shootingManager;
-    private PlayerInteract playerInteract;
     private PlayerAudioManager audioManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -90,7 +89,6 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
         shootingManager = GetComponent<PlayerShootingManager>();
-        playerInteract = GetComponent<PlayerInteract>();
         animManager = GetComponent<PlayerAnimManager>();
         camManager = GetComponent<PlayerCamManager>();
         audioManager = GetComponent<PlayerAudioManager>();
@@ -290,7 +288,7 @@ public class PlayerController : MonoBehaviour
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
-        UpdateSpeed();
+       UpdateSpeed();
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -299,19 +297,19 @@ public class PlayerController : MonoBehaviour
     private void UpdateSpeed()
     {
         if(IsCrouching ||
-            shootingManager.IsAimingPistol ||
+            shootingManager.isAimingPistol ||
             shootingManager.IsAimingThrowable) 
         {
-            speed = crouchSpeed;
+            Speed = crouchSpeed;
         }
         else
         {
-            speed = runSpeed;
+            Speed = runSpeed;
         }
     }
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || shootingManager.IsAimingThrowable || shootingManager.IsAimingPistol)
+        if (movement != Vector2.zero || shootingManager.IsAimingThrowable || shootingManager.isAimingPistol)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
@@ -348,11 +346,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = crouchingHeight;
         controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-        animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
+        animManager.SetCrouch(true, shootingManager.pistol.activeSelf);
     }
     private void CrouchCamSetup()
     {
-        if (shootingManager.IsAimingPistol ||
+        if (shootingManager.isAimingPistol ||
                 shootingManager.IsAimingThrowable)
         {
             camManager.ActivateCrouchAim();
@@ -366,11 +364,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = standingHeight;
         controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-        animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
+        animManager.SetCrouch(false, shootingManager.pistol.activeSelf);
     }
     private void StandCamSetup()
     {
-        if (shootingManager.IsAimingPistol ||
+        if (shootingManager.isAimingPistol ||
                 shootingManager.IsAimingThrowable)
         {
             camManager.ActivateAim();

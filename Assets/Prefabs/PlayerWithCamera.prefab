@@ -494,7 +494,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227956038}
-  m_LocalRotation: {x: -0.20269294, y: -0.03788972, z: 0.0029876605, w: 0.97850454}
+  m_LocalRotation: {x: -0.20269302, y: -0.03788975, z: 0.0029876526, w: 0.97850454}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1452,7 +1452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816042932}
-  m_LocalRotation: {x: -0.24595475, y: -0.037985116, z: 0.0013017803, w: 0.9685359}
+  m_LocalRotation: {x: -0.24595481, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1942,7 +1942,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159050961}
-  m_LocalRotation: {x: 0.087681554, y: -0.7753131, z: 0.110423364, w: 0.6156365}
+  m_LocalRotation: {x: 0.08768159, y: -0.775313, z: 0.110423416, w: 0.6156365}
   m_LocalPosition: {x: -3.9455264, y: -0.936, z: 4.6047564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2213,7 +2213,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310555947}
-  m_LocalRotation: {x: -0.24595469, y: -0.037985116, z: 0.0013017878, w: 0.9685359}
+  m_LocalRotation: {x: -0.24595483, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9577,10 +9577,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ed8ed97e166824d9407a14f91371df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NormalCam: {fileID: 3231851228583997347}
-  AimCam: {fileID: 814895416}
-  CrouchCam: {fileID: 1159050965}
-  CrouchAimCam: {fileID: 77996421}
+  normalCam: {fileID: 3231851228583997347}
+  aimCam: {fileID: 814895416}
+  crouchCam: {fileID: 1159050965}
+  crouchAimCam: {fileID: 77996421}
 --- !u!114 &3859979013363361907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9607,8 +9607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4207bfa0bc31954ebca1163be6b1e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmmoBG: {fileID: 2145761905}
   ThrowableBG: {fileID: 6031390852890305785}
+  AmmoBG: {fileID: 2145761905}
   IsThrowableSelected: 0
   IsPrimarySelected: 0
 --- !u!114 &114614342735316098
@@ -9623,9 +9623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033e5a838a18e3a49b161f02b2fc612b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Throwable: {fileID: 1372262887487349410}
-  Pistol: {fileID: 1019913985330756472}
-  audioSource: {fileID: 5791546945530250840}
 --- !u!114 &114614342735316110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9638,29 +9635,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d45eccb6b2b7f48a8227befc0051ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimAction: {fileID: 8621409109411048564, guid: b494549bf61672b459bb5ca0a94b32c9,
-    type: 3}
-  aimRig: {fileID: 1472307003}
   cam: {fileID: 0}
-  PlayerBottle: {fileID: 1747556633314261016}
+  playerBottle: {fileID: 1372262887487349410}
+  IsAimingThrowable: 0
   ThrowablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
     type: 3}
-  lineRenderer: {fileID: 6915028583975653277}
   ThrowStrength: 20
   LinePoints: 25
   TimeBetweenPoints: 0.1
   audioClip: {fileID: 0}
-  IsAimingThrowable: 0
+  pistol: {fileID: 1019913985330756472}
+  isAimingPistol: 0
+  CanShoot: 1
+  pistolDamage: 0.2
+  aimRig: {fileID: 1472307003}
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
   dummyTransform: {fileID: 692733900447964051}
-  Crosshair: {fileID: 6294771695649201009}
+  crosshair: {fileID: 6294771695649201009}
   hitEffect: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
   fireEffect: {fileID: 3617197669915954442}
-  IsAimingPistol: 0
-  PistolDamage: 0.2
-  CanShoot: 1
+  pistolAudioSource: {fileID: 5791546945530250840}
 --- !u!114 &6428473331913527762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12418,12 +12414,6 @@ GameObject:
 --- !u!4 &1747556633314261016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6863028226064735033, guid: e4ac6a2013c13624ea24272122401689,
-    type: 3}
-  m_PrefabInstance: {fileID: 5151782281408652065}
-  m_PrefabAsset: {fileID: 0}
---- !u!120 &6915028583975653277 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 1768176792147406012, guid: e4ac6a2013c13624ea24272122401689,
     type: 3}
   m_PrefabInstance: {fileID: 5151782281408652065}
   m_PrefabAsset: {fileID: 0}

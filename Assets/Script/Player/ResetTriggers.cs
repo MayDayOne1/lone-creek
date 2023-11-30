@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ResetTriggers : StateMachineBehaviour
 {
-    private PlayerInteract playerInteract;
+    private PlayerShootingManager shootingManager;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerInteract = FindFirstObjectByType<PlayerInteract>();
+        shootingManager = FindFirstObjectByType<PlayerShootingManager>();
         animator.ResetTrigger("Throw");
-        if (!playerInteract.Throwable.activeSelf)
+        if (!shootingManager.playerBottle.gameObject.activeSelf)
         {
             animator.SetLayerWeight(2, 0);
         }

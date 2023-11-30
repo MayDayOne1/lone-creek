@@ -30,6 +30,7 @@ public class Pistol : MonoBehaviour, IInteractable
         {
             ActivateRedFilter(false);
         }
+
     }
     private void OnTriggerExit(Collider other)
     {

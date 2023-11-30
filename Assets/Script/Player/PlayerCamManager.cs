@@ -5,45 +5,45 @@ using UnityEngine;
 
 public class PlayerCamManager : MonoBehaviour
 {
-    [SerializeField] private CinemachineFreeLook NormalCam;
-    [SerializeField] private CinemachineFreeLook AimCam;
-    [SerializeField] private CinemachineFreeLook CrouchCam;
-    [SerializeField] private CinemachineFreeLook CrouchAimCam;
+    [SerializeField] private CinemachineFreeLook normalCam;
+    [SerializeField] private CinemachineFreeLook aimCam;
+    [SerializeField] private CinemachineFreeLook crouchCam;
+    [SerializeField] private CinemachineFreeLook crouchAimCam;
 
     public void ActivateNormal()
     {
-        NormalCam.gameObject.SetActive(true);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(false);
+        normalCam.gameObject.SetActive(true);
+        aimCam.gameObject.SetActive(false);
+        crouchCam.gameObject.SetActive(false);
+        crouchAimCam.gameObject.SetActive(false);
     }
     public void ActivateAim()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(true);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(false);
+        normalCam.gameObject.SetActive(false);
+        aimCam.gameObject.SetActive(true);
+        crouchCam.gameObject.SetActive(false);
+        crouchAimCam.gameObject.SetActive(false);
     }
     public void ActivateCrouch()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(true);
-        CrouchAimCam.gameObject.SetActive(false);
+        normalCam.gameObject.SetActive(false);
+        aimCam.gameObject.SetActive(false);
+        crouchCam.gameObject.SetActive(true);
+        crouchAimCam.gameObject.SetActive(false);
     }
     public void ActivateCrouchAim()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(true);
+        normalCam.gameObject.SetActive(false);
+        aimCam.gameObject.SetActive(false);
+        crouchCam.gameObject.SetActive(false);
+        crouchAimCam.gameObject.SetActive(true);
     }
 
     public void EnableAll(bool enable)
     {
-        NormalCam.enabled = enable;
-        AimCam.enabled = enable;
-        CrouchCam.enabled = enable;
-        CrouchAimCam.enabled = enable;
+        normalCam.enabled = enable;
+        aimCam.enabled = enable;
+        crouchCam.enabled = enable;
+        crouchAimCam.enabled = enable;
     }
 }
