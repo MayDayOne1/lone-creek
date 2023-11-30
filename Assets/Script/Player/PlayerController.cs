@@ -144,7 +144,6 @@ public class PlayerController : MonoBehaviour
     }
     private void CamSetup()
     {
-        camManager.ActivateNormal();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -55,30 +55,16 @@ public class State
 
     public bool CanSeePlayer()
     {
-        
         Vector3 direction = player.position - npc.transform.position;
-        // if (playerController.IsCrouching) direction.y += .5f;
-        // else direction.y += 1f;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
         if(direction.magnitude < visDist && angle < visAngle)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(npc.transform.position, direction, out hit, 999f))
+            if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
-                // Debug.Log(hit.transform.name);
-                // Debug.DrawRay(npc.transform.position, direction, Color.red, 2f);
-                if(hit.transform.tag.Equals("Player"))
-                {
-                    // Debug.Log("I see you");
-                    return true;
-                } else
-                {
-                    return false;
-                }
+                return hit.transform.CompareTag("Player");
             }
         }
-
         return false;
     }
     public bool CanAttackPlayer()
@@ -151,7 +137,6 @@ public class Idle : State
         stateName = STATE.IDLE;
         anim.SetBool("IsPatrolling", false);
         anim.SetBool("IsPursuing", false);
-        // Debug.Log("State idle for " + _npc.name);
     }
 
     public override void Enter()
@@ -185,7 +170,6 @@ public class Patrol : State
         anim.SetBool("IsPatrolling", true);
         anim.SetBool("IsPursuing", false);
         anim.SetLayerWeight(1, 0);
-        // Debug.Log("State patrol for " + _npc.name);
     }
 
     public override void Enter()
@@ -208,8 +192,6 @@ public class Patrol : State
     {
         if(agent.remainingDistance < 1)
         {
-            // int c = GameEnvironment.Instance.Checkpoints.Count - 1;
-            // Debug.Log("checkpoints count - 1: " + c);
             if(currentIndex >= waypoints.Length - 1)
             {
                 currentIndex = 0;
@@ -217,7 +199,6 @@ public class Patrol : State
             {
                 currentIndex++;
             }
-            // Debug.Log("currentIndex: " + currentIndex);
             agent.SetDestination(waypoints[currentIndex].transform.position);
         }
 
@@ -281,7 +262,6 @@ public class Attack : State
     public override void Update()
     {
         Vector3 direction = player.position - npc.transform.position;
-        float angle = Vector3.Angle(direction, npc.transform.forward);
         direction.y = 0;
 
         npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation,

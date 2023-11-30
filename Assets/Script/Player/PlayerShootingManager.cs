@@ -67,6 +67,8 @@ public class PlayerShootingManager : MonoBehaviour
         cooldownTimer = cooldown;
         aimRig.weight = 0f;
         crosshair.gameObject.SetActive(false);
+
+        pistol.SetActive(false);
     }
 
     public void SetupSelectNone()

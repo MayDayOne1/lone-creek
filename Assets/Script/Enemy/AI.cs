@@ -91,7 +91,6 @@ public class AI : MonoBehaviour
             });
 #endif
     }
-
     private void DisableEnemy()
     {
         aimRigWeight = 0f;
