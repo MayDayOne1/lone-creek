@@ -1,10 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-using System.Collections;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -18,43 +18,56 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
     [SerializeField] private float standingHeight = 1.8f;
-    [SerializeField] private float crouchingHeight = 1.0f;
     [SerializeField] private float blendSpaceDampTime = .1f;
-    private PlayerInput playerInput;
-    private PlayerAnimManager animManager;
-    private PlayerCamManager camManager;
-    private float speed;
     public float runSpeed;
-    public float crouchSpeed;
-    public float Sensitivity = 1f;
-
-    private CharacterController controller;
-    private PlayerShootingManager playerShootingManager;
-    private PlayerInteract playerInteract;
-    private Transform cameraMainTransform;
+    private float speed;
+    public float Speed
+    {
+        private get
+        {
+            return speed;
+        }
+        set
+        {
+            speed = value;
+        }
+    }
+    private bool isGrounded;
     private Vector2 movement;
     private Vector3 playerVelocity;
 
-    private bool groundedPlayer;
+    [Header("CROUCH")]
+    [SerializeField] private float crouchingHeight = 1.0f;
+    public float crouchSpeed;
     public bool IsCrouching;
 
-    public static float health = 1f;
+    [Header("CAMERA")]
+    private PlayerCamManager camManager;
+    private Transform cameraMainTransform;
+
+    [Header("UI")]
+    [SerializeField] private GameObject PauseMenu;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
-
     public Slider healthSlider;
     public CanvasGroup GameOverScreen;
     public CanvasGroup gameOverBlackout;
     public GameObject HUD;
 
-    [SerializeField] private GameObject PauseMenu;
-
+    [Header("HEALTH")]
+    public static float health = 1f;
+    public static float savedHealth;
     private Rigidbody[] childrenRB;
 
-    public static float savedHealth;
-
+    [Header("COROUTINES")]
     public IEnumerator level1coroutine;
     public IEnumerator level2coroutine;
+
+    private CharacterController controller;
+    private PlayerInput playerInput;
+    private PlayerAnimManager animManager;
+    private PlayerShootingManager shootingManager;
+    private PlayerAudioManager audioManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;
@@ -73,45 +86,24 @@ public class PlayerController : MonoBehaviour
   
     private void Start()
     {
-        LeanTween.cancelAll();
-        DOTween.ClearCachedTweens();
-
         playerInput = GetComponent<PlayerInput>();
-        controller = gameObject.GetComponent<CharacterController>();
-        playerShootingManager = GetComponent<PlayerShootingManager>();
-        playerInteract = GetComponent<PlayerInteract>();
+        controller = GetComponent<CharacterController>();
+        shootingManager = GetComponent<PlayerShootingManager>();
         animManager = GetComponent<PlayerAnimManager>();
         camManager = GetComponent<PlayerCamManager>();
+        audioManager = GetComponent<PlayerAudioManager>();
         cameraMainTransform = Camera.main.transform;
-
-        playerInput.ActivateInput();
-        camManager.ActivateNormal();
-        animManager.AnimatorSetter(true);
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        ShowGameOverScreen(false);
-
-        IsCrouching = false;
-        StartCoroutine(CountStandingTime());
-        animManager.DisableAllLayers();
-
-        PauseMenu.SetActive(false);
-        HUD.SetActive(true);
-        bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
-
-        Time.timeScale = 1;
-        camManager.EnableAll(true);
-        this.gameObject.SetActive(true);
-        Checkpoint();
-        LoadFromCheckpoint();
-
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in childrenRB)
-        {
-            rb.isKinematic = true;
-        }
+
+        ClearTweens();
+        AnimSetup();
+        CamSetup();
+        UISetup();
+        GameSetup();
+        ActivateRagdoll(false);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+        StartCoroutine(CountStandingTime());
         level1coroutine = Level1Timer();
         level2coroutine = Level2Timer();
         if (SceneManager.GetActiveScene().name == "SceneTunnel")
@@ -128,7 +120,6 @@ public class PlayerController : MonoBehaviour
     {
         movementControl.action.Enable();
     }
-
     private void OnDisable()
     {
         movementControl.action.Disable();
@@ -145,7 +136,49 @@ public class PlayerController : MonoBehaviour
     {
         CalculateCharacterRotation();  
     }
+    #region GAME SETUP
+    private void ClearTweens()
+    {
+        LeanTween.cancelAll();
+        DOTween.ClearCachedTweens();
+    }
+    private void CamSetup()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    private void AnimSetup()
+    {
+        animManager.SetAnimator(true);
+        animManager.DisableAllLayers();
+    }
+    private void UISetup()
+    {
+        ShowGameOverScreen(false);
+        PauseMenu.SetActive(false);
+        HUD.SetActive(true);
+        bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
+    }
+    private void GameSetup()
+    {
+        playerInput.ActivateInput();
+        IsCrouching = false;
+        Speed = runSpeed;
 
+        Time.timeScale = 1;
+        this.gameObject.SetActive(true);
+        Checkpoint();
+        LoadFromCheckpoint();
+    }
+    private void ActivateRagdoll(bool active)
+    {
+        foreach (Rigidbody rb in childrenRB)
+        {
+            rb.isKinematic = !active;
+        }
+    }
+    #endregion
+    #region ANALYTICS
     public void ResetAnalyticsData()
     {
         enemiesKilled = 0;
@@ -217,29 +250,33 @@ public class PlayerController : MonoBehaviour
             PlayerAmmoManager.currentClip = 0;
         }
     }
-    public float GetHealth() => health;
-    public void SetSpeed(float otherSpeed)
+    private IEnumerator CountStandingTime()
     {
-        speed = otherSpeed;
+        while (!IsCrouching)
+        {
+            playerTimeSpentStanding += Time.deltaTime;
+            yield return null;
+        }
     }
-    private void BloodOverlayAnim()
+    private IEnumerator CountCrouchTime()
     {
-        bloodOverlay.DOFade(60f, 1f);
-        bloodOverlay.DOFade(0f, 1f);
+        while (IsCrouching)
+        {
+            playerTimeSpentCrouching += Time.deltaTime;
+            yield return null;
+        }
     }
+    #endregion
+    #region MOVEMENT
     private void IsPlayerGrounded()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        isGrounded = controller.isGrounded;
+        if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
     }
     private void Move()
-    {
-        InputSystemMove();
-    }
-    private void InputSystemMove()
     {
         movement = movementControl.action.ReadValue<Vector2>();
         Vector3 move = new(movement.x, 0, movement.y);
@@ -250,9 +287,7 @@ public class PlayerController : MonoBehaviour
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
 
-        UpdateSpeed();
-
-        // Debug.Log(controller.velocity.magnitude);
+       UpdateSpeed();
 
         controller.Move(speed * Time.deltaTime * move);
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -260,58 +295,36 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateSpeed()
     {
-        if(IsCrouching || playerShootingManager.IsAimingPistol || playerShootingManager.IsAimingThrowable) 
+        if(IsCrouching ||
+            shootingManager.isAimingPistol ||
+            shootingManager.IsAimingThrowable) 
         {
-            speed = crouchSpeed;
+            Speed = crouchSpeed;
         }
         else
         {
-            speed = runSpeed;
+            Speed = runSpeed;
         }
     }
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || playerShootingManager.IsAimingThrowable || playerShootingManager.IsAimingPistol)
+        if (movement != Vector2.zero || shootingManager.IsAimingThrowable || shootingManager.isAimingPistol)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
-    private IEnumerator CountStandingTime()
-    {
-        while(!IsCrouching)
-        {
-            playerTimeSpentStanding += Time.deltaTime;
-            yield return null;
-        }
-        
-    }    
-    private IEnumerator CountCrouchTime()
-    {
-        while(IsCrouching)
-        {
-            playerTimeSpentCrouching += Time.deltaTime;
-            yield return null;
-        }
-    }
+    #endregion
+    #region CROUCH
+
     public void Crouch()
     {
         IsCrouching = !IsCrouching;
         if(IsCrouching)
         {
-            controller.height = crouchingHeight;
-            controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-            if(playerShootingManager.IsAimingPistol ||
-                playerShootingManager.IsAimingThrowable)
-            {
-                camManager.ActivateCrouchAim();
-            }
-            else
-            {
-                camManager.ActivateCrouch();
-            }
-            animManager.SetCrouch(true, playerInteract.Pistol.activeSelf);
+            CrouchControllerSetup();
+            CrouchCamSetup();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesCrouched++;
             StopCoroutine(CountStandingTime());
@@ -320,24 +333,52 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            controller.height = standingHeight;
-            controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-            if(playerShootingManager.IsAimingPistol ||
-                playerShootingManager.IsAimingThrowable)
-            {
-                camManager.ActivateAim();
-            }
-            else
-            {
-                camManager.ActivateNormal();
-            }
-            animManager.SetCrouch(false, playerInteract.Pistol.activeSelf);
+            StandControllerSetup();
+            StandCamSetup();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());
             StartCoroutine(CountStandingTime());
 #endif
         }
     }
+    private void CrouchControllerSetup()
+    {
+        controller.height = crouchingHeight;
+        controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
+        animManager.SetCrouch(true, shootingManager.pistol.activeSelf);
+    }
+    private void CrouchCamSetup()
+    {
+        if (shootingManager.isAimingPistol ||
+                shootingManager.IsAimingThrowable)
+        {
+            camManager.ActivateCrouchAim();
+        }
+        else
+        {
+            camManager.ActivateCrouch();
+        }
+    }
+    private void StandControllerSetup()
+    {
+        controller.height = standingHeight;
+        controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
+        animManager.SetCrouch(false, shootingManager.pistol.activeSelf);
+    }
+    private void StandCamSetup()
+    {
+        if (shootingManager.isAimingPistol ||
+                shootingManager.IsAimingThrowable)
+        {
+            camManager.ActivateAim();
+        }
+        else
+        {
+            camManager.ActivateNormal();
+        }
+    }
+    #endregion
+    #region GAME OVER
     private void SmoothTimeScaleSetter(float timeValue)
     {
         LeanTween.value(gameObject, 1f, timeValue, .4f)
@@ -368,7 +409,7 @@ public class PlayerController : MonoBehaviour
     {
         gameOverBlackout.DOFade(1f, 2f);
     }
-    private IEnumerator Die()
+    private void Die()
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerDeathCount++;
@@ -388,26 +429,45 @@ public class PlayerController : MonoBehaviour
                 { "playerShotsHit", PlayerShootingManager.playerShotsHit }
             });
 #endif
-        SmoothTimeScaleSetter(.5f);
+        DeathSetup();
+        StartCoroutine(DeathSequence());
+        NavigateDeathScreen();
+    }
+    private void DeathSetup()
+    {
         playerInput.DeactivateInput();
         camManager.EnableAll(false);
         HUD.SetActive(false);
-        animManager.AnimatorSetter(false);
-        foreach (Rigidbody r in childrenRB)
-        {
-            r.isKinematic = false;
-        }
+        animManager.SetAnimator(false);
+        ActivateRagdoll(true);
+    }
+    private IEnumerator DeathSequence()
+    {
+        SmoothTimeScaleSetter(.5f);
         yield return new WaitForSeconds(.5f);
         ScreenBlackout();
         yield return new WaitForSeconds(2.5f);
+        audioManager.PlayGameOverSound();
         ShowGameOverScreen(true);
         yield return new WaitForSeconds(.4f);
-
+    }
+    private void NavigateDeathScreen()
+    {
         Time.timeScale = 0f;
         Time.fixedDeltaTime = .02f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
+    public void VictorySetup()
+    {
+        StopCoroutine(level2coroutine);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 0;
+        camManager.EnableAll(false);
+    }
+    #endregion
+    #region HEALTH & DAMAGE
     public void PlayerTakeDamage(float damage)
     {
         health -= damage;
@@ -415,20 +475,29 @@ public class PlayerController : MonoBehaviour
         {
             health = 0f;
             StopAllCoroutines();
-            StartCoroutine(Die());
+            Die();
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
+        audioManager.PlayDamageSound();
     }
     public void PlayerRestoreHealth(float healthAmount)
     {
-        if (health + healthAmount > 1f) health = 1f;
-        else health += healthAmount;
+        if (health + healthAmount > 1f)
+        {
+            health = 1f;
+        }
+        else
+        {
+            health += healthAmount;
+        }
         healthSlider.DOValue(health, .5f, false);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         playerHealthKitCount++;
 #endif
     }
+    #endregion
+    #region UI & UX
     public void TogglePauseMenu()
     {
         if(!isShowingPauseMenu)
@@ -449,12 +518,10 @@ public class PlayerController : MonoBehaviour
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
-    public void VictorySetup()
+    private void BloodOverlayAnim()
     {
-        StopCoroutine(level2coroutine);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        Time.timeScale = 0;
-        camManager.EnableAll(false);
+        bloodOverlay.DOFade(60f, 1f);
+        bloodOverlay.DOFade(0f, 1f);
     }
+    #endregion
 }

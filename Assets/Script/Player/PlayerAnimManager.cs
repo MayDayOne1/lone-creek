@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class PlayerAnimManager : MonoBehaviour
 {
@@ -27,7 +26,6 @@ public class PlayerAnimManager : MonoBehaviour
                 anim.SetLayerWeight(layer, value);
             });
     }
-
     public void SetCrouch(bool isCrouching, bool hasPistol)
     {
         if (isCrouching)
@@ -46,7 +44,8 @@ public class PlayerAnimManager : MonoBehaviour
             if (hasPistol)
             {
                 SmoothLayerSwitch(PISTOL_LAYER, 1f);
-            } else
+            }
+            else
             {
                 SmoothLayerSwitch(PISTOL_LAYER, 0f);
             }
@@ -67,7 +66,7 @@ public class PlayerAnimManager : MonoBehaviour
     {
         if (hasPistol)
         {
-            if(isCrouching)
+            if (isCrouching)
             {
                 SmoothLayerSwitch(PISTOL_LAYER, 0f);
                 SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 1f);
@@ -92,7 +91,19 @@ public class PlayerAnimManager : MonoBehaviour
             }
         }
     }
-
+    public void SetBool(string name, bool state)
+    {
+        anim.SetBool(name, state);
+    }
+    public void SetTrigger(string name)
+    {
+        anim.SetTrigger(name);
+    }
+    public void SetFloat(string name, float value, float dampTime, float time)
+    {
+        anim.SetFloat(name, value, dampTime, time);
+    }
+    public void SetAnimator(bool enable) => anim.enabled = enable;
     public void DisableAllLayers()
     {
         anim.SetLayerWeight(CROUCHING_LAYER, 0);
@@ -100,21 +111,4 @@ public class PlayerAnimManager : MonoBehaviour
         anim.SetLayerWeight(PISTOL_LAYER, 0);
         anim.SetLayerWeight(PISTOL_CROUCH_LAYER, 0);
     }
-
-    public void SetBool(string name, bool state)
-    {
-        anim.SetBool(name, state);
-    }
-
-    public void SetTrigger(string name)
-    {
-        anim.SetTrigger(name);
-    }
-
-    public void SetFloat(string name, float value, float dampTime, float time)
-    {
-        anim.SetFloat(name, value, dampTime, time);
-    }
-
-    public void AnimatorSetter(bool enable) => anim.enabled = enable;
 }

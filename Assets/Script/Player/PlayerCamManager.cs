@@ -5,45 +5,64 @@ using UnityEngine;
 
 public class PlayerCamManager : MonoBehaviour
 {
-    [SerializeField] private CinemachineFreeLook NormalCam;
-    [SerializeField] private CinemachineFreeLook AimCam;
-    [SerializeField] private CinemachineFreeLook CrouchCam;
-    [SerializeField] private CinemachineFreeLook CrouchAimCam;
+    [SerializeField] private CinemachineFreeLook normalCam;
+    [SerializeField] private CinemachineFreeLook aimCam;
+    [SerializeField] private CinemachineFreeLook crouchCam;
+    [SerializeField] private CinemachineFreeLook crouchAimCam;
+
+    private void Start()
+    {
+        EnableAll(true);
+        ActivateNormal();
+    }
 
     public void ActivateNormal()
     {
-        NormalCam.gameObject.SetActive(true);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(false);
+        SetTopPriority(normalCam);
+        SetLowestPriority(aimCam);
+        SetLowestPriority(crouchCam);
+        SetLowestPriority(crouchAimCam);
     }
     public void ActivateAim()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(true);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(false);
+        SetTopPriority(aimCam);
+        SetLowestPriority(normalCam);
+        SetLowestPriority(crouchCam);
+        SetLowestPriority(crouchAimCam);
     }
     public void ActivateCrouch()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(true);
-        CrouchAimCam.gameObject.SetActive(false);
+        SetTopPriority(crouchCam);
+        SetLowestPriority(normalCam);
+        SetLowestPriority(aimCam);
+        SetLowestPriority(crouchAimCam);
     }
     public void ActivateCrouchAim()
     {
-        NormalCam.gameObject.SetActive(false);
-        AimCam.gameObject.SetActive(false);
-        CrouchCam.gameObject.SetActive(false);
-        CrouchAimCam.gameObject.SetActive(true);
+        SetTopPriority(crouchAimCam);
+        SetLowestPriority(normalCam);
+        SetLowestPriority(aimCam);
+        SetLowestPriority(crouchCam);
     }
 
     public void EnableAll(bool enable)
     {
-        NormalCam.enabled = enable;
-        AimCam.enabled = enable;
-        CrouchCam.enabled = enable;
-        CrouchAimCam.enabled = enable;
+        normalCam.gameObject.SetActive(enable);
+        aimCam.gameObject.SetActive(enable);
+        crouchCam.gameObject.SetActive(enable);
+        crouchAimCam.gameObject.SetActive(enable);
+
+        normalCam.enabled = enable;
+        aimCam.enabled = enable;
+        crouchCam.enabled = enable;
+        crouchAimCam.enabled = enable;
+    }
+    private void SetTopPriority(CinemachineFreeLook cam)
+    {
+        cam.Priority = 100;
+    }
+    private void SetLowestPriority(CinemachineFreeLook cam)
+    {
+        cam.Priority = 1;
     }
 }

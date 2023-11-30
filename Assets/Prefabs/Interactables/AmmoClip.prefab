@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1176795647644579814}
   - component: {fileID: 1692693155}
   - component: {fileID: 1692693156}
-  - component: {fileID: 2872480345067796147}
+  - component: {fileID: 9181539325501689405}
   m_Layer: 7
   m_Name: AmmoClip
   m_TagString: Ammo
@@ -114,7 +114,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 268842a89a15145469c56ebf5d1208cb, type: 3}
---- !u!114 &2872480345067796147
+--- !u!114 &9181539325501689405
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,9 +123,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1155055442005716886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698d08e6e02e82646861868c71496d73, type: 3}
+  m_Script: {fileID: 11500000, guid: e46aa899b2d3b9a45b62aad338e96500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interact: {fileID: 0}
+  iconBG: {fileID: 8845355235907292671}
+  icon: {fileID: 3730496120464039955}
+  redFilter: {fileID: 786405024637421147}
+  ammoText: {fileID: 4048830447584273952}
 --- !u!1 &1552939649117105573
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 3542685124581805051}
   - component: {fileID: -8879607996169440658}
   - component: {fileID: 3474491498203994110}
-  - component: {fileID: 4224641219610381518}
+  - component: {fileID: 3884179146605562533}
   m_Layer: 7
   m_Name: PickupPistol
   m_TagString: Pistol
@@ -190,7 +190,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3
   m_Center: {x: 0, y: 0.050266325, z: -0.10166764}
---- !u!114 &4224641219610381518
+--- !u!114 &3884179146605562533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,9 +199,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3038479672614447662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698d08e6e02e82646861868c71496d73, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a242bac994db24b823403060ee51d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoManager: {fileID: 0}
+  iconBG: {fileID: 2593738286535152410}
+  icon: {fileID: 7966680810221219723}
+  redFilter: {fileID: 2701778273586698006}
+  ammoText: {fileID: 5390911842989075327}
 --- !u!1 &3048100501207297985
 GameObject:
   m_ObjectHideFlags: 0

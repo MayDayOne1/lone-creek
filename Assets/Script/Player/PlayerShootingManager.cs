@@ -6,46 +6,45 @@ using System.Collections;
 
 public class PlayerShootingManager : MonoBehaviour
 {
-    [Header("GENERAL")]
-    [SerializeField] private InputActionReference aimAction;
-    [SerializeField] private Rig aimRig;
-    private ChooseWeapon chooseWeapon;
-    private PlayerAnimManager animManager;
-    private PlayerInteract playerInteract;
-    private PlayerController controller;
-    private PlayerCamManager camManager;
-    private PlayerAmmoManager ammoManager;
-    private readonly float aimRigWeight;
-    private Vector3 mouseWorldPos = Vector3.zero;
     public Camera cam;
 
     [Header("THROW")]
-    [SerializeField] private Transform PlayerBottle;
+    public GameObject playerBottle;
+    public bool IsAimingThrowable = false;
     [SerializeField] private GameObject ThrowablePlayerBottle;
-    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float ThrowStrength = 20f;
     [SerializeField][Range(10, 100)] private int LinePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float TimeBetweenPoints = 0.1f;
-    [SerializeField] private AudioClip audioClip;
-    private GameObject BottleToInstantiate;
-    public bool IsAimingThrowable = false;
+    private LineRenderer lineRenderer;
+    private GameObject bottleInstance;
 
     [Header("PISTOL")]
+    public GameObject pistol;
+    public bool isAimingPistol = false;
+    public bool CanShoot = false;
+    public float pistolDamage = .2f;
+    [SerializeField] private Rig aimRig;
     [SerializeField] private LayerMask aimColliderLayerMask = new();
     [SerializeField] private Transform dummyTransform;
-    [SerializeField] private Image Crosshair;
+    [SerializeField] private Image crosshair;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private ParticleSystem fireEffect;
+    [SerializeField] private AudioSource pistolAudioSource;
+    private Vector3 mouseWorldPos = Vector3.zero;
     private readonly float cooldown = .5f;
     private float cooldownTimer;
+    private readonly float aimRigWeight;
     private Transform hitTransform = null;
-    public bool IsAimingPistol = false;
-    public float PistolDamage = .2f;
-    public bool CanShoot = false;
 
     private const string IS_AIMING_THROWABLE = "isAimingThrowable";
     private const string THROW = "Throw";
     private const string IS_AIMING_PISTOL = "isAimingPistol";
+
+    private ChooseWeapon chooseWeapon;
+    private PlayerAnimManager animManager;
+    private PlayerController controller;
+    private PlayerCamManager camManager;
+    private PlayerAmmoManager ammoManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleThrowCount = 0;
@@ -59,19 +58,32 @@ public class PlayerShootingManager : MonoBehaviour
     {
         chooseWeapon = GetComponent<ChooseWeapon>();
         animManager = GetComponent<PlayerAnimManager>();
-        playerInteract = GetComponent<PlayerInteract>();
         controller = GetComponent<PlayerController>();
         camManager = GetComponent<PlayerCamManager>();
         ammoManager = GetComponent<PlayerAmmoManager>();
 
+        lineRenderer = playerBottle.GetComponent<LineRenderer>();
+
         cooldownTimer = cooldown;
         aimRig.weight = 0f;
-        Crosshair.gameObject.SetActive(false);
+        crosshair.gameObject.SetActive(false);
+
+        playerBottle.SetActive(false);
+        pistol.SetActive(false);
     }
 
+    public void SetupSelectNone()
+    {
+        SetAimRigWeight(0f);
+        SetCrosshairVisibility(false);
+        StopAimingThrowable();
+        StopAimingPistol();
+        playerBottle.SetActive(false);
+        pistol.SetActive(false);
+    }
     private IEnumerator CountAimingTime()
     {
-        while(IsAimingThrowable || IsAimingPistol)
+        while(IsAimingThrowable || isAimingPistol)
         {
             playerTimeSpentAiming += Time.deltaTime;
             yield return null;
@@ -79,21 +91,19 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void SetAimRigWeight(float newWeight)
     {
-        //aimRig.weight = Mathf.Lerp(aimRigWeight, newWeight, Time.deltaTime * 20f);
         LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
             .setOnUpdate((value) =>
             {
                 aimRig.weight = value;
             });
     }
-    public void SetCrosshairVisibility(bool isVisible) => Crosshair.gameObject.SetActive(isVisible);
+    public void SetCrosshairVisibility(bool isVisible) => crosshair.gameObject.SetActive(isVisible);
     private void StartAimingPistol()
     {
         SetAimRigWeight(1f);
-        IsAimingPistol = true;
+        isAimingPistol = true;
         SetCrosshairVisibility(true);
 
-        controller.SetSpeed(controller.crouchSpeed);
         animManager.SetBool(IS_AIMING_PISTOL, true);
         if (controller.IsCrouching)
         {
@@ -108,13 +118,12 @@ public class PlayerShootingManager : MonoBehaviour
         StartCoroutine(CountAimingTime());
 #endif
     }
-    private void StopAimingPistol()
+    public void StopAimingPistol()
     {
         SetAimRigWeight(0f);
-        IsAimingPistol = false;
+        isAimingPistol = false;
         SetCrosshairVisibility(false);
 
-        controller.SetSpeed(controller.runSpeed);
         animManager.SetBool(IS_AIMING_PISTOL, false);
         if (controller.IsCrouching)
         {
@@ -130,9 +139,9 @@ public class PlayerShootingManager : MonoBehaviour
 #endif
 
     }
-    private IEnumerator AimTowardsCrosshair()
+    private IEnumerator AimTowardscrosshair()
     {
-        while(IsAimingPistol)
+        while(isAimingPistol)
         {
             Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
             Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
@@ -142,8 +151,8 @@ public class PlayerShootingManager : MonoBehaviour
                 mouseWorldPos = hit.point;
                 hitTransform = hit.transform;
 
-                if (hitTransform.CompareTag("Enemy")) Crosshair.color = Color.red;
-                else Crosshair.color = Color.white;
+                if (hitTransform.CompareTag("Enemy")) crosshair.color = Color.red;
+                else crosshair.color = Color.white;
             }
             yield return null;
         }
@@ -154,7 +163,6 @@ public class PlayerShootingManager : MonoBehaviour
         {
             SetAimRigWeight(0f);
             IsAimingThrowable = true;
-            controller.SetSpeed(controller.crouchSpeed);
             animManager.SetThrow(true);
             animManager.SetBool(IS_AIMING_THROWABLE, true);
 
@@ -173,10 +181,9 @@ public class PlayerShootingManager : MonoBehaviour
         StartCoroutine(CountAimingTime());
 #endif
     }
-    private void StopAimingThrowable()
+    public void StopAimingThrowable()
     {
         IsAimingThrowable = false;
-        controller.SetSpeed(controller.runSpeed);
         animManager.SetThrow(false);
         animManager.SetBool(IS_AIMING_THROWABLE, false);
         lineRenderer.enabled = false;
@@ -201,7 +208,7 @@ public class PlayerShootingManager : MonoBehaviour
         {
             lineRenderer.enabled = true;
             lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints + 1);
-            Vector3 startPos = PlayerBottle.position;
+            Vector3 startPos = playerBottle.transform.position;
             Vector3 startVelocity = ThrowStrength * cam.transform.forward;
             int i = 0;
             lineRenderer.SetPosition(i, startPos);
@@ -218,13 +225,14 @@ public class PlayerShootingManager : MonoBehaviour
     private void Throw()
     {
         animManager.SetTrigger(THROW);
-        playerInteract.Throwable.SetActive(false);
-        PlayerBottle.gameObject.SetActive(false);
-        Transform instancePos = PlayerBottle.transform;
-        BottleToInstantiate = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
-        Rigidbody bottleRb = BottleToInstantiate.GetComponent<Rigidbody>();
+        playerBottle.SetActive(false);
+
+        Transform instancePos = playerBottle.transform;
+        bottleInstance = Instantiate(ThrowablePlayerBottle, instancePos.position, instancePos.rotation);
+        Rigidbody bottleRb = bottleInstance.GetComponent<Rigidbody>();
         bottleRb.AddForce(cam.transform.forward * ThrowStrength, ForceMode.Impulse);
-        if(BottleToInstantiate != null) Destroy(BottleToInstantiate, 2f);
+        if(bottleInstance != null) Destroy(bottleInstance, 2f);
+
         PlayerInteract.hasThrowable = false;
         IsAimingThrowable = false;
         chooseWeapon.ThrowableBG.SetActive(false);
@@ -236,7 +244,7 @@ public class PlayerShootingManager : MonoBehaviour
     private void Fire()
     {
         fireEffect.Play();
-        playerInteract.audioSource.Play();
+        pistolAudioSource.Play();
         ammoManager.DecrementClip();
         if (hitTransform != null)
         {
@@ -244,7 +252,7 @@ public class PlayerShootingManager : MonoBehaviour
             Destroy(hitParticles, .1f);
             if(hitTransform.CompareTag("Enemy"))
             {
-                hitTransform.gameObject.GetComponentInParent<AI>().TakeDamage(PistolDamage);
+                hitTransform.GetComponentInParent<AI>().TakeDamage(pistolDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
                 playerShotsHit++;
 #endif
@@ -288,13 +296,13 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 StopAimingPistol();
                 StartAimingThrowable();
-                StartCoroutine(AimTowardsCrosshair());
+                StartCoroutine(AimTowardscrosshair());
             }
             else if (chooseWeapon.IsPrimarySelected)
             {
                 StopAimingThrowable();
                 StartAimingPistol();
-                StartCoroutine(AimTowardsCrosshair());
+                StartCoroutine(AimTowardscrosshair());
             }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesAimed++;
@@ -308,10 +316,10 @@ public class PlayerShootingManager : MonoBehaviour
     }
     public void Shoot()
     {
-        if(IsAimingThrowable && playerInteract.Throwable.activeSelf)
+        if(IsAimingThrowable)
         {
             Throw();
-        } else if (IsAimingPistol && playerInteract.Pistol.activeSelf && CanShoot)
+        } else if (isAimingPistol && CanShoot)
         {
             CheckIfCanShoot();
         }

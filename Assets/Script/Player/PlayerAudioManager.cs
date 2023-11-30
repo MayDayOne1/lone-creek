@@ -2,17 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerAudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private AudioClip gameOver;
+    [SerializeField] private AudioClip[] damages;
+    private AudioSource audioSource;
+
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();    
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayGameOverSound()
     {
-        
+        audioSource.clip = gameOver;
+        audioSource.Play();
+    }
+
+    private AudioClip SelectRandomDamageClip()
+    {
+        return damages[Random.Range(0, damages.Length)];
+    }
+
+    public void PlayDamageSound()
+    {
+        AudioClip damage = SelectRandomDamageClip();
+        audioSource.clip = damage;
+        audioSource.Play();
     }
 }
