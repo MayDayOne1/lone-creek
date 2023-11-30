@@ -8,7 +8,7 @@ using UnityEditor;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private List<GameObject> ObjectsTriggered = new();
+    private List<IInteractable> interactablesTriggered = new();
 
     public static bool hasThrowable = false;
     public static bool hasPrimary = false;
@@ -38,43 +38,26 @@ public class PlayerInteract : MonoBehaviour
     {
         if (other.GetComponent<IInteractable>() != null)
         {
-            ObjectsTriggered.Add(other.gameObject);
+            interactablesTriggered.Add(other.GetComponent<IInteractable>());
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if(other.GetComponent<IInteractable>() != null)
         {
-            ObjectsTriggered.Remove(other.gameObject);
+            interactablesTriggered.Remove(other.GetComponent<IInteractable>());
         }
-    }
-    private GameObject ChooseInteractiveObject()
-    {
-        float dist;
-        float minDist = float.MaxValue;
-        int resultingIndex = 0;
-        if (ObjectsTriggered.Count > 0)
-        {
-            for (int i = 0; i < ObjectsTriggered.Count; i++)
-            {
-                dist = Vector3.Distance(ObjectsTriggered[i].transform.position, transform.position);
-                if (dist < minDist)
-                {
-                    resultingIndex = i;
-                    minDist = dist;
-                }
-            }
-            return ObjectsTriggered[resultingIndex];
-        } else return null;
     }
 
     public void Interact()
     { 
-        if(ObjectsTriggered.Count > 0)
+        if(interactablesTriggered.Count > 0)
         {
-            GameObject obj = ChooseInteractiveObject();
-            obj.GetComponent<IInteractable>().Interact();
-            ObjectsTriggered.Remove(obj); 
+            foreach (IInteractable interactable in interactablesTriggered)
+            {
+                interactable.Interact();
+            }
+            interactablesTriggered.Clear();
         }
     }
 }

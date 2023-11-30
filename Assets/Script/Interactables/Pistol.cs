@@ -52,17 +52,18 @@ public class Pistol : MonoBehaviour, IInteractable
         if(!PlayerInteract.hasPrimary)
         {
             PlayerInteract.hasPrimary = true;
-            if (!PlayerInteract.hasThrowable)
-            {
-                chooseWeapon.SelectPrimary();
-                Destroy(this.gameObject);
+            chooseWeapon.SelectPrimary();
+            int ammo = int.Parse(ammoText.text);
+            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-                PlayerInteract.playerPistolsPickedUp++;
+            PlayerInteract.playerPistolsPickedUp++;
 #endif
-            }
         }
-        int ammo = int.Parse(ammoText.text);
-        ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+        else
+        {
+            int ammo = int.Parse(ammoText.text);
+            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+        }      
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerInteract.playerAmmoClipCount++;
 #endif
