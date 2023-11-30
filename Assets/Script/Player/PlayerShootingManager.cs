@@ -68,6 +68,7 @@ public class PlayerShootingManager : MonoBehaviour
         aimRig.weight = 0f;
         crosshair.gameObject.SetActive(false);
 
+        playerBottle.SetActive(false);
         pistol.SetActive(false);
     }
 

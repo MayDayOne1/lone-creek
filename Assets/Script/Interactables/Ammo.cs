@@ -21,14 +21,17 @@ public class Ammo : MonoBehaviour, IInteractable
 
     void OnTriggerEnter(Collider other)
     {
-        SetIconVisibility(1f);
-        if (!ammoManager.CanAcceptAmmo())
+        if(other.gameObject.GetComponent<PlayerController>() != null)
         {
-            ActivateRedFilter(true);
-        }
-        else
-        {
-            ActivateRedFilter(false);
+            SetIconVisibility(1f);
+            if (!ammoManager.CanAcceptAmmo())
+            {
+                ActivateRedFilter(true);
+            }
+            else
+            {
+                ActivateRedFilter(false);
+            }
         }
     }
     private void OnTriggerExit(Collider other)

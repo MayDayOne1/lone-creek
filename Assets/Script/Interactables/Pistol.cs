@@ -21,16 +21,18 @@ public class Pistol : MonoBehaviour, IInteractable
 
     void OnTriggerEnter(Collider other)
     {
-        SetIconVisibility(1f);
-        if (!ammoManager.CanAcceptAmmo() && PlayerInteract.hasPrimary)
+        if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            ActivateRedFilter(true);
+            SetIconVisibility(1f);
+            if (!ammoManager.CanAcceptAmmo() && PlayerInteract.hasPrimary)
+            {
+                ActivateRedFilter(true);
+            }
+            else
+            {
+                ActivateRedFilter(false);
+            }
         }
-        else
-        {
-            ActivateRedFilter(false);
-        }
-
     }
     private void OnTriggerExit(Collider other)
     {

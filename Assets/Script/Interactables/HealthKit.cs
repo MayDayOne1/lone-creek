@@ -19,15 +19,18 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     void OnTriggerEnter(Collider other)
     {
-        SetIconVisibility(1f);
-        if (PlayerController.health >= 1f)
+        if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            ActivateRedFilter(true);
-        }
-        else
-        {
-            ActivateRedFilter(false);
-        }
+            SetIconVisibility(1f);
+            if (PlayerController.health >= 1f)
+            {
+                ActivateRedFilter(true);
+            }
+            else
+            {
+                ActivateRedFilter(false);
+            }
+        } 
     }
     private void OnTriggerExit(Collider other)
     {

@@ -19,14 +19,17 @@ public class Throwable : MonoBehaviour, IInteractable
 
     void OnTriggerEnter(Collider other)
     {
-        SetIconVisibility(1f);
-        if(PlayerInteract.hasThrowable)
+        if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            ActivateRedFilter(true);
-        }
-        else
-        {
-            ActivateRedFilter(false);
+            SetIconVisibility(1f);
+            if (PlayerInteract.hasThrowable)
+            {
+                ActivateRedFilter(true);
+            }
+            else
+            {
+                ActivateRedFilter(false);
+            }
         }
     }
 
