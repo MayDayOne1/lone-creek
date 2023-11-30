@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private List<IInteractable> interactablesTriggered = new();
+    private readonly List<IInteractable> interactablesTriggered = new();
 
     public static bool hasThrowable = false;
     public static bool hasPrimary = false;

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Analytics;
@@ -6,45 +5,50 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class AI : MonoBehaviour
 {
-    private NavMeshAgent agent;
-    private Animator anim;
+    [Header("HEALTH")]
+    [SerializeField] private Slider healthSlider;
     private float health = 1f;
-    [SerializeField] private EnemySoundManager soundManager;
-    [SerializeField] private float rifleDamage = .25f;
-    [SerializeField] private Rig aimRig;
-    [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     private bool isInvincible = false;
-    private float aimRigWeight;
     private Rigidbody[] childrenRB;
-    public Transform DummyBullet;
-    public Transform muzzle;
 
-    protected State currentState;
-    public Transform Player;
-    public Transform targetForEnemy;
+    [Header("MOVEMENT")]
     public GameObject[] waypoints;
-    // public GameObject bullet;
-    // public Transform muzzle;
-    public Slider HealthSlider;
+
+    [Header("PLAYER")]
+    public Transform Player;
+    public PlayerController playerController;
+    public Transform targetForEnemy;
+
+    [Header("SHOOTING")]
+    public Transform muzzle;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
-    public PlayerController playerController;
+    [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
+    [SerializeField] private float rifleDamage = .25f;
+    [SerializeField] private Rig aimRig;
+    private float aimRigWeight;
+
+    [SerializeField] private EnemySoundManager soundManager;
+    protected State currentState;
+    private NavMeshAgent agent;
+    private Animator anim;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
-        currentState = new Idle(this.gameObject, targetForEnemy, agent, waypoints, anim);
-        HealthSlider.gameObject.SetActive(false);
-
+        healthSlider.gameObject.SetActive(false);
         childrenRB = this.GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in childrenRB)
         {
             rb.isKinematic = true;
         }
+
+        agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        currentState = new Idle(this.gameObject, targetForEnemy, agent, waypoints, anim);
     }
 
     void Update()
@@ -53,35 +57,20 @@ public class AI : MonoBehaviour
         aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
         if (currentState.CanSeePlayer())
         {
-            EnableAim();
+            aimRigWeight = 1f;
         }
         else
         {
-            DisableAim();
+            aimRigWeight = 0f;
         }
-    }
-    private void EnableAim()
-    {
-        aimRigWeight = 1f;
-    }
-    private void DisableAim()
-    {
-        aimRigWeight = 0f;
     }
     private void Die()
     {
-        DisableAim();
-        agent.enabled = false;
-        this.enabled = false;
-        anim.enabled = false;
-        HealthSlider.gameObject.SetActive(false);
         soundManager.isAlive = false;
         soundManager.EmitDeathSound();
-        foreach (Rigidbody r in childrenRB)
-        {
-            r.gameObject.tag = "Untagged";
-            r.isKinematic = false;
-        }
+        DisableEnemy();
+        ActivateRagdoll();
+        
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerController.enemiesKilled++;
         AnalyticsService.Instance.CustomData("enemyDie", new Dictionary<string, object>()
@@ -102,6 +91,23 @@ public class AI : MonoBehaviour
             });
 #endif
     }
+
+    private void DisableEnemy()
+    {
+        aimRigWeight = 0f;
+        agent.enabled = false;
+        this.enabled = false;
+        anim.enabled = false;
+        healthSlider.gameObject.SetActive(false);
+    }
+    private void ActivateRagdoll()
+    {
+        foreach (Rigidbody r in childrenRB)
+        {
+            r.gameObject.tag = "Untagged";
+            r.isKinematic = false;
+        }
+    }
     private void PursuePlayerWhenShot()
     {
         if(currentState.stateName != State.STATE.ATTACK) 
@@ -116,57 +122,44 @@ public class AI : MonoBehaviour
     {
         if(!isInvincible)
         {
-            if (health > .01f)
+            if (!healthSlider.gameObject.activeSelf)
             {
-                PursuePlayerWhenShot();
-            }
-
-            if (!HealthSlider.gameObject.activeSelf)
-            {
-                HealthSlider.gameObject.SetActive(true);
+                healthSlider.gameObject.SetActive(true);
             }
 
             health -= damage;
-            HealthSlider.DOValue(health, .2f, false);
-            if (health < .01f)
+            healthSlider.DOValue(health, .2f, false);
+            if (health > .01f)
+            {
+                PursuePlayerWhenShot();
+                soundManager.EmitDamageSound();
+            }
+            else
             {
                 health = 0f;
                 Die();
             }
-            else
-            {
-                soundManager.EmitDamageSound();
-            }
             StartCoroutine(Invincibility());
         }
-        
     }
     private IEnumerator Invincibility()
     {
         isInvincible = true;
         yield return new WaitForSeconds(.25f);
         isInvincible = false;
-        // Debug.Log("not invincible");
     }
     public void ShootAtPlayer()
     {
         if(agent.enabled && PlayerController.health > 0f)
         {
-            EnableAim();
-            Gunshot.Play();
-            MuzzleFlash.Play();
-            anim.SetTrigger("Shoot");
+            Shoot();
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
 
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
             {
-                // Debug.DrawRay(muzzle.position, dirTowardsPlayer * 999f, Color.red, 2f);
                 if (hit.transform.gameObject.layer == 6)
                 {
-                    float chance = Random.Range(0f, 1f);
-                    float roundChance = Mathf.Round(chance * 100f) / 100f;
-                    Debug.Log("chance: " + roundChance);
-                    if(roundChance < hitChance)
+                    if(CalculateHitChance() < hitChance)
                     {
                         Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -179,6 +172,18 @@ public class AI : MonoBehaviour
             PlayerController.enemyShotsFiredCount++;
 #endif
         }
-
+    }
+    private void Shoot()
+    {
+        aimRigWeight = 1f;
+        Gunshot.Play();
+        MuzzleFlash.Play();
+        anim.SetTrigger("Shoot");
+    }
+    private float CalculateHitChance()
+    {
+        float chance = Random.Range(0f, 1f);
+        float roundChance = Mathf.Round(chance * 100f) / 100f;
+        return roundChance;
     }
 }
