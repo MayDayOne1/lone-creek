@@ -379,7 +379,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 6
   m_Center: {x: 0, y: 2.1531222, z: 0.2074914}
 --- !u!114 &5953807341959340957
 MonoBehaviour:
@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interact: {fileID: 0}
+  controller: {fileID: 0}
   iconBG: {fileID: 2820424130573425225}
   icon: {fileID: 6546783059678744354}
   redFilter: {fileID: 7241443394991843418}
