@@ -20871,7 +20871,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6562724827604461871}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: SetFullscreen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &995239752
 MonoBehaviour:
@@ -42417,6 +42429,7 @@ GameObject:
   - component: {fileID: 833557260640540087}
   - component: {fileID: 2334602383809539123}
   - component: {fileID: 6562724827604461870}
+  - component: {fileID: 6562724827604461871}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -43147,6 +43160,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6562724827604461871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5449721968375776496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f21fb88aa9cd94f85107e7f829fad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &6571298203141939007
 MeshCollider:
   m_ObjectHideFlags: 0
