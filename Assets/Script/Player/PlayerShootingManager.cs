@@ -139,7 +139,7 @@ public class PlayerShootingManager : MonoBehaviour
 #endif
 
     }
-    private IEnumerator AimTowardscrosshair()
+    private IEnumerator AimTowardsCrosshair()
     {
         while(isAimingPistol)
         {
@@ -296,13 +296,13 @@ public class PlayerShootingManager : MonoBehaviour
             {
                 StopAimingPistol();
                 StartAimingThrowable();
-                StartCoroutine(AimTowardscrosshair());
+                StartCoroutine(AimTowardsCrosshair());
             }
             else if (chooseWeapon.IsPrimarySelected)
             {
                 StopAimingThrowable();
                 StartAimingPistol();
-                StartCoroutine(AimTowardscrosshair());
+                StartCoroutine(AimTowardsCrosshair());
             }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesAimed++;

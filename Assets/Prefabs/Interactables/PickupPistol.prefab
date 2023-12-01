@@ -188,7 +188,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 6
   m_Center: {x: 0, y: 0.050266325, z: -0.10166764}
 --- !u!114 &3884179146605562533
 MonoBehaviour:
@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoManager: {fileID: 0}
+  chooseWeapon: {fileID: 0}
   iconBG: {fileID: 2593738286535152410}
   icon: {fileID: 7966680810221219723}
   redFilter: {fileID: 2701778273586698006}

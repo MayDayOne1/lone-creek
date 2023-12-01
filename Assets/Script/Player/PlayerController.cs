@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
     {
         CalculateCharacterRotation();  
     }
+
     #region GAME SETUP
     private void ClearTweens()
     {
@@ -178,6 +179,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
     #region ANALYTICS
     public void ResetAnalyticsData()
     {
@@ -267,6 +269,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
     #region MOVEMENT
     private void IsPlayerGrounded()
     {
@@ -316,6 +319,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
     #region CROUCH
 
     public void Crouch()
@@ -378,6 +382,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
     #region GAME OVER
     private void SmoothTimeScaleSetter(float timeValue)
     {
@@ -467,6 +472,7 @@ public class PlayerController : MonoBehaviour
         camManager.EnableAll(false);
     }
     #endregion
+
     #region HEALTH & DAMAGE
     public void PlayerTakeDamage(float damage)
     {
@@ -497,6 +503,7 @@ public class PlayerController : MonoBehaviour
 #endif
     }
     #endregion
+
     #region UI & UX
     public void TogglePauseMenu()
     {
@@ -524,4 +531,5 @@ public class PlayerController : MonoBehaviour
         bloodOverlay.DOFade(0f, 1f);
     }
     #endregion
+
 }

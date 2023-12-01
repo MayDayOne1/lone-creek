@@ -190,7 +190,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0.04140716}
 --- !u!114 &9160971525463502755
 MonoBehaviour:
@@ -205,10 +205,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interact: {fileID: 0}
+  chooseWeapon: {fileID: 0}
   iconBG: {fileID: 5659926999833762655}
   icon: {fileID: 8354862420775844086}
   redFilter: {fileID: 7440715906037097260}
-  iconText: {fileID: 0}
 --- !u!1 &7076794141415714198
 GameObject:
   m_ObjectHideFlags: 0
