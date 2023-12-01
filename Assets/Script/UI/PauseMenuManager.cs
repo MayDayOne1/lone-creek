@@ -71,7 +71,8 @@ public class PauseMenuManager : MonoBehaviour
             });
         }
 #endif
-            SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void OnTryAgain()
