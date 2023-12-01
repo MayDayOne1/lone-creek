@@ -13,7 +13,11 @@ public class ToggleVsync : MonoBehaviour
         {
             toggle.isOn = QualitySettings.vSyncCount > 0;
 
-            toggle.onValueChanged.AddListener(ToggleVsyncCallback);
+            // Dodaj s³uchacza tylko, jeœli skrypt jest aktywny
+            if (isActiveAndEnabled)
+            {
+                toggle.onValueChanged.AddListener(ToggleVsyncCallback);
+            }
         }
         else
         {
