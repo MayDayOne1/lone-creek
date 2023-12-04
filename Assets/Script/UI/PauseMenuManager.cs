@@ -72,7 +72,7 @@ public class PauseMenuManager : MonoBehaviour
         }
 #endif
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(0);
     }
 
     public void OnTryAgain()

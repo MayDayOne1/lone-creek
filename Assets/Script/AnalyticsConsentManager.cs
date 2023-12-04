@@ -8,7 +8,7 @@ public class AnalyticsConsentManager : MonoBehaviour
 {
     public GameObject consentWindow;
     public static bool? isConsentGiven = null;
-    // Start is called before the first frame update
+
     async void Start()
     {
         try
