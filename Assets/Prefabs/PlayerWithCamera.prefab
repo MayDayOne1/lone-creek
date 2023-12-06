@@ -494,7 +494,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227956038}
-  m_LocalRotation: {x: -0.20269302, y: -0.03788975, z: 0.0029876526, w: 0.97850454}
+  m_LocalRotation: {x: -0.20269302, y: -0.03788978, z: 0.0029876526, w: 0.97850454}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1452,7 +1452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816042932}
-  m_LocalRotation: {x: -0.24595481, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
+  m_LocalRotation: {x: -0.24595483, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12294,7 +12294,8 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8381790681595516686, guid: 6ea2d2bebc15e2b4296b5560e7dc315a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6ea2d2bebc15e2b4296b5560e7dc315a, type: 3}
 --- !u!4 &390870822625468866 stripped
 Transform:
@@ -12321,25 +12322,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pistol: {fileID: 1019913985330756472}
+  player: {fileID: 6739465379562174190}
   ammoBG: {fileID: 3059649173136440922}
   isSelected: 0
   isAiming: 0
   pistolDamage: 0.2
-  player: {fileID: 6739465379562174190}
   aimRig: {fileID: 1472307003}
   crosshair: {fileID: 6294771695649201009}
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 471
-  hitEffect: {fileID: 6091360429741257736, guid: 277608d455050ba46b1dba7af7e61e5c,
-    type: 3}
-  fireEffect: {fileID: 198000012944515248, guid: 9defeac88977c0d448aa4541073ee9e4,
-    type: 3}
-  pistolAudioSource: {fileID: 5791546945530250840}
+  hitEffect: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
+  fireEffect: {fileID: 3617197669915954442}
+  gunshot: {fileID: 8300000, guid: fad457233e93b4a4985c999ddde39b16, type: 3}
   aimTarget: {fileID: 692733900447964051}
---- !u!82 &5791546945530250840 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8381790681595516686, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+--- !u!198 &3617197669915954442 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1603124692444273756, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
     type: 3}
   m_PrefabInstance: {fileID: 2597925474063241558}
   m_PrefabAsset: {fileID: 0}
@@ -12452,10 +12451,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   throwable: {fileID: 1372262887487349410}
+  player: {fileID: 6739465379562174190}
   throwableBG: {fileID: 730817131447104791}
   isSelected: 0
   isAiming: 0
-  player: {fileID: 6739465379562174190}
   throwablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
     type: 3}
   throwStrength: 20

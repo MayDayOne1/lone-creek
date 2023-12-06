@@ -25,7 +25,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     [SerializeField] private LayerMask aimColliderLayerMask = new();
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private ParticleSystem fireEffect;
-    [SerializeField] private AudioSource pistolAudioSource;
+    [SerializeField] private AudioClip gunshot;
     [SerializeField] private Transform aimTarget;
 
     private Vector3 mouseWorldPos = Vector3.zero;
@@ -217,7 +217,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     private void Fire()
     {
         fireEffect.Play();
-        pistolAudioSource.Play();
+        AudioSource.PlayClipAtPoint(gunshot, transform.position);
         ammoManager.DecrementClip();
         if (hitTransform != null)
         {
