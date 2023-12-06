@@ -503,21 +503,23 @@ public class PlayerController : MonoBehaviour
     #region UI & UX
     public void TogglePauseMenu()
     {
-        if(!isShowingPauseMenu)
+        if (!isShowingPauseMenu)
         {
             PauseMenu.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             camManager.EnableAll(false);
-            
-        } else
+            playerInput.DeactivateInput();
+        }
+        else
         {
             PauseMenu.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
             camManager.EnableAll(true);
+            playerInput.ActivateInput();
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
