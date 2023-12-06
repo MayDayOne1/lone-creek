@@ -3042,6 +3042,7 @@ GameObject:
   - component: {fileID: 2145761906}
   - component: {fileID: 2145761908}
   - component: {fileID: 2145761907}
+  - component: {fileID: 3059649173136440922}
   m_Layer: 5
   m_Name: AmmoBG
   m_TagString: Untagged
@@ -3110,6 +3111,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3059649173136440922
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145761905}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &35079691665096996
 GameObject:
   m_ObjectHideFlags: 0
@@ -7837,6 +7850,7 @@ GameObject:
   - component: {fileID: 491734999700478967}
   - component: {fileID: 3551134038198580651}
   - component: {fileID: 4697025876363739735}
+  - component: {fileID: 730817131447104791}
   m_Layer: 5
   m_Name: ThrowableBG
   m_TagString: Untagged
@@ -7903,6 +7917,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &730817131447104791
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031390852890305785}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6047299855048309180
 GameObject:
   m_ObjectHideFlags: 0
@@ -9607,10 +9633,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4207bfa0bc31954ebca1163be6b1e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThrowableBG: {fileID: 6031390852890305785}
-  AmmoBG: {fileID: 2145761905}
-  IsThrowableSelected: 0
-  IsPrimarySelected: 0
+  throwableWeapon: {fileID: 553849889066759867}
+  pistolWeapon: {fileID: 5772709112272572322}
 --- !u!114 &114614342735316098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9635,28 +9659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d45eccb6b2b7f48a8227befc0051ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  playerBottle: {fileID: 1372262887487349410}
-  IsAimingThrowable: 0
-  ThrowablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
-    type: 3}
-  ThrowStrength: 20
-  LinePoints: 25
-  TimeBetweenPoints: 0.1
-  audioClip: {fileID: 0}
-  pistol: {fileID: 1019913985330756472}
-  isAimingPistol: 0
-  CanShoot: 1
-  pistolDamage: 0.2
-  aimRig: {fileID: 1472307003}
-  aimColliderLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  dummyTransform: {fileID: 692733900447964051}
-  crosshair: {fileID: 6294771695649201009}
-  hitEffect: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
-  fireEffect: {fileID: 3617197669915954442}
-  pistolAudioSource: {fileID: 5791546945530250840}
+  isAiming: 0
+  isPistolEquipped: 0
 --- !u!114 &6428473331913527762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12304,12 +12308,35 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2597925474063241558}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &3617197669915954442 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1603124692444273756, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2597925474063241558}
+--- !u!114 &5772709112272572322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019913985330756472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21daa6cb0dc5731458924e9c0ed6850a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pistol: {fileID: 1019913985330756472}
+  ammoBG: {fileID: 3059649173136440922}
+  isSelected: 0
+  isAiming: 0
+  pistolDamage: 0.2
+  player: {fileID: 6739465379562174190}
+  aimRig: {fileID: 1472307003}
+  crosshair: {fileID: 6294771695649201009}
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 471
+  hitEffect: {fileID: 6091360429741257736, guid: 277608d455050ba46b1dba7af7e61e5c,
+    type: 3}
+  fireEffect: {fileID: 198000012944515248, guid: 9defeac88977c0d448aa4541073ee9e4,
+    type: 3}
+  pistolAudioSource: {fileID: 5791546945530250840}
+  aimTarget: {fileID: 692733900447964051}
 --- !u!82 &5791546945530250840 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 8381790681595516686, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
@@ -12411,6 +12438,29 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5151782281408652065}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &553849889066759867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372262887487349410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67b8e9cf87c55d47945762a9204a12e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  throwable: {fileID: 1372262887487349410}
+  throwableBG: {fileID: 730817131447104791}
+  isSelected: 0
+  isAiming: 0
+  player: {fileID: 6739465379562174190}
+  throwablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
+    type: 3}
+  throwStrength: 20
+  linePoints: 25
+  timeBetweenPoints: 0.1
 --- !u!4 &1747556633314261016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6863028226064735033, guid: e4ac6a2013c13624ea24272122401689,

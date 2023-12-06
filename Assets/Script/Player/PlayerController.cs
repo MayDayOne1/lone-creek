@@ -196,9 +196,9 @@ public class PlayerController : MonoBehaviour
         playerTimeSpentStanding = 0f;
 
         // ammo reset in LoadFromCheckpoint(), no reason to do it twice
-        PlayerShootingManager.playerBottleThrowCount = 0;
-        PlayerShootingManager.playerShotsFiredCount = 0;
-        PlayerShootingManager.playerShotsHit = 0;
+        ThrowableWeapon.playerBottleThrowCount = 0;
+        PistolWeapon.playerShotsFiredCount = 0;
+        PistolWeapon.playerShotsHit = 0;
         PlayerShootingManager.playerTimesAimed = 0;
         PlayerShootingManager.playerTimeSpentAiming = 0;
 
@@ -298,9 +298,7 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateSpeed()
     {
-        if(IsCrouching ||
-            shootingManager.isAimingPistol ||
-            shootingManager.IsAimingThrowable) 
+        if(IsCrouching || shootingManager.isAiming) 
         {
             Speed = crouchSpeed;
         }
@@ -311,7 +309,7 @@ public class PlayerController : MonoBehaviour
     }
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || shootingManager.IsAimingThrowable || shootingManager.isAimingPistol)
+        if (movement != Vector2.zero || shootingManager.isAiming)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
@@ -349,12 +347,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = crouchingHeight;
         controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-        animManager.SetCrouch(true, shootingManager.pistol.activeSelf);
+        animManager.SetCrouch(true);
     }
     private void CrouchCamSetup()
     {
-        if (shootingManager.isAimingPistol ||
-                shootingManager.IsAimingThrowable)
+        if (shootingManager.isAiming)
         {
             camManager.ActivateCrouchAim();
         }
@@ -367,12 +364,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = standingHeight;
         controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-        animManager.SetCrouch(false, shootingManager.pistol.activeSelf);
+        animManager.SetCrouch(false);
     }
     private void StandCamSetup()
     {
-        if (shootingManager.isAimingPistol ||
-                shootingManager.IsAimingThrowable)
+        if (shootingManager.isAiming)
         {
             camManager.ActivateAim();
         }
@@ -425,13 +421,13 @@ public class PlayerController : MonoBehaviour
                 { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
                 { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
                 { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
+                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
                 { "enemiesKilled", enemiesKilled },
                 { "enemyShotsFiredCount", enemyShotsFiredCount },
                 { "enemyShotsHit", enemyShotsHit },
                 { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+                { "playerShotsHit", PistolWeapon.playerShotsHit }
             });
 #endif
         DeathSetup();

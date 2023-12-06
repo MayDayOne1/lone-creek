@@ -81,13 +81,13 @@ public class AI : MonoBehaviour
                 { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
                 { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
                 { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
+                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
                 { "enemiesKilled", PlayerController.enemiesKilled },
                 { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
                 { "enemyShotsHit", PlayerController.enemyShotsHit },
                 { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+                { "playerShotsHit", PistolWeapon.playerShotsHit }
             });
 #endif
     }

@@ -7,6 +7,8 @@ public class PlayerAnimManager : MonoBehaviour
     private Animator anim;
     [SerializeField] private float layerBlendTime = .15f;
 
+    private PlayerShootingManager shootingManager;
+
     private const int CROUCHING_LAYER = 1;
     private const int THROWING_LAYER = 2;
     private const int PISTOL_LAYER = 3;
@@ -15,6 +17,7 @@ public class PlayerAnimManager : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        shootingManager = GetComponent<PlayerShootingManager>();
     }
 
     private void SmoothLayerSwitch(int layer, float weight)
@@ -26,12 +29,12 @@ public class PlayerAnimManager : MonoBehaviour
                 anim.SetLayerWeight(layer, value);
             });
     }
-    public void SetCrouch(bool isCrouching, bool hasPistol)
+    public void SetCrouch(bool isCrouching)
     {
         if (isCrouching)
         {
             SmoothLayerSwitch(CROUCHING_LAYER, 1f);
-            if (hasPistol)
+            if (shootingManager.isPistolEquipped)
             {
                 SmoothLayerSwitch(PISTOL_LAYER, 0f);
                 SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 1f);
@@ -41,7 +44,7 @@ public class PlayerAnimManager : MonoBehaviour
         {
             SmoothLayerSwitch(CROUCHING_LAYER, 0f);
             SmoothLayerSwitch(PISTOL_CROUCH_LAYER, 0f);
-            if (hasPistol)
+            if (shootingManager.isPistolEquipped)
             {
                 SmoothLayerSwitch(PISTOL_LAYER, 1f);
             }
