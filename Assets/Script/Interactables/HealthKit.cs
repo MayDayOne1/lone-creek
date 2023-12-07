@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.InputSystem.XR;
 
 public class HealthKit : MonoBehaviour, IInteractable
 {
@@ -39,7 +38,7 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     public void ActivateRedFilter(bool activate)
     {
-        if (activate)
+        if (activate && isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }

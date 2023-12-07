@@ -40,7 +40,7 @@ public class Pistol : MonoBehaviour, IInteractable
     }
     public void ActivateRedFilter(bool activate)
     {
-        if (activate)
+        if (activate && isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }

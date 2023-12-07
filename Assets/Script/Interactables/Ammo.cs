@@ -1,10 +1,9 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting.AssemblyQualifiedNameParser;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
 
 public class Ammo : MonoBehaviour, IInteractable
 {
@@ -41,7 +40,7 @@ public class Ammo : MonoBehaviour, IInteractable
 
     public void ActivateRedFilter(bool activate)
     {
-        if (activate)
+        if (activate && isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }
