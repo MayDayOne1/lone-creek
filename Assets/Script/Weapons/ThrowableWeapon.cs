@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using MEC;
+
+[RequireComponent(typeof(AudioSource))]
 
 public class ThrowableWeapon : MonoBehaviour, IWeapon
 {
@@ -13,12 +16,19 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
     public bool isAiming = false;
 
     [SerializeField] private GameObject throwablePlayerBottle;
+    [SerializeField] private AudioClip onSelect;
+
+    [Header("LINE RENDERING")]
     [SerializeField] private float throwStrength = 20f;
     [SerializeField][Range(10, 100)] private int linePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float timeBetweenPoints = 0.1f;
 
+    
+    private bool isPlayingSound = false;
+
     private LineRenderer lineRenderer;
     private GameObject bottleInstance;
+    private AudioSource audioSource;
 
     PlayerController controller;
     PlayerCamManager camManager;
@@ -38,6 +48,9 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
         camManager = player.GetComponent<PlayerCamManager>();
         animManager = player.GetComponent<PlayerAnimManager>();
         shootingManager = player.GetComponent<PlayerShootingManager>();
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = onSelect;
 
         Disable();
         throwableBG.interactable = false;
@@ -96,12 +109,31 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
         }
     }
 
+    public void PlaySelectionSound()
+    {
+        Timing.RunCoroutine(PlaySound());
+    }
+
+    IEnumerator<float> PlaySound()
+    {
+        if(!isSelected && !isPlayingSound)
+        {
+            audioSource.PlayOneShot(onSelect);
+            isPlayingSound = true;
+            yield return Timing.WaitForSeconds(onSelect.length);
+        }
+        isPlayingSound = false;
+    }
+
     public void Select()
     {
         if(PlayerInteract.hasThrowable)
         {
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             throwable.SetActive(true);
+
+            PlaySelectionSound();
+
             isSelected = true;
             EnableUI(true);
         }

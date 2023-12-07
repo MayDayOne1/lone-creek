@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2405214144939536532}
   - component: {fileID: 1643481881201786673}
   - component: {fileID: 3542685124581805051}
-  - component: {fileID: 8381790681595516686}
+  - component: {fileID: 5772709112272572322}
+  - component: {fileID: 8662064814265269652}
   m_Layer: 0
   m_Name: PlayerPistol
   m_TagString: Player
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3038479672614447662}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 45.058025, y: 2.458, z: 38.202362}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8597759742700591285}
@@ -86,7 +87,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!82 &8381790681595516686
+--- !u!114 &5772709112272572322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038479672614447662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21daa6cb0dc5731458924e9c0ed6850a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pistol: {fileID: 3038479672614447662}
+  player: {fileID: 0}
+  ammoBG: {fileID: 0}
+  isSelected: 0
+  isAiming: 0
+  pistolDamage: 0.2
+  aimRig: {fileID: 0}
+  crosshair: {fileID: 0}
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 471
+  hitEffect: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
+  fireEffect: {fileID: 1603124692444273756}
+  gunshot: {fileID: 8300000, guid: fad457233e93b4a4985c999ddde39b16, type: 3}
+  aimTarget: {fileID: 0}
+  onSelect: {fileID: 8300000, guid: a6cb7e9918644214291ef207a9a5f142, type: 3}
+--- !u!82 &8662064814265269652
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +125,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fad457233e93b4a4985c999ddde39b16, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -405,7 +434,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.5189355, b: 0.0603773, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3997,7 +4026,7 @@ ParticleSystem:
     enabled: 1
     ratio: 0.1
     light: {fileID: 6639890233084236567}
-    randomDistribution: 0
+    randomDistribution: 1
     color: 0
     range: 0
     intensity: 0
@@ -4107,7 +4136,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 2
   TrailModule:
     enabled: 0
     mode: 0
@@ -4943,7 +4972,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 527027c8baf2f0540be3104a3ec38a99, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4985,7 +5014,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -5005,6 +5034,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Point Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 190369449565585921, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Range
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.54980415
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.76055545
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3260116895214811914, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
