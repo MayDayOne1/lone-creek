@@ -21,17 +21,20 @@ public class AI : MonoBehaviour
 
     [Header("PLAYER")]
     public Transform Player;
-    public PlayerController playerController;
+    public PlayerController controller;
     public Transform targetForEnemy;
 
     [Header("SHOOTING")]
     public Transform muzzle;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
+    public IEnumerator<float> aimCoroutine;
     [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     [SerializeField] private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
+    [SerializeField] private Transform aimTarget;
     private float aimRigWeight;
+    [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private EnemySoundManager soundManager;
     protected State currentState;
@@ -55,15 +58,6 @@ public class AI : MonoBehaviour
     void Update()
     {
         currentState = currentState.Process();
-        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
-        if (currentState.CanSeePlayer())
-        {
-            aimRigWeight = 1f;
-        }
-        else
-        {
-            aimRigWeight = 0f;
-        }
     }
     private void Die()
     {
@@ -122,13 +116,11 @@ public class AI : MonoBehaviour
     {
         if(!isInvincible)
         {
-            if (!healthSlider.gameObject.activeSelf)
-            {
-                healthSlider.gameObject.SetActive(true);
-            }
+            ActivateHealthSlider();
 
             health -= damage;
             healthSlider.DOValue(health, .2f, false);
+
             if (health > .01f)
             {
                 PursuePlayerWhenShot();
@@ -140,6 +132,14 @@ public class AI : MonoBehaviour
                 Die();
             }
             Timing.RunCoroutine(Invincibility().CancelWith(gameObject));
+        }
+    }
+
+    private void ActivateHealthSlider()
+    {
+        if (!healthSlider.gameObject.activeSelf)
+        {
+            healthSlider.gameObject.SetActive(true);
         }
     }
     private IEnumerator<float> Invincibility()
@@ -175,7 +175,7 @@ public class AI : MonoBehaviour
     }
     private void Shoot()
     {
-        aimRigWeight = 1f;
+        // SetAimRigWeight(1f);
         Gunshot.Play();
         MuzzleFlash.Play();
         anim.SetTrigger("Shoot");
@@ -185,5 +185,14 @@ public class AI : MonoBehaviour
         float chance = Random.Range(0f, 1f);
         float roundChance = Mathf.Round(chance * 100f) / 100f;
         return roundChance;
+    }
+
+    public void SetAimRigWeight(float newWeight)
+    {
+        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
+            .setOnUpdate((value) =>
+            {
+                aimRig.weight = value;
+            });
     }
 }

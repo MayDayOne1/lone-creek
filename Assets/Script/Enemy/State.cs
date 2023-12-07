@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using MEC;
 
 public class State
 {
@@ -30,6 +33,7 @@ public class State
     protected float pursueSpeed = 3f;
 
     protected int playerLayerMask = 6;
+    public Vector3 hitPosition;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -65,9 +69,11 @@ public class State
         {
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
+                npc.GetComponent<AI>().SetAimRigWeight(1f);
                 return hit.transform.gameObject.layer == playerLayerMask;
             }
         }
+        npc.GetComponent<AI>().SetAimRigWeight(0f);
         return false;
     }
     public bool CanAttackPlayer()
