@@ -194,5 +194,21 @@ public class AI : MonoBehaviour
             {
                 aimRig.weight = value;
             });
+
+        Timing.RunCoroutine(UpdateAimTarget());
+        
+    }
+
+    private IEnumerator<float> UpdateAimTarget()
+    {
+        while (aimRig.weight > 0f)
+        {
+            Vector3 direction = targetForEnemy.position - muzzle.position;
+            if (Physics.Raycast(muzzle.position, direction, out RaycastHit hit, 999f))
+            {
+                aimTarget.position = hit.point;
+            }
+            yield return Timing.WaitForSeconds(.1f);
+        }
     }
 }
