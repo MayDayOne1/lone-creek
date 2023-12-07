@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
+using MEC;
 
 public class AI : MonoBehaviour
 {
@@ -138,13 +139,13 @@ public class AI : MonoBehaviour
                 health = 0f;
                 Die();
             }
-            StartCoroutine(Invincibility());
+            Timing.RunCoroutine(Invincibility().CancelWith(gameObject));
         }
     }
-    private IEnumerator Invincibility()
+    private IEnumerator<float> Invincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(.25f);
+        yield return Timing.WaitForSeconds(.25f);
         isInvincible = false;
     }
     public void ShootAtPlayer()

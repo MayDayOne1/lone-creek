@@ -19,7 +19,6 @@ public class Throwable : MonoBehaviour, IInteractable
 
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
-    private bool isPlayingSound = false;
 
     void Start()
     { 
@@ -81,18 +80,6 @@ public class Throwable : MonoBehaviour, IInteractable
     public void PlayInteractionSound()
     {
         audioManager.PlayInteractionSound(pickup);
-    }
-
-    IEnumerator<float> PlaySound()
-    {
-        if (!isPlayingSound)
-        {
-            Debug.Log("Playing sound");
-            audioSource.Play();
-            isPlayingSound = true;
-            yield return Timing.WaitForSeconds(pickup.length);
-        }
-        isPlayingSound = false;
     }
 
     public void SetIconVisibility(float alpha)

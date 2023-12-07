@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using MEC;
 
 public class LightFlicker : MonoBehaviour
 {
@@ -12,10 +14,10 @@ public class LightFlicker : MonoBehaviour
     private void Start()
     {
         currentIntensity = targetLight.intensity;
-        StartCoroutine(FlickerLight());
+        Timing.RunCoroutine(FlickerLight());
     }
 
-    private System.Collections.IEnumerator FlickerLight()
+    private IEnumerator<float> FlickerLight()
     {
         while (true)
         {
@@ -29,7 +31,7 @@ public class LightFlicker : MonoBehaviour
                 t += Time.deltaTime;
                 float normalizedTime = t / flickerSpeed;
                 targetLight.intensity = Mathf.Lerp(currentIntensity, randomIntensity, normalizedTime);
-                yield return null;
+                yield return Timing.WaitForOneFrame;
             }
 
             // Update current intensity to the random intensity for the next iteration

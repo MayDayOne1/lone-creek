@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using MEC;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -60,8 +61,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody[] childrenRB;
 
     [Header("COROUTINES")]
-    public IEnumerator level1coroutine;
-    public IEnumerator level2coroutine;
+    public IEnumerator<float> level1coroutine;
+    public IEnumerator<float> level2coroutine;
 
     private CharacterController controller;
     private PlayerInput playerInput;
@@ -103,15 +104,15 @@ public class PlayerController : MonoBehaviour
         ActivateRagdoll(false);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        StartCoroutine(CountStandingTime());
+        Timing.RunCoroutine(CountStandingTime());
         level1coroutine = Level1Timer();
         level2coroutine = Level2Timer();
         if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            StartCoroutine(level1coroutine);
+            Timing.RunCoroutine(level1coroutine);
         } else if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
-            StartCoroutine(level2coroutine);
+            Timing.RunCoroutine(level2coroutine);
         }
 #endif
     }
@@ -206,20 +207,20 @@ public class PlayerController : MonoBehaviour
         PlayerInteract.playerBottleCount = 0;
         PlayerInteract.playerPistolsPickedUp = 0;
 }
-    private IEnumerator Level1Timer()
+    private IEnumerator<float> Level1Timer()
     {
         while(SceneManager.GetActiveScene().buildIndex == 1)
         {
             level1TimeSpent += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
-    private IEnumerator Level2Timer()
+    private IEnumerator<float> Level2Timer()
     {
         while(SceneManager.GetActiveScene().buildIndex == 2)
         {
             level2TimeSpent += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
     private void Checkpoint()
@@ -252,20 +253,20 @@ public class PlayerController : MonoBehaviour
             PlayerAmmoManager.currentClip = 0;
         }
     }
-    private IEnumerator CountStandingTime()
+    private IEnumerator<float> CountStandingTime()
     {
         while (!IsCrouching)
         {
             playerTimeSpentStanding += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
-    private IEnumerator CountCrouchTime()
+    private IEnumerator<float> CountCrouchTime()
     {
         while (IsCrouching)
         {
             playerTimeSpentCrouching += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
     #endregion
@@ -330,7 +331,7 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesCrouched++;
             StopCoroutine(CountStandingTime());
-            StartCoroutine(CountCrouchTime());
+            Timing.RunCoroutine(CountCrouchTime());
 #endif
         }
         else
@@ -339,7 +340,7 @@ public class PlayerController : MonoBehaviour
             StandCamSetup();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());
-            StartCoroutine(CountStandingTime());
+            Timing.RunCoroutine(CountStandingTime());
 #endif
         }
     }
@@ -431,7 +432,7 @@ public class PlayerController : MonoBehaviour
             });
 #endif
         DeathSetup();
-        StartCoroutine(DeathSequence());
+        Timing.RunCoroutine(DeathSequence());
         NavigateDeathScreen();
     }
     private void DeathSetup()
@@ -442,15 +443,15 @@ public class PlayerController : MonoBehaviour
         animManager.SetAnimator(false);
         ActivateRagdoll(true);
     }
-    private IEnumerator DeathSequence()
+    private IEnumerator<float> DeathSequence()
     {
         SmoothTimeScaleSetter(.5f);
-        yield return new WaitForSeconds(.5f);
+        yield return Timing.WaitForSeconds(.5f);
         ScreenBlackout();
-        yield return new WaitForSeconds(2.5f);
+        yield return Timing.WaitForSeconds(2.5f);
         audioManager.PlayGameOverSound();
         ShowGameOverScreen(true);
-        yield return new WaitForSeconds(.4f);
+        yield return Timing.WaitForSeconds(.4f);
     }
     private void NavigateDeathScreen()
     {

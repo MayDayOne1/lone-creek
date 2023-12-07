@@ -168,6 +168,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         {
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             shootingManager.isPistolEquipped = true;
+            animManager.SetPistol(true, controller.IsCrouching);
             pistol.SetActive(true);
 
             PlaySelectionSound();
@@ -197,7 +198,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
             animManager.SetBool(IS_AIMING_PISTOL, true);
             AimCamSetup();
-            StartCoroutine(AimTowardsCrosshair());
+            Timing.RunCoroutine(AimTowardsCrosshair());
         }
     }
 
@@ -214,7 +215,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         StopCoroutine(AimTowardsCrosshair());
     }
 
-    private IEnumerator AimTowardsCrosshair()
+    private IEnumerator<float> AimTowardsCrosshair()
     {
         while (isAiming)
         {
@@ -229,7 +230,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
                 if (hitTransform.CompareTag("Enemy")) crosshair.color = Color.red;
                 else crosshair.color = Color.white;
             }
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
 

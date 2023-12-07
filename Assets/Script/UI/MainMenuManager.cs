@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
 #endif
@@ -31,15 +32,15 @@ public class MainMenuManager : MonoBehaviour
         mainMenu.gameObject.SetActive(false);
         onboarding.SetActive(true);
         isViewingOnboarding = true;
-        StartCoroutine(CountOnboardingTime());
+        Timing.RunCoroutine(CountOnboardingTime());
     }
 
-    private IEnumerator CountOnboardingTime()
+    private IEnumerator<float> CountOnboardingTime()
     {
         while(isViewingOnboarding)
         {
             onboardingTimeSpent += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
 

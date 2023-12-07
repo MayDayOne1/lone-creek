@@ -20,7 +20,6 @@ public class Ammo : MonoBehaviour, IInteractable
 
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
-    private bool isPlayingSound = false;
     void Start()
     {
         SetIconVisibility(0f);
@@ -73,17 +72,6 @@ public class Ammo : MonoBehaviour, IInteractable
     public void PlayInteractionSound()
     {
         audioManager.PlayInteractionSound(pickup);
-    }
-
-    IEnumerator<float> PlaySound()
-    {
-        if (!isPlayingSound)
-        {
-            audioSource.PlayOneShot(pickup);
-            isPlayingSound = true;
-            yield return Timing.WaitForSeconds(pickup.length);
-        }
-        isPlayingSound = false;
     }
 
     public void SetIconVisibility(float alpha)

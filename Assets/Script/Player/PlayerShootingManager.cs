@@ -1,8 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.UI;
-using System.Collections;
+using MEC;
 
 public class PlayerShootingManager : MonoBehaviour
 {
@@ -18,10 +18,13 @@ public class PlayerShootingManager : MonoBehaviour
     public static float playerTimeSpentAiming = 0f;
 #endif
 
-    private IEnumerator CountAimingTime()
+    private IEnumerator<float> CountAimingTime()
     {
-        playerTimeSpentAiming += Time.deltaTime;
-        yield return null;
+        while(isAiming)
+        {
+            playerTimeSpentAiming += Time.deltaTime;
+            yield return Timing.WaitForOneFrame;
+        }
     }
 
     public void Aim(InputAction.CallbackContext context)
@@ -36,7 +39,7 @@ public class PlayerShootingManager : MonoBehaviour
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesAimed++;
-            StartCoroutine(CountAimingTime());
+            Timing.RunCoroutine(CountAimingTime());
 #endif
         }
         else if(context.canceled)

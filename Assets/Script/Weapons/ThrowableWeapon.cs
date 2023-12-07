@@ -167,7 +167,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
         if (bottleInstance != null) Destroy(bottleInstance, 2f);
     }
 
-    private IEnumerator DrawLine()
+    private IEnumerator<float> DrawLine()
     {
         while (isAiming)
         {
@@ -184,7 +184,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
                 point.y = startPos.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
                 lineRenderer.SetPosition(i, point);
             }
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
         lineRenderer.enabled = false;
     }
@@ -199,7 +199,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
 
             AimCamSetup();
 
-            StartCoroutine(DrawLine());
+            Timing.RunCoroutine(DrawLine());
         }
     }
 

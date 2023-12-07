@@ -1,8 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using MEC;
 
 public class ASyncLoader : MonoBehaviour
 {
@@ -27,10 +29,10 @@ public class ASyncLoader : MonoBehaviour
         }
         loadingScreen.SetActive(true);
 
-        StartCoroutine(LoadLevelASync(levelIndex));
+        Timing.RunCoroutine(LoadLevelASync(levelIndex));
     }
 
-    IEnumerator LoadLevelASync(int levelIndex)
+    IEnumerator<float> LoadLevelASync(int levelIndex)
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelIndex);
         // Debug.Log("Progress: " + loadOperation.progress.ToString());
@@ -39,7 +41,7 @@ public class ASyncLoader : MonoBehaviour
             float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
             loadingSlider.value = progressValue;
             // loadingCircle.transform.Rotate(0, 0, 60f);
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
 }
