@@ -3,17 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using MEC;
+
+[RequireComponent(typeof(AudioSource))]
 
 public class HealthKit : MonoBehaviour, IInteractable
 {
     [SerializeField] private PlayerInteract interact;
     [SerializeField] private PlayerController controller;
+    [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
+
+    [SerializeField] private AudioClip pickup;
+    private AudioSource audioSource;
+    private bool isPlayingSound = false;
+
     void Start()
     {
         SetIconVisibility(0f);
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = pickup;
     }
 
     void OnTriggerEnter(Collider other)
@@ -53,8 +64,25 @@ public class HealthKit : MonoBehaviour, IInteractable
         if(PlayerController.health < 1f)
         {
             controller.PlayerRestoreHealth(.25f);
+            PlayInteractionSound();
             Destroy(this.gameObject);
         }
+    }
+
+    public void PlayInteractionSound()
+    {
+        audioManager.PlayInteractionSound(pickup);
+    }
+
+    IEnumerator<float> PlaySound()
+    {
+        if (!isPlayingSound)
+        {
+            audioSource.PlayOneShot(pickup);
+            isPlayingSound = true;
+            yield return Timing.WaitForSeconds(pickup.length);
+        }
+        isPlayingSound = false;
     }
 
     public void SetIconVisibility(float alpha)
