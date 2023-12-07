@@ -28,6 +28,8 @@ public class State
     protected float attackTimer = 0f;
     protected float patrolSpeed = 2f;
     protected float pursueSpeed = 3f;
+
+    protected int playerLayerMask = 6;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -58,11 +60,12 @@ public class State
         Vector3 direction = player.position - npc.transform.position;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
-        if(direction.magnitude < visDist && angle < visAngle)
+        if((direction.magnitude < visDist && angle < visAngle) ||
+            direction.magnitude <= 4f)
         {
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
-                return hit.transform.CompareTag("Player");
+                return hit.transform.gameObject.layer == playerLayerMask;
             }
         }
         return false;
