@@ -25,6 +25,8 @@ public class MainMenuManager : MonoBehaviour
         mainMenu.gameObject.SetActive(true);
         settings.gameObject.SetActive(false);
         onboarding.SetActive(false);
+
+        Time.timeScale = 1f;
     }
 
     public void ShowOnboarding()

@@ -1740,6 +1740,11 @@ PrefabInstance:
       objectReference: {fileID: 42963768}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1895168537}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: MuzzleFlash
       value: 
       objectReference: {fileID: 42963769}
@@ -3537,6 +3542,11 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 398227366}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
       propertyPath: chooseWeapon
@@ -7480,6 +7490,11 @@ PrefabInstance:
       objectReference: {fileID: 1895168540}
     - target: {fileID: 3884179146605562533, guid: 85cb91c4de376b4458bbf05c5b8ab546,
         type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
+    - target: {fileID: 3884179146605562533, guid: 85cb91c4de376b4458bbf05c5b8ab546,
+        type: 3}
       propertyPath: chooseWeapon
       value: 
       objectReference: {fileID: 1895168539}
@@ -9663,6 +9678,11 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 398227366}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
       propertyPath: chooseWeapon
@@ -15594,6 +15614,11 @@ PrefabInstance:
       objectReference: {fileID: 609767441}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1895168537}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: MuzzleFlash
       value: 
       objectReference: {fileID: 609767442}
@@ -17134,6 +17159,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 3884179146605562533, guid: 85cb91c4de376b4458bbf05c5b8ab546,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 3884179146605562533, guid: 85cb91c4de376b4458bbf05c5b8ab546,
         type: 3}
       propertyPath: chooseWeapon
@@ -22225,19 +22255,9 @@ PrefabInstance:
       objectReference: {fileID: 1895168536}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
-      propertyPath: aimRig
+      propertyPath: controller
       value: 
-      objectReference: {fileID: 872391958}
-    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
-        type: 3}
-      propertyPath: Gunshot
-      value: 
-      objectReference: {fileID: 872391956}
-    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
-        type: 3}
-      propertyPath: MuzzleFlash
-      value: 
-      objectReference: {fileID: 872391957}
+      objectReference: {fileID: 1895168537}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: HealthSlider
@@ -23506,30 +23526,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 872391954}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &872391956 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 4650150729981386552, guid: d1940313cd45f3b4281d3af16ebc888e,
-    type: 3}
-  m_PrefabInstance: {fileID: 872391954}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &872391957 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4818575802456699461, guid: d1940313cd45f3b4281d3af16ebc888e,
-    type: 3}
-  m_PrefabInstance: {fileID: 872391954}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &872391958 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5539851256870222426, guid: d1940313cd45f3b4281d3af16ebc888e,
-    type: 3}
-  m_PrefabInstance: {fileID: 872391954}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &872391959 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8813298522464038295, guid: d1940313cd45f3b4281d3af16ebc888e,
@@ -23933,6 +23929,11 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 398227366}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
       propertyPath: chooseWeapon
@@ -26887,6 +26888,11 @@ PrefabInstance:
       objectReference: {fileID: 398227366}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
       propertyPath: chooseWeapon
       value: 
       objectReference: {fileID: 1895168539}
@@ -27890,6 +27896,11 @@ PrefabInstance:
       propertyPath: Gunshot
       value: 
       objectReference: {fileID: 1064235678}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1895168537}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: MuzzleFlash
@@ -29738,6 +29749,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080737742}
   m_Mesh: {fileID: -2432090755550338912, guid: e86ba1a942b37e04b8c54b6971e94e81, type: 3}
+--- !u!4 &1081739628 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1749218015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1084967964
 GameObject:
   m_ObjectHideFlags: 0
@@ -30132,6 +30149,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 9181539325501689405, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c1968450e3ada46a40bf95f385100a, type: 3}
 --- !u!4 &1109839708 stripped
@@ -31388,6 +31410,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 9181539325501689405, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c1968450e3ada46a40bf95f385100a, type: 3}
 --- !u!4 &1173938521 stripped
@@ -32846,6 +32873,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 9181539325501689405, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c1968450e3ada46a40bf95f385100a, type: 3}
 --- !u!4 &1227167061 stripped
@@ -33746,6 +33778,11 @@ PrefabInstance:
       propertyPath: Gunshot
       value: 
       objectReference: {fileID: 1231127875}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1895168537}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: MuzzleFlash
@@ -36714,6 +36751,11 @@ PrefabInstance:
       objectReference: {fileID: 398227366}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
       propertyPath: chooseWeapon
       value: 
       objectReference: {fileID: 1895168539}
@@ -36724,6 +36766,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6863028226064735033, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
     type: 3}
   m_PrefabInstance: {fileID: 1325519389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1329628027 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1400292994}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1332959462
 GameObject:
@@ -38966,6 +39014,11 @@ PrefabInstance:
       objectReference: {fileID: 1393611951}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1895168537}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: MuzzleFlash
       value: 
       objectReference: {fileID: 1393611952}
@@ -40392,27 +40445,32 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1929557466}
     m_Modifications:
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20000002
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -166.04
+      value: -27.749527
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.6426945
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -99.201
+      value: -3.3236465
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
@@ -40422,7 +40480,7 @@ PrefabInstance:
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.15065494
+      value: -0.15065493
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
@@ -40432,7 +40490,7 @@ PrefabInstance:
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.18140377
+      value: -0.18140376
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
@@ -40459,6 +40517,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1895168537}
+    - target: {fileID: 5953807341959340957, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 7355713013926475229, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_Name
@@ -41184,27 +41247,42 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1929557466}
     m_Modifications:
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.20000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.20000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20000002
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -69.16
+      value: 69.13046
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.958
+      value: -0.68469447
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -57.932
+      value: 37.94535
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
@@ -41251,6 +41329,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1895168537}
+    - target: {fileID: 5953807341959340957, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 7355713013926475229, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_Name
@@ -41438,6 +41521,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 9181539325501689405, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c1968450e3ada46a40bf95f385100a, type: 3}
 --- !u!4 &1453536370 stripped
@@ -41775,6 +41863,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471483944}
   m_Mesh: {fileID: 4300000, guid: fbd8043df6187a04f8facfff33ed966c, type: 3}
+--- !u!114 &1474709048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6428473331913527762, guid: a6cf4704cb21df64bbb338dcfe072732,
+    type: 3}
+  m_PrefabInstance: {fileID: 1895168535}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 655d298a713342345af965336e9847c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1479144346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43130,6 +43230,11 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 398227366}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
       propertyPath: chooseWeapon
@@ -45813,6 +45918,11 @@ PrefabInstance:
       objectReference: {fileID: 398227366}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
       propertyPath: chooseWeapon
       value: 
       objectReference: {fileID: 1895168539}
@@ -46218,6 +46328,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1688800602}
   m_Mesh: {fileID: 4300004, guid: 3a7b1a31482c1fe49a31b676235454c8, type: 3}
+--- !u!4 &1689320875 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1448129764}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1699433122
 GameObject:
   m_ObjectHideFlags: 0
@@ -46801,6 +46917,11 @@ PrefabInstance:
       propertyPath: ammoManager
       value: 
       objectReference: {fileID: 1895168540}
+    - target: {fileID: 9181539325501689405, guid: a1c1968450e3ada46a40bf95f385100a,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c1968450e3ada46a40bf95f385100a, type: 3}
 --- !u!4 &1743431361 stripped
@@ -46912,27 +47033,37 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1929557466}
     m_Modifications:
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.20000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20000002
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -69.504
+      value: 68.78647
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.663
+      value: 0.020305514
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -103.366
+      value: -7.4886475
       objectReference: {fileID: 0}
     - target: {fileID: 5787098976114755534, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
@@ -46979,6 +47110,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1895168537}
+    - target: {fileID: 5953807341959340957, guid: cc12ba87ed6a61347a92c281d44492c5,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 7355713013926475229, guid: cc12ba87ed6a61347a92c281d44492c5,
         type: 3}
       propertyPath: m_Name
@@ -49540,11 +49676,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 131656186, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.261149
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 131656186, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.034682
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 227956039, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49592,11 +49728,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 774913164, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.261149
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 774913164, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.034682
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49624,15 +49760,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816042933, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0016399098
+      value: -0.0016399024
       objectReference: {fileID: 0}
     - target: {fileID: 896348442, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.261149
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 896348442, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.034682
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 1131434382, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.y
@@ -49696,7 +49832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1310555948, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0016398949
+      value: -0.0016399024
       objectReference: {fileID: 0}
     - target: {fileID: 1607007513, guid: a6cf4704cb21df64bbb338dcfe072732, type: 3}
       propertyPath: m_FollowOffset.y
@@ -50155,17 +50291,17 @@ PrefabInstance:
     - target: {fileID: 2474742823871242925, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000004582107
+      value: -0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 2474742823871242925, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00009530783
+      value: -0.00009524822
       objectReference: {fileID: 0}
     - target: {fileID: 2474742823871242925, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000027693808
+      value: 0.000027686357
       objectReference: {fileID: 0}
     - target: {fileID: 3231851228583997346, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -50270,7 +50406,7 @@ PrefabInstance:
     - target: {fileID: 3838486937236103073, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000004582107
+      value: -0.00000043585896
       objectReference: {fileID: 0}
     - target: {fileID: 3838486937236103073, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -50280,7 +50416,7 @@ PrefabInstance:
     - target: {fileID: 3838486937236103073, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000027693808
+      value: 0.000027701259
       objectReference: {fileID: 0}
     - target: {fileID: 3952782263060177826, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -50685,12 +50821,12 @@ PrefabInstance:
     - target: {fileID: 4772633456131632808, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.135574
+      value: 1.849077
       objectReference: {fileID: 0}
     - target: {fileID: 4772633456131632808, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.005375
+      value: -3.014537
       objectReference: {fileID: 0}
     - target: {fileID: 4889309544513142534, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -50805,12 +50941,12 @@ PrefabInstance:
     - target: {fileID: 5373237155176004402, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.135574
+      value: 1.849077
       objectReference: {fileID: 0}
     - target: {fileID: 5373237155176004402, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.005375
+      value: -3.014537
       objectReference: {fileID: 0}
     - target: {fileID: 5555411452184391148, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -51020,7 +51156,7 @@ PrefabInstance:
     - target: {fileID: 5931425994781325662, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000004582107
+      value: -0.00000043585896
       objectReference: {fileID: 0}
     - target: {fileID: 5931425994781325662, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -51030,7 +51166,7 @@ PrefabInstance:
     - target: {fileID: 5931425994781325662, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000027693808
+      value: 0.000027701259
       objectReference: {fileID: 0}
     - target: {fileID: 6168078901157091500, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -51515,12 +51651,12 @@ PrefabInstance:
     - target: {fileID: 8174622665409578807, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.135574
+      value: 1.849077
       objectReference: {fileID: 0}
     - target: {fileID: 8174622665409578807, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.005375
+      value: -3.014537
       objectReference: {fileID: 0}
     - target: {fileID: 8339340726089959522, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -52438,7 +52574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1929557466}
   m_Layer: 0
-  m_Name: === WEAPONS & AMMO ===
+  m_Name: === INTERACTABLES ===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52471,6 +52607,9 @@ Transform:
   - {fileID: 1227167061}
   - {fileID: 1453536370}
   - {fileID: 1743431361}
+  - {fileID: 1329628027}
+  - {fileID: 1081739628}
+  - {fileID: 1689320875}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53663,6 +53802,11 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 398227366}
+    - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 1474709048}
     - target: {fileID: 9160971525463502755, guid: cbd6dea7cf214a14fbe74da8957ab3ec,
         type: 3}
       propertyPath: chooseWeapon

@@ -3581,6 +3581,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: targetForEnemy
       value: 
       objectReference: {fileID: 1532938564}
@@ -7177,6 +7182,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: targetForEnemy
       value: 
       objectReference: {fileID: 1532938564}
@@ -9423,6 +9433,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: targetForEnemy
@@ -12384,6 +12399,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: targetForEnemy
@@ -32715,6 +32735,11 @@ PrefabInstance:
       objectReference: {fileID: 2125901811}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
       propertyPath: targetForEnemy
       value: 
       objectReference: {fileID: 1532938564}
@@ -36785,6 +36810,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 2125901811}
+    - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2125901810}
     - target: {fileID: 3636924020291663329, guid: d1940313cd45f3b4281d3af16ebc888e,
         type: 3}
       propertyPath: targetForEnemy
@@ -42482,7 +42512,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1916862609}
         m_TargetAssemblyTypeName: AnalyticsConsentManager, Assembly-CSharp
         m_MethodName: ShowConsentWindow
         m_Mode: 6
@@ -42898,7 +42928,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "WASD \u2013 Move\nC \u2013 Crouch\nE \u2013 Interact\nPPM \u2013 Aim\nLPM
+  m_text: "WASD \u2013 Move\nC \u2013 Crouch\nE \u2013 Interact\nRMB \u2013 Aim\nLMB
     \u2013 Shoot\nR \u2013 Reload\n1 \u2013 Select bottle\n2 \u2013 Select pistol"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5966518dd9524fc469dfa134e0f2522f, type: 2}
