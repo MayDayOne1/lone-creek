@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour
         {
             health = 0f;
             StopAllCoroutines();
-            // Die();
+            Die();
         }
         healthSlider.DOValue(health, .2f, false);
         BloodOverlayAnim();
