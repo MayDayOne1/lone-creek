@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
+using MEC;
 
 public class AI : MonoBehaviour
 {
@@ -20,17 +21,20 @@ public class AI : MonoBehaviour
 
     [Header("PLAYER")]
     public Transform Player;
-    public PlayerController playerController;
+    public PlayerController controller;
     public Transform targetForEnemy;
 
     [Header("SHOOTING")]
     public Transform muzzle;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
+    public IEnumerator<float> aimCoroutine;
     [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     [SerializeField] private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
+    [SerializeField] private Transform aimTarget;
     private float aimRigWeight;
+    [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private EnemySoundManager soundManager;
     protected State currentState;
@@ -54,15 +58,6 @@ public class AI : MonoBehaviour
     void Update()
     {
         currentState = currentState.Process();
-        aimRig.weight = Mathf.Lerp(aimRigWeight, aimRigWeight, Time.deltaTime * 20f);
-        if (currentState.CanSeePlayer())
-        {
-            aimRigWeight = 1f;
-        }
-        else
-        {
-            aimRigWeight = 0f;
-        }
     }
     private void Die()
     {
@@ -81,13 +76,13 @@ public class AI : MonoBehaviour
                 { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
                 { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
                 { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
+                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
                 { "enemiesKilled", PlayerController.enemiesKilled },
                 { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
                 { "enemyShotsHit", PlayerController.enemyShotsHit },
                 { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+                { "playerShotsHit", PistolWeapon.playerShotsHit }
             });
 #endif
     }
@@ -121,13 +116,11 @@ public class AI : MonoBehaviour
     {
         if(!isInvincible)
         {
-            if (!healthSlider.gameObject.activeSelf)
-            {
-                healthSlider.gameObject.SetActive(true);
-            }
+            ActivateHealthSlider();
 
             health -= damage;
             healthSlider.DOValue(health, .2f, false);
+
             if (health > .01f)
             {
                 PursuePlayerWhenShot();
@@ -138,13 +131,21 @@ public class AI : MonoBehaviour
                 health = 0f;
                 Die();
             }
-            StartCoroutine(Invincibility());
+            Timing.RunCoroutine(Invincibility().CancelWith(gameObject));
         }
     }
-    private IEnumerator Invincibility()
+
+    private void ActivateHealthSlider()
+    {
+        if (!healthSlider.gameObject.activeSelf)
+        {
+            healthSlider.gameObject.SetActive(true);
+        }
+    }
+    private IEnumerator<float> Invincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(.25f);
+        yield return Timing.WaitForSeconds(.25f);
         isInvincible = false;
     }
     public void ShootAtPlayer()
@@ -174,7 +175,7 @@ public class AI : MonoBehaviour
     }
     private void Shoot()
     {
-        aimRigWeight = 1f;
+        // SetAimRigWeight(1f);
         Gunshot.Play();
         MuzzleFlash.Play();
         anim.SetTrigger("Shoot");
@@ -184,5 +185,30 @@ public class AI : MonoBehaviour
         float chance = Random.Range(0f, 1f);
         float roundChance = Mathf.Round(chance * 100f) / 100f;
         return roundChance;
+    }
+
+    public void SetAimRigWeight(float newWeight)
+    {
+        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
+            .setOnUpdate((value) =>
+            {
+                aimRig.weight = value;
+            });
+
+        Timing.RunCoroutine(UpdateAimTarget());
+        
+    }
+
+    private IEnumerator<float> UpdateAimTarget()
+    {
+        while (aimRig.weight > 0f)
+        {
+            Vector3 direction = targetForEnemy.position - muzzle.position;
+            if (Physics.Raycast(muzzle.position, direction, out RaycastHit hit, 999f))
+            {
+                aimTarget.position = hit.point;
+            }
+            yield return Timing.WaitForSeconds(.1f);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MEC;
 
 public class EnemySoundManager : MonoBehaviour
 {
@@ -10,24 +11,24 @@ public class EnemySoundManager : MonoBehaviour
     [SerializeField] private AudioClip death;
 
     public bool isAlive = true;
-    public IEnumerator idleGrowl;
+    public IEnumerator<float> idleGrowl;
 
     void Start()
     {
         idleGrowl = IdleGrowlEmitter();
-        StartCoroutine(idleGrowl);
+        Timing.RunCoroutine(idleGrowl.CancelWith(gameObject));
     }
     private AudioClip SelectRandomIdleClip()
     {
         return idles[Random.Range(0, idles.Length)];
     }
-    private IEnumerator IdleGrowlEmitter()
+    private IEnumerator<float> IdleGrowlEmitter()
     {
-        while(isAlive)
+        while(isAlive && PlayerController.health > 0f)
         {
             AudioClip clip = SelectRandomIdleClip();
             AudioSource.PlayClipAtPoint(clip, transform.position);
-            yield return new WaitForSeconds(3f);
+            yield return Timing.WaitForSeconds(3f);
         }
     }
     public void EmitDamageSound()

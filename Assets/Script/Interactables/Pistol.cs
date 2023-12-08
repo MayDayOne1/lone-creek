@@ -5,18 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class Pistol : MonoBehaviour, IInteractable
 {
     [SerializeField] PlayerAmmoManager ammoManager;
     [SerializeField] ChooseWeapon chooseWeapon;
+    [SerializeField] PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
     [SerializeField] private TextMeshProUGUI ammoText;
 
+    [SerializeField] private AudioClip pickup;
+    private AudioSource audioSource;
+
     void Start()
     {
         SetIconVisibility(0f);
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = pickup;
     }
 
     void OnTriggerEnter(Collider other)
@@ -40,7 +48,7 @@ public class Pistol : MonoBehaviour, IInteractable
     }
     public void ActivateRedFilter(bool activate)
     {
-        if (activate)
+        if (activate && isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }
@@ -56,8 +64,10 @@ public class Pistol : MonoBehaviour, IInteractable
         {
             PlayerInteract.hasPrimary = true;
             chooseWeapon.SelectPrimary();
+
             int ammo = int.Parse(ammoText.text);
             ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerInteract.playerPistolsPickedUp++;
 #endif
@@ -65,11 +75,18 @@ public class Pistol : MonoBehaviour, IInteractable
         else
         {
             int ammo = int.Parse(ammoText.text);
+            PlayInteractionSound();
+
             ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
         }      
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerInteract.playerAmmoClipCount++;
 #endif
+    }
+
+    public void PlayInteractionSound()
+    {
+        audioManager.PlayInteractionSound(pickup);
     }
 
     public void SetIconVisibility(float alpha)

@@ -31,4 +31,10 @@ public class PlayerAudioManager : MonoBehaviour
         audioSource.clip = damage;
         audioSource.Play();
     }
+
+    public void PlayInteractionSound(AudioClip pickup)
+    {
+        audioSource.clip = pickup;
+        audioSource.Play();
+    }
 }

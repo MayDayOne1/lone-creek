@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using MEC;
+using Unity.VisualScripting;
+
+[RequireComponent(typeof(AudioSource))]
 
 public class Throwable : MonoBehaviour, IInteractable
 {
     [SerializeField] private PlayerInteract interact;
     [SerializeField] private ChooseWeapon chooseWeapon;
+    [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
 
+    [SerializeField] private AudioClip pickup;
+    private AudioSource audioSource;
+
     void Start()
     { 
         SetIconVisibility(0f);
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = pickup;
     }
 
     void OnTriggerEnter(Collider other)
@@ -40,7 +50,7 @@ public class Throwable : MonoBehaviour, IInteractable
 
     public void ActivateRedFilter(bool activate)
     {
-        if(activate)
+        if(activate && isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }
@@ -56,12 +66,22 @@ public class Throwable : MonoBehaviour, IInteractable
         {
             PlayerInteract.hasThrowable = true;
             if (!PlayerInteract.hasPrimary) chooseWeapon.SelectThrowable();
+            else
+            {
+                PlayInteractionSound();
+            }
             Destroy(this.gameObject);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerInteract.playerBottleCount++;
 #endif
         }
     }
+
+    public void PlayInteractionSound()
+    {
+        audioManager.PlayInteractionSound(pickup);
+    }
+
     public void SetIconVisibility(float alpha)
     {
         if (isActiveAndEnabled)

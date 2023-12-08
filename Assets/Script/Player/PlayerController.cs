@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using MEC;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -60,8 +61,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody[] childrenRB;
 
     [Header("COROUTINES")]
-    public IEnumerator level1coroutine;
-    public IEnumerator level2coroutine;
+    public IEnumerator<float> level1coroutine;
+    public IEnumerator<float> level2coroutine;
 
     private CharacterController controller;
     private PlayerInput playerInput;
@@ -103,15 +104,15 @@ public class PlayerController : MonoBehaviour
         ActivateRagdoll(false);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        StartCoroutine(CountStandingTime());
+        Timing.RunCoroutine(CountStandingTime());
         level1coroutine = Level1Timer();
         level2coroutine = Level2Timer();
         if (SceneManager.GetActiveScene().name == "SceneTunnel")
         {
-            StartCoroutine(level1coroutine);
+            Timing.RunCoroutine(level1coroutine);
         } else if(SceneManager.GetActiveScene().name == "SceneDesert")
         {
-            StartCoroutine(level2coroutine);
+            Timing.RunCoroutine(level2coroutine);
         }
 #endif
     }
@@ -196,9 +197,9 @@ public class PlayerController : MonoBehaviour
         playerTimeSpentStanding = 0f;
 
         // ammo reset in LoadFromCheckpoint(), no reason to do it twice
-        PlayerShootingManager.playerBottleThrowCount = 0;
-        PlayerShootingManager.playerShotsFiredCount = 0;
-        PlayerShootingManager.playerShotsHit = 0;
+        ThrowableWeapon.playerBottleThrowCount = 0;
+        PistolWeapon.playerShotsFiredCount = 0;
+        PistolWeapon.playerShotsHit = 0;
         PlayerShootingManager.playerTimesAimed = 0;
         PlayerShootingManager.playerTimeSpentAiming = 0;
 
@@ -206,20 +207,20 @@ public class PlayerController : MonoBehaviour
         PlayerInteract.playerBottleCount = 0;
         PlayerInteract.playerPistolsPickedUp = 0;
 }
-    private IEnumerator Level1Timer()
+    private IEnumerator<float> Level1Timer()
     {
         while(SceneManager.GetActiveScene().buildIndex == 1)
         {
             level1TimeSpent += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
-    private IEnumerator Level2Timer()
+    private IEnumerator<float> Level2Timer()
     {
         while(SceneManager.GetActiveScene().buildIndex == 2)
         {
             level2TimeSpent += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
     private void Checkpoint()
@@ -252,20 +253,20 @@ public class PlayerController : MonoBehaviour
             PlayerAmmoManager.currentClip = 0;
         }
     }
-    private IEnumerator CountStandingTime()
+    private IEnumerator<float> CountStandingTime()
     {
         while (!IsCrouching)
         {
             playerTimeSpentStanding += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
-    private IEnumerator CountCrouchTime()
+    private IEnumerator<float> CountCrouchTime()
     {
         while (IsCrouching)
         {
             playerTimeSpentCrouching += Time.deltaTime;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
     }
     #endregion
@@ -298,9 +299,7 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateSpeed()
     {
-        if(IsCrouching ||
-            shootingManager.isAimingPistol ||
-            shootingManager.IsAimingThrowable) 
+        if(IsCrouching || shootingManager.isAiming) 
         {
             Speed = crouchSpeed;
         }
@@ -311,7 +310,7 @@ public class PlayerController : MonoBehaviour
     }
     public void CalculateCharacterRotation()
     {
-        if (movement != Vector2.zero || shootingManager.IsAimingThrowable || shootingManager.isAimingPistol)
+        if (movement != Vector2.zero || shootingManager.isAiming)
         {
             float yawCamera = cameraMainTransform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yawCamera, 0f);
@@ -332,7 +331,7 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             playerTimesCrouched++;
             StopCoroutine(CountStandingTime());
-            StartCoroutine(CountCrouchTime());
+            Timing.RunCoroutine(CountCrouchTime());
 #endif
         }
         else
@@ -341,7 +340,7 @@ public class PlayerController : MonoBehaviour
             StandCamSetup();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());
-            StartCoroutine(CountStandingTime());
+            Timing.RunCoroutine(CountStandingTime());
 #endif
         }
     }
@@ -349,12 +348,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = crouchingHeight;
         controller.center = new Vector3(controller.center.x, 0.48f, controller.center.z);
-        animManager.SetCrouch(true, shootingManager.pistol.activeSelf);
+        animManager.SetCrouch(true);
     }
     private void CrouchCamSetup()
     {
-        if (shootingManager.isAimingPistol ||
-                shootingManager.IsAimingThrowable)
+        if (shootingManager.isAiming)
         {
             camManager.ActivateCrouchAim();
         }
@@ -367,12 +365,11 @@ public class PlayerController : MonoBehaviour
     {
         controller.height = standingHeight;
         controller.center = new Vector3(controller.center.x, 0.9f, controller.center.z);
-        animManager.SetCrouch(false, shootingManager.pistol.activeSelf);
+        animManager.SetCrouch(false);
     }
     private void StandCamSetup()
     {
-        if (shootingManager.isAimingPistol ||
-                shootingManager.IsAimingThrowable)
+        if (shootingManager.isAiming)
         {
             camManager.ActivateAim();
         }
@@ -425,17 +422,17 @@ public class PlayerController : MonoBehaviour
                 { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
                 { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
                 { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", PlayerShootingManager.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerShootingManager.playerShotsFiredCount },
+                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
+                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
                 { "enemiesKilled", enemiesKilled },
                 { "enemyShotsFiredCount", enemyShotsFiredCount },
                 { "enemyShotsHit", enemyShotsHit },
                 { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerShootingManager.playerShotsHit }
+                { "playerShotsHit", PistolWeapon.playerShotsHit }
             });
 #endif
         DeathSetup();
-        StartCoroutine(DeathSequence());
+        Timing.RunCoroutine(DeathSequence());
         NavigateDeathScreen();
     }
     private void DeathSetup()
@@ -446,15 +443,15 @@ public class PlayerController : MonoBehaviour
         animManager.SetAnimator(false);
         ActivateRagdoll(true);
     }
-    private IEnumerator DeathSequence()
+    private IEnumerator<float> DeathSequence()
     {
         SmoothTimeScaleSetter(.5f);
-        yield return new WaitForSeconds(.5f);
+        yield return Timing.WaitForSeconds(.5f);
         ScreenBlackout();
-        yield return new WaitForSeconds(2.5f);
+        yield return Timing.WaitForSeconds(2.5f);
         audioManager.PlayGameOverSound();
         ShowGameOverScreen(true);
-        yield return new WaitForSeconds(.4f);
+        yield return Timing.WaitForSeconds(.4f);
     }
     private void NavigateDeathScreen()
     {
@@ -507,21 +504,23 @@ public class PlayerController : MonoBehaviour
     #region UI & UX
     public void TogglePauseMenu()
     {
-        if(!isShowingPauseMenu)
+        if (!isShowingPauseMenu)
         {
             PauseMenu.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             camManager.EnableAll(false);
-            
-        } else
+            playerInput.DeactivateInput();
+        }
+        else
         {
             PauseMenu.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
             camManager.EnableAll(true);
+            playerInput.ActivateInput();
         }
         isShowingPauseMenu = !isShowingPauseMenu;
     }
