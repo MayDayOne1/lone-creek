@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using Unity.Services.Analytics;
+#endif
 
 public class AI : MonoBehaviour
 {
@@ -33,8 +36,6 @@ public class AI : MonoBehaviour
     [SerializeField] private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
     [SerializeField] private Transform aimTarget;
-    private float aimRigWeight;
-    [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private EnemySoundManager soundManager;
     protected State currentState;
@@ -88,7 +89,6 @@ public class AI : MonoBehaviour
     }
     private void DisableEnemy()
     {
-        aimRigWeight = 0f;
         agent.enabled = false;
         this.enabled = false;
         anim.enabled = false;
@@ -189,14 +189,9 @@ public class AI : MonoBehaviour
 
     public void SetAimRigWeight(float newWeight)
     {
-        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
-            .setOnUpdate((value) =>
-            {
-                aimRig.weight = value;
-            });
+        aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, Time.deltaTime);
 
         Timing.RunCoroutine(UpdateAimTarget());
-        
     }
 
     private IEnumerator<float> UpdateAimTarget()

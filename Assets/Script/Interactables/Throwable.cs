@@ -50,7 +50,7 @@ public class Throwable : MonoBehaviour, IInteractable
 
     public void ActivateRedFilter(bool activate)
     {
-        if(activate && isActiveAndEnabled)
+        if(activate && redFilter.isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }

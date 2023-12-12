@@ -236,11 +236,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     private void SetAimRigWeight(float newWeight)
     {
-        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
-            .setOnUpdate((value) =>
-            {
-                aimRig.weight = value;
-            });
+        aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, .15f);
     }
     private void SetCrosshair(bool isVisible) => crosshair.gameObject.SetActive(isVisible);
 
