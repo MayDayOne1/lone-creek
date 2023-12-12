@@ -35,6 +35,7 @@ public class LoadDesert : MonoBehaviour
                 { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
                 { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
                 { "playerTimesCrouched", PlayerController.playerTimesCrouched },
+                { "playerTimesDetected", PlayerController.playerTimesDetected },
                 { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
             });

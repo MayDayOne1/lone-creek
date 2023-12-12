@@ -39,6 +39,7 @@ public class PauseMenuManager : MonoBehaviour
                 { "playerShotsHit", PistolWeapon.playerShotsHit },
                 { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
                 { "playerTimesCrouched", PlayerController.playerTimesCrouched },
+                { "playerTimesDetected", PlayerController.playerTimesDetected },
                 { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
                 { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
@@ -65,6 +66,7 @@ public class PauseMenuManager : MonoBehaviour
                 { "playerShotsHit", PistolWeapon.playerShotsHit },
                 { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
                 { "playerTimesCrouched", PlayerController.playerTimesCrouched },
+                { "playerTimesDetected", PlayerController.playerTimesDetected },
                 { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
                 { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
                 { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }

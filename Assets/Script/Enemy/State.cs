@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using MEC;
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using Unity.Services.Analytics;
+#endif
+
 public class State
 {
     public enum STATE
@@ -70,6 +74,10 @@ public class State
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
                 npc.GetComponent<AI>().SetAimRigWeight(1f);
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+                PlayerController.playerTimesDetected++;
+#endif
                 return hit.transform.gameObject.layer == playerLayerMask;
             }
         }

@@ -208,7 +208,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         SetCrosshair(false);
 
         SetAimRigWeight(0f);
-        animManager.SetPistol(false, controller.IsCrouching);
 
         animManager.SetBool(IS_AIMING_PISTOL, false);
         CamSetup();

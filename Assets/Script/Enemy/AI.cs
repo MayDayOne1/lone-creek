@@ -191,7 +191,7 @@ public class AI : MonoBehaviour
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, Time.deltaTime);
 
-        Timing.RunCoroutine(UpdateAimTarget());
+        Timing.RunCoroutine(UpdateAimTarget().CancelWith(gameObject));
     }
 
     private IEnumerator<float> UpdateAimTarget()

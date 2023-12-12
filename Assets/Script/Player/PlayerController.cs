@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
     public float level1TimeSpent = 0f;
     public float level2TimeSpent = 0f;
     public static int playerTimesCrouched = 0;
+    public static int playerTimesDetected = 0;
     public static float playerTimeSpentCrouching = 0f;
     public static float playerTimeSpentStanding = 0f;
 
@@ -193,6 +194,7 @@ public class PlayerController : MonoBehaviour
         level1TimeSpent = 0f;
         level2TimeSpent = 0f;
         playerTimesCrouched = 0;
+        playerTimesDetected = 0;
         playerTimeSpentCrouching = 0f;
         playerTimeSpentStanding = 0f;
 
@@ -428,7 +430,8 @@ public class PlayerController : MonoBehaviour
                 { "enemyShotsFiredCount", enemyShotsFiredCount },
                 { "enemyShotsHit", enemyShotsHit },
                 { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PistolWeapon.playerShotsHit }
+                { "playerShotsHit", PistolWeapon.playerShotsHit },
+                { "playerTimesDetected", PlayerController.playerTimesDetected }
             });
 #endif
         DeathSetup();
