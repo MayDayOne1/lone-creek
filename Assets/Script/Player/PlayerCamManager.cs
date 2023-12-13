@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class PlayerCamManager : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] private CinemachineFreeLook crouchCam;
     [SerializeField] private CinemachineFreeLook crouchAimCam;
 
-    private CinemachineFreeLook activeCam;
+    [SerializeField] float impulseShootForce = .5f;
+    [SerializeField] float impulseDamageForce = -.1f;
+
+    [Inject] CinemachineImpulseSource impulseSource;
 
     private void Start()
     {
@@ -62,10 +66,19 @@ public class PlayerCamManager : MonoBehaviour
     private void SetTopPriority(CinemachineFreeLook cam)
     {
         cam.Priority = 100;
-        activeCam = cam;
     }
     private void SetLowestPriority(CinemachineFreeLook cam)
     {
         cam.Priority = 1;
+    }
+
+    public void ShootCamShake()
+    {
+        impulseSource.GenerateImpulseWithForce(impulseShootForce);
+    }
+
+    public void DamageCamShake()
+    {
+        impulseSource.GenerateImpulseWithForce(impulseDamageForce);
     }
 }

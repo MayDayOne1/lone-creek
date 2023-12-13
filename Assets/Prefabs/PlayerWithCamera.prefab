@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 77996421}
   - component: {fileID: 77996420}
   - component: {fileID: 77996419}
+  - component: {fileID: 6200238014957814468}
   m_Layer: 0
   m_Name: CM FreeLook CrouchAimCam
   m_TagString: Untagged
@@ -187,6 +188,29 @@ MonoBehaviour:
   m_Damping: 1
   m_DampingWhenOccluded: 1
   m_OptimalTargetDistance: 0.3
+--- !u!114 &6200238014957814468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77996417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &113446304
 GameObject:
   m_ObjectHideFlags: 3
@@ -8196,6 +8220,8 @@ MonoBehaviour:
   aimCam: {fileID: 814895416}
   crouchCam: {fileID: 1159050965}
   crouchAimCam: {fileID: 77996421}
+  impulseShootForce: 0.5
+  impulseDamageForce: -0.5
 --- !u!114 &7379951078938306964
 MonoBehaviour:
   m_ObjectHideFlags: 0

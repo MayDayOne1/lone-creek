@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +10,9 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private PlayerAmmoManager ammoManager;
     [SerializeField] private PlayerInteract interact;
     [SerializeField] private PlayerShootingManager shootingManager;
+
+    [Header("CAMERA")]
+    [SerializeField] private CinemachineImpulseSource impulseSource;
     public override void InstallBindings()
     {
         Container.Bind<PlayerController>().FromInstance(controller);
@@ -17,5 +21,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<PlayerAmmoManager>().FromInstance(ammoManager);
         Container.Bind<PlayerInteract>().FromInstance(interact);
         Container.Bind<PlayerShootingManager>().FromInstance(shootingManager);
+
+        Container.Bind<CinemachineImpulseSource>().FromInstance(impulseSource);
     }
 }

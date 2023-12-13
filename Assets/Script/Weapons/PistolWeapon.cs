@@ -243,6 +243,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     {
         fireEffect.Play();
         AudioSource.PlayClipAtPoint(gunshot, transform.position);
+        camManager.ShootCamShake();
         ammoManager.DecrementClip();
         if (hitTransform != null)
         {

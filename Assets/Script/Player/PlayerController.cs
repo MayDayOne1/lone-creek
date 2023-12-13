@@ -478,6 +478,7 @@ public class PlayerController : MonoBehaviour
     #region HEALTH & DAMAGE
     public void PlayerTakeDamage(float damage)
     {
+        camManager.DamageCamShake();
         health -= damage;
         if(health <= 0f)
         {
