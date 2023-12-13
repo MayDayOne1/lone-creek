@@ -1452,7 +1452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816042932}
-  m_LocalRotation: {x: -0.24595481, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
+  m_LocalRotation: {x: -0.24595483, y: -0.03798515, z: 0.0013017805, w: 0.96853584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12196,6 +12196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
         type: 3}
+      propertyPath: aim
+      value: 
+      objectReference: {fileID: 1188351315}
+    - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
       propertyPath: aimRig
       value: 
       objectReference: {fileID: 1472307003}
@@ -12209,6 +12214,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6739465379562174190}
+    - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
+        type: 3}
+      propertyPath: bodyAim
+      value: 
+      objectReference: {fileID: 7003323953587397452}
     - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
         type: 3}
       propertyPath: onSelect

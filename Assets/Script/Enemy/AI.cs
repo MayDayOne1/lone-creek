@@ -6,7 +6,8 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using Zenject;
+
 
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -26,8 +27,11 @@ public class AI : MonoBehaviour
 
     [Header("PLAYER")]
     public Transform Player;
-    public PlayerController controller;
     public Transform targetForEnemy;
+
+    [Inject]
+    private PlayerController controller;
+
 
     [Header("SHOOTING")]
     public Transform muzzle;
@@ -167,7 +171,7 @@ public class AI : MonoBehaviour
                 {
                     if(CalculateHitChance() < hitChance)
                     {
-                        Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+                        controller.PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
                         PlayerController.enemyShotsHit++;
 #endif

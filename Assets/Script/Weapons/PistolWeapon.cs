@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
@@ -17,9 +18,9 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     public bool isAiming = false;
     public float pistolDamage = .2f;
 
-    PlayerController controller;
-    PlayerCamManager camManager;
-    PlayerAnimManager animManager;
+    [Inject] PlayerController controller;
+    [Inject] PlayerCamManager camManager;
+    [Inject] PlayerAnimManager animManager;
     PlayerShootingManager shootingManager;
     PlayerAmmoManager ammoManager;
 
@@ -33,8 +34,10 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     [SerializeField] private AudioClip onSelect;
 
+    [SerializeField] private MultiAimConstraint bodyAim;
+    [SerializeField] private MultiAimConstraint aim;
+
     private Vector3 mouseWorldPos = Vector3.zero;
-    private float aimRigWeight;
     private float cooldownTimer;
     private readonly float cooldown = .5f;
     private bool canShoot;
@@ -78,9 +81,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     void Start()
     {
-        controller = player.GetComponent<PlayerController>();
-        camManager = player.GetComponent<PlayerCamManager>();
-        animManager = player.GetComponent<PlayerAnimManager>();
         shootingManager = player.GetComponent<PlayerShootingManager>();
         ammoManager = player.GetComponent<PlayerAmmoManager>();
 

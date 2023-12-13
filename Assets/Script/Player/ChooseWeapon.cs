@@ -1,16 +1,12 @@
 using UnityEngine;
+using Zenject;
 
 public class ChooseWeapon : MonoBehaviour
 {
     public ThrowableWeapon throwableWeapon;
     public PistolWeapon pistolWeapon;
 
-    private PlayerShootingManager shootingManager;
-
-    private void Start()
-    {
-        shootingManager = GetComponent<PlayerShootingManager>();
-    }
+    [Inject] PlayerShootingManager shootingManager;
 
     public void SelectThrowable()
     {

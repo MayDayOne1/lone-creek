@@ -5,13 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class Ammo : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PlayerInteract interact;
-    [SerializeField] private PlayerAmmoManager ammoManager;
     [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
@@ -19,6 +18,10 @@ public class Ammo : MonoBehaviour, IInteractable
     [SerializeField] private TextMeshProUGUI ammoText;
 
     [SerializeField] private AudioClip pickup;
+
+    [Inject] private PlayerAmmoManager ammoManager;
+
+
     private AudioSource audioSource;
     void Start()
     {
