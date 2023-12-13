@@ -74,10 +74,6 @@ public class State
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
                 npc.GetComponent<AI>().SetAimRigWeight(1f);
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-                PlayerController.playerTimesDetected++;
-#endif
                 return hit.transform.gameObject.layer == playerLayerMask;
             }
         }
@@ -247,6 +243,9 @@ public class Pursue : State
     public override void Enter()
     {
         base.Enter();
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        PlayerController.playerTimesDetected++;
+#endif
     }
 
     public override void Update()
