@@ -1253,6 +1253,7 @@ GameObject:
   - component: {fileID: 814895416}
   - component: {fileID: 814895415}
   - component: {fileID: 814895414}
+  - component: {fileID: 7029775099361354772}
   m_Layer: 0
   m_Name: CM FreeLook AimCam
   m_TagString: Untagged
@@ -1428,6 +1429,29 @@ MonoBehaviour:
   m_Damping: 1
   m_DampingWhenOccluded: 1
   m_OptimalTargetDistance: 0.3
+--- !u!114 &7029775099361354772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814895412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &816042932
 GameObject:
   m_ObjectHideFlags: 3
@@ -1928,6 +1952,7 @@ GameObject:
   - component: {fileID: 1159050965}
   - component: {fileID: 1159050964}
   - component: {fileID: 1159050963}
+  - component: {fileID: 8137215929502187635}
   m_Layer: 0
   m_Name: CM FreeLook CrouchCam
   m_TagString: Untagged
@@ -2103,6 +2128,29 @@ MonoBehaviour:
   m_Damping: 1
   m_DampingWhenOccluded: 1
   m_OptimalTargetDistance: 0.3
+--- !u!114 &8137215929502187635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159050961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1188351313
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,6 +5648,7 @@ GameObject:
   - component: {fileID: 3231851228583997347}
   - component: {fileID: 3231851228583997344}
   - component: {fileID: 3231851228583997349}
+  - component: {fileID: 4845660642114352648}
   m_Layer: 0
   m_Name: CM FreeLook NormalCam
   m_TagString: Untagged
@@ -5775,6 +5824,29 @@ MonoBehaviour:
   m_Damping: 1
   m_DampingWhenOccluded: 1
   m_OptimalTargetDistance: 0.3
+--- !u!114 &4845660642114352648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3231851228583997345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &3321996749462206235
 GameObject:
   m_ObjectHideFlags: 0
@@ -8080,6 +8152,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 172675698083296503}
+  - component: {fileID: 7508415370747952281}
+  - component: {fileID: 7379951078938306964}
   m_Layer: 0
   m_Name: CameraLookAt
   m_TagString: Untagged
@@ -8106,6 +8180,75 @@ Transform:
   m_Father: {fileID: 5856383619156137987}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7508415370747952281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222552104102630194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ed8ed97e166824d9407a14f91371df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalCam: {fileID: 3231851228583997347}
+  aimCam: {fileID: 814895416}
+  crouchCam: {fileID: 1159050965}
+  crouchAimCam: {fileID: 77996421}
+--- !u!114 &7379951078938306964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222552104102630194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 1
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 0, z: -1}
 --- !u!1 &6279949142075328305
 GameObject:
   m_ObjectHideFlags: 0
@@ -9169,7 +9312,6 @@ GameObject:
   - component: {fileID: 5856383619225992817}
   - component: {fileID: 5856383619225992818}
   - component: {fileID: 294032820258054255}
-  - component: {fileID: 341666568753522461}
   - component: {fileID: 3859979013363361907}
   - component: {fileID: 5856383620854131658}
   - component: {fileID: 114614342735316098}
@@ -9591,22 +9733,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layerBlendTime: 0.15
---- !u!114 &341666568753522461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6739465379562174190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ed8ed97e166824d9407a14f91371df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalCam: {fileID: 3231851228583997347}
-  aimCam: {fileID: 814895416}
-  crouchCam: {fileID: 1159050965}
-  crouchAimCam: {fileID: 77996421}
 --- !u!114 &3859979013363361907
 MonoBehaviour:
   m_ObjectHideFlags: 0

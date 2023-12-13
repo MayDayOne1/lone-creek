@@ -10,6 +10,8 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] private CinemachineFreeLook crouchCam;
     [SerializeField] private CinemachineFreeLook crouchAimCam;
 
+    private CinemachineFreeLook activeCam;
+
     private void Start()
     {
         EnableAll(true);
@@ -60,6 +62,7 @@ public class PlayerCamManager : MonoBehaviour
     private void SetTopPriority(CinemachineFreeLook cam)
     {
         cam.Priority = 100;
+        activeCam = cam;
     }
     private void SetLowestPriority(CinemachineFreeLook cam)
     {

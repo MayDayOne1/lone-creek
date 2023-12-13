@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using MEC;
+using Zenject;
+
 
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -44,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public bool IsCrouching;
 
     [Header("CAMERA")]
-    private PlayerCamManager camManager;
+    [Inject] PlayerCamManager camManager;
     private Transform cameraMainTransform;
 
     [Header("UI")]
@@ -93,7 +95,6 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         shootingManager = GetComponent<PlayerShootingManager>();
         animManager = GetComponent<PlayerAnimManager>();
-        camManager = GetComponent<PlayerCamManager>();
         audioManager = GetComponent<PlayerAudioManager>();
         cameraMainTransform = Camera.main.transform;
         childrenRB = this.GetComponentsInChildren<Rigidbody>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
@@ -30,13 +31,15 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
     private GameObject bottleInstance;
     private AudioSource audioSource;
 
-    PlayerController controller;
-    PlayerCamManager camManager;
-    PlayerAnimManager animManager;
-    PlayerShootingManager shootingManager;
+    [Inject] PlayerController controller;
+    [Inject] PlayerCamManager camManager;
+    [Inject] PlayerAnimManager animManager;
+    [Inject] PlayerShootingManager shootingManager;
 
     private const string IS_AIMING_THROWABLE = "isAimingThrowable";
     private const string THROW = "Throw";
+
+    
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int playerBottleThrowCount = 0;
@@ -44,11 +47,6 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
 
     void Start()
     {
-        controller = player.GetComponent<PlayerController>();
-        camManager = player.GetComponent<PlayerCamManager>();
-        animManager = player.GetComponent<PlayerAnimManager>();
-        shootingManager = player.GetComponent<PlayerShootingManager>();
-
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = onSelect;
 
