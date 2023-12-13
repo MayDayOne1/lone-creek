@@ -6195,7 +6195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0.07796383, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6468,7 +6468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 0.47058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15071,7 +15071,6 @@ GameObject:
   - component: {fileID: 522692554}
   - component: {fileID: 522692553}
   - component: {fileID: 522692552}
-  - component: {fileID: 522692551}
   m_Layer: 5
   m_Name: CameraShake
   m_TagString: Untagged
@@ -15101,18 +15100,6 @@ RectTransform:
   m_AnchoredPosition: {x: -220, y: -528}
   m_SizeDelta: {x: 320, y: 100}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &522692551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522692549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9727b94ed2f05b2468ca145114627f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &522692552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15191,7 +15178,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6562724827604461871}
         m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
-        m_MethodName: SetFullscreen
+        m_MethodName: SetCameraShake
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24484,7 +24471,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 0.47058824}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.47058824}
     m_HighlightedColor: {r: 0.22745098, g: 0.22745098, b: 0.22745098, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 1}
