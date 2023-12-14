@@ -11,7 +11,6 @@ using Zenject;
 
 public class PistolWeapon : MonoBehaviour, IWeapon
 {
-    public GameObject pistol;
     public GameObject player;
     public CanvasGroup ammoBG;
     public bool isSelected = false;
@@ -33,9 +32,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     [SerializeField] private Transform aimTarget;
 
     [SerializeField] private AudioClip onSelect;
-
-    [SerializeField] private MultiAimConstraint bodyAim;
-    [SerializeField] private MultiAimConstraint aim;
 
     private Vector3 mouseWorldPos = Vector3.zero;
     private float cooldownTimer;
@@ -124,7 +120,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         shootingManager.previousWeapon = this;
         shootingManager.isPistolEquipped = false;
 
-        pistol.SetActive(false);
+        this.gameObject.SetActive(false);
         animManager.SetPistol(false, controller.IsCrouching);
         crosshair.gameObject.SetActive(false);
         isSelected = false;
@@ -169,7 +165,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             shootingManager.isPistolEquipped = true;
             animManager.SetPistol(true, controller.IsCrouching);
-            pistol.SetActive(true);
+            this.gameObject.SetActive(true);
 
             PlaySelectionSound();
 

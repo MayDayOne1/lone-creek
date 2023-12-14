@@ -11,7 +11,6 @@ using Zenject;
 
 public class Ammo : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
@@ -20,6 +19,7 @@ public class Ammo : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip pickup;
 
     [Inject] private PlayerAmmoManager ammoManager;
+    [Inject] private PlayerAudioManager audioManager;
 
 
     private AudioSource audioSource;
@@ -47,7 +47,10 @@ public class Ammo : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        SetIconVisibility(0f);
+        if (other.gameObject.GetComponent<PlayerController>() != null)
+        {
+            SetIconVisibility(0f);
+        }
     }
 
     public void ActivateRedFilter(bool activate)
@@ -74,7 +77,10 @@ public class Ammo : MonoBehaviour, IInteractable
 
     public void PlayInteractionSound()
     {
-        audioManager.PlayInteractionSound(pickup);
+        if(audioManager != null)
+        {
+            audioManager.PlayInteractionSound(pickup);
+        }
     }
 
     public void SetIconVisibility(float alpha)

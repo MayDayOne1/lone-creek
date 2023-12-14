@@ -4,14 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class Pistol : MonoBehaviour, IInteractable
 {
-    [SerializeField] PlayerAmmoManager ammoManager;
-    [SerializeField] ChooseWeapon chooseWeapon;
-    [SerializeField] PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
@@ -19,6 +17,11 @@ public class Pistol : MonoBehaviour, IInteractable
 
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
+
+    [Inject] PlayerAmmoManager ammoManager;
+    [Inject] ChooseWeapon chooseWeapon;
+    [Inject] PlayerAudioManager audioManager;
+
 
     void Start()
     {
@@ -44,7 +47,10 @@ public class Pistol : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        SetIconVisibility(0f);
+        if (other.gameObject.GetComponent<PlayerController>() != null)
+        {
+            SetIconVisibility(0f);
+        }
     }
     public void ActivateRedFilter(bool activate)
     {

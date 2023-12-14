@@ -9,7 +9,6 @@ using Zenject;
 
 public class ThrowableWeapon : MonoBehaviour, IWeapon
 {
-    public Camera cam;
     public GameObject throwable;
     public GameObject player;
     public CanvasGroup throwableBG;
@@ -35,6 +34,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
     [Inject] PlayerCamManager camManager;
     [Inject] PlayerAnimManager animManager;
     [Inject] PlayerShootingManager shootingManager;
+    [Inject] Camera cam;
 
     private const string IS_AIMING_THROWABLE = "isAimingThrowable";
     private const string THROW = "Throw";
