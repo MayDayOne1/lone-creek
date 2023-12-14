@@ -2708,11 +2708,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Player: {fileID: 0}
-  controller: {fileID: 0}
   targetForEnemy: {fileID: 0}
   muzzle: {fileID: 4653482430279220920}
   Gunshot: {fileID: 4650150729981386552}
   MuzzleFlash: {fileID: 4818575802456699461}
+  bulletTrail: {fileID: 4722438386499430763}
   hitChance: 0.8
   rifleDamage: 0.25
   aimRig: {fileID: 5539851256870222426}
@@ -4982,6 +4982,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1152988575291855215, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1385971704693219528, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
         type: 3}
       propertyPath: m_TagString
@@ -5102,6 +5107,12 @@ PrefabInstance:
 --- !u!4 &4653482430279220920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2233953637047134258, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6887381940529436298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &4722438386499430763 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 2170064126792253409, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
     type: 3}
   m_PrefabInstance: {fileID: 6887381940529436298}
   m_PrefabAsset: {fileID: 0}

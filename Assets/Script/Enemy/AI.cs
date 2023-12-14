@@ -8,8 +8,6 @@ using DG.Tweening;
 using MEC;
 using Zenject;
 
-
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
 #endif
@@ -36,6 +34,7 @@ public class AI : MonoBehaviour
     public Transform muzzle;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
+    public TrailRenderer bulletTrail;
     public IEnumerator<float> aimCoroutine;
     [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     [SerializeField] private float rifleDamage = .25f;
@@ -162,10 +161,12 @@ public class AI : MonoBehaviour
         if(agent.enabled && PlayerController.health > 0f)
         {
             Shoot();
+            TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
 
             if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f, aimColliderLayerMask))
             {
+                Timing.RunCoroutine(MoveTrail(trail, hit));
                 if (hit.transform.gameObject.layer == 6)
                 {
                     if(CalculateHitChance() < hitChance)
@@ -189,6 +190,27 @@ public class AI : MonoBehaviour
         MuzzleFlash.Play();
         anim.SetTrigger("Shoot");
     }
+
+    private IEnumerator<float> MoveTrail(TrailRenderer trail, RaycastHit hit)
+    {
+        float time = 0;
+        while(time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(muzzle.transform.position, hit.transform.position, time);
+            if(trail.gameObject.activeSelf)
+            {
+                time += Time.deltaTime / trail.time;
+                yield return Timing.WaitForOneFrame;
+            }
+            
+        }
+        if (trail.gameObject.activeSelf)
+        {
+            trail.transform.position = hit.point;
+            Destroy(trail, trail.time);
+        }
+    }
+
     private float CalculateHitChance()
     {
         float chance = Random.Range(0f, 1f);

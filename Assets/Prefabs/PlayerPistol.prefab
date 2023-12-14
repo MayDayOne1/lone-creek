@@ -4023,7 +4023,7 @@ ParticleSystem:
       emitProbability: 1
   LightsModule:
     enabled: 1
-    ratio: 0.1
+    ratio: 1
     light: {fileID: 6639890233084236567}
     randomDistribution: 1
     color: 0
@@ -5061,8 +5061,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
       propertyPath: m_Intensity
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3260116895214811914, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
