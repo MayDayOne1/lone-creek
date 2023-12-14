@@ -2712,7 +2712,8 @@ MonoBehaviour:
   muzzle: {fileID: 4653482430279220920}
   Gunshot: {fileID: 4650150729981386552}
   MuzzleFlash: {fileID: 4818575802456699461}
-  bulletTrail: {fileID: 4722438386499430763}
+  bulletTrail: {fileID: 3168508039144008790, guid: cd6bc3e738dcfe6498d19c1b09aad6e5,
+    type: 3}
   hitChance: 0.8
   rifleDamage: 0.25
   aimRig: {fileID: 5539851256870222426}
@@ -5107,12 +5108,6 @@ PrefabInstance:
 --- !u!4 &4653482430279220920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2233953637047134258, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
-    type: 3}
-  m_PrefabInstance: {fileID: 6887381940529436298}
-  m_PrefabAsset: {fileID: 0}
---- !u!96 &4722438386499430763 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 2170064126792253409, guid: 930c2cf00d792e54fb886c57ff9b9dd2,
     type: 3}
   m_PrefabInstance: {fileID: 6887381940529436298}
   m_PrefabAsset: {fileID: 0}

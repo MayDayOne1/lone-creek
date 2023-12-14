@@ -196,7 +196,7 @@ public class AI : MonoBehaviour
         float time = 0;
         while(time < 1)
         {
-            trail.transform.position = Vector3.Lerp(muzzle.transform.position, hit.transform.position, time);
+            trail.transform.position = Vector3.Lerp(muzzle.transform.position, hit.point, time);
             if(trail.gameObject.activeSelf)
             {
                 time += Time.deltaTime / trail.time;
