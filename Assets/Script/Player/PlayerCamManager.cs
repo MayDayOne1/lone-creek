@@ -15,14 +15,7 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] float impulseDamageForce = -.1f;
 
     [Inject] CinemachineImpulseSource impulseSource;
-    public bool IsCamShakeEnabled
-    {
-        get
-        {
-            int isSet = PlayerPrefs.GetInt("isCamShakeEnabled");
-            return isSet == 1 ? true : false;
-        }
-    }
+    private bool IsCamShakeEnabled => PlayerPrefs.GetInt("isCamShakeEnabled") == 1;
 
     private void Start()
     {
