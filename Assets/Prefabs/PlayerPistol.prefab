@@ -99,14 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21daa6cb0dc5731458924e9c0ed6850a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 3038479672614447662}
-  player: {fileID: 0}
-  ammoBG: {fileID: 0}
+  ammoBG: {fileID: 4051973668808664923, guid: 7e9efd2fd72389b42a8b29a968fa64ec, type: 3}
   isSelected: 0
   isAiming: 0
   pistolDamage: 0.2
   aimRig: {fileID: 0}
-  crosshair: {fileID: 0}
+  crosshair: {fileID: 1980033617046931404, guid: 2d3f4b8cb9320af42b084dc624dc3955,
+    type: 3}
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 321
@@ -115,8 +114,6 @@ MonoBehaviour:
   gunshot: {fileID: 8300000, guid: fad457233e93b4a4985c999ddde39b16, type: 3}
   aimTarget: {fileID: 0}
   onSelect: {fileID: 8300000, guid: 54def6f760cdcf144bcde69304819cf5, type: 3}
-  bodyAim: {fileID: 0}
-  aim: {fileID: 0}
 --- !u!82 &8662064814265269652
 AudioSource:
   m_ObjectHideFlags: 0

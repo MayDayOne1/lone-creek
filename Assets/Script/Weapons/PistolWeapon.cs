@@ -11,7 +11,6 @@ using Zenject;
 
 public class PistolWeapon : MonoBehaviour, IWeapon
 {
-    public GameObject player;
     public CanvasGroup ammoBG;
     public bool isSelected = false;
     public bool isAiming = false;
@@ -20,8 +19,8 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     [Inject] PlayerController controller;
     [Inject] PlayerCamManager camManager;
     [Inject] PlayerAnimManager animManager;
-    PlayerShootingManager shootingManager;
-    PlayerAmmoManager ammoManager;
+    [Inject] PlayerShootingManager shootingManager;
+    [Inject] PlayerAmmoManager ammoManager;
 
     [SerializeField] private Rig aimRig;
     [SerializeField] private Image crosshair;
@@ -77,9 +76,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     void Start()
     {
-        shootingManager = player.GetComponent<PlayerShootingManager>();
-        ammoManager = player.GetComponent<PlayerAmmoManager>();
-
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = onSelect;
 

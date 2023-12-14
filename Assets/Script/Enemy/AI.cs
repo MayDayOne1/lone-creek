@@ -29,8 +29,7 @@ public class AI : MonoBehaviour
     public Transform Player;
     public Transform targetForEnemy;
 
-    [Inject]
-    private PlayerController controller;
+    [Inject] private PlayerController controller;
 
 
     [Header("SHOOTING")]

@@ -10,7 +10,6 @@ using Zenject;
 public class ThrowableWeapon : MonoBehaviour, IWeapon
 {
     public GameObject throwable;
-    public GameObject player;
     public CanvasGroup throwableBG;
     public bool isSelected = false;
     public bool isAiming = false;

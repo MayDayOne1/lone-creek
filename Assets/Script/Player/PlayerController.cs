@@ -8,8 +8,6 @@ using DG.Tweening;
 using MEC;
 using Zenject;
 
-
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
 #endif
