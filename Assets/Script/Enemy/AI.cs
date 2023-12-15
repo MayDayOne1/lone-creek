@@ -24,11 +24,9 @@ public class AI : MonoBehaviour
     public GameObject[] waypoints;
 
     [Header("PLAYER")]
-    public Transform Player;
     public Transform targetForEnemy;
 
     [Inject] private PlayerController controller;
-
 
     [Header("SHOOTING")]
     public Transform muzzle;
