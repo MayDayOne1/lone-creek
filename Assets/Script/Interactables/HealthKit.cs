@@ -4,20 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class HealthKit : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PlayerInteract interact;
-    [SerializeField] private PlayerController controller;
-    [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
 
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
+
+    [Inject] private PlayerController controller;
+    [Inject] private PlayerAudioManager audioManager;
 
     void Start()
     {
@@ -43,12 +44,15 @@ public class HealthKit : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        SetIconVisibility(0f);
+        if (other.gameObject.GetComponent<PlayerController>() != null)
+        {
+            SetIconVisibility(0f);
+        }
     }
 
     public void ActivateRedFilter(bool activate)
     {
-        if (activate && isActiveAndEnabled)
+        if (activate && redFilter.isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }

@@ -11,7 +11,7 @@ public class DestroyOnContact : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        AudioSource.PlayClipAtPoint(glassShatterSound, collision.transform.position);
+        AudioSource.PlayClipAtPoint(glassShatterSound, transform.position);
         Destroy(gameObject);
         if(collision.gameObject.CompareTag("Enemy"))
         {

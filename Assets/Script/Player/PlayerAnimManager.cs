@@ -22,7 +22,7 @@ public class PlayerAnimManager : MonoBehaviour
 
     private void SmoothLayerSwitch(int layer, float weight)
     {
-        var layerWeight = anim.GetLayerWeight(layer);
+        float layerWeight = anim.GetLayerWeight(layer);
         LeanTween.value(gameObject, layerWeight, weight, layerBlendTime)
             .setOnUpdate((value) =>
             {

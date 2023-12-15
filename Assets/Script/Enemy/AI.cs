@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
+using Zenject;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using Unity.Services.Analytics;
+#endif
 
 public class AI : MonoBehaviour
 {
@@ -20,20 +24,21 @@ public class AI : MonoBehaviour
     public GameObject[] waypoints;
 
     [Header("PLAYER")]
-    public Transform Player;
-    public PlayerController controller;
     public Transform targetForEnemy;
+
+    [Inject] private PlayerController controller;
 
     [Header("SHOOTING")]
     public Transform muzzle;
     public AudioSource Gunshot;
     public ParticleSystem MuzzleFlash;
+    public TrailRenderer bulletTrail;
     public IEnumerator<float> aimCoroutine;
     [SerializeField][Range (0f, 1f)] private float hitChance = .8f;
     [SerializeField] private float rifleDamage = .25f;
     [SerializeField] private Rig aimRig;
     [SerializeField] private Transform aimTarget;
-    private float aimRigWeight;
+    [SerializeField] private float rigBlendTime = .2f;
     [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private EnemySoundManager soundManager;
@@ -53,6 +58,8 @@ public class AI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         currentState = new Idle(this.gameObject, targetForEnemy, agent, waypoints, anim);
+
+        aimRig.weight = 0f;
     }
 
     void Update()
@@ -88,7 +95,6 @@ public class AI : MonoBehaviour
     }
     private void DisableEnemy()
     {
-        aimRigWeight = 0f;
         agent.enabled = false;
         this.enabled = false;
         anim.enabled = false;
@@ -153,15 +159,17 @@ public class AI : MonoBehaviour
         if(agent.enabled && PlayerController.health > 0f)
         {
             Shoot();
+            TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
             Vector3 dirTowardsPlayer = targetForEnemy.position - muzzle.position;
 
-            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f))
+            if (Physics.Raycast(muzzle.position, dirTowardsPlayer, out RaycastHit hit, 999f, aimColliderLayerMask))
             {
+                Timing.RunCoroutine(MoveTrail(trail, hit));
                 if (hit.transform.gameObject.layer == 6)
                 {
                     if(CalculateHitChance() < hitChance)
                     {
-                        Player.GetComponent<PlayerController>().PlayerTakeDamage(rifleDamage);
+                        controller.PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
                         PlayerController.enemyShotsHit++;
 #endif
@@ -175,11 +183,32 @@ public class AI : MonoBehaviour
     }
     private void Shoot()
     {
-        // SetAimRigWeight(1f);
+        SetAimRigWeight(1f);
         Gunshot.Play();
         MuzzleFlash.Play();
         anim.SetTrigger("Shoot");
     }
+
+    private IEnumerator<float> MoveTrail(TrailRenderer trail, RaycastHit hit)
+    {
+        float time = 0;
+        while(time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(muzzle.transform.position, hit.point, time);
+            if(trail.gameObject.activeSelf)
+            {
+                time += Time.deltaTime / trail.time;
+                yield return Timing.WaitForOneFrame;
+            }
+            
+        }
+        if (trail.gameObject.activeSelf)
+        {
+            trail.transform.position = hit.point;
+            Destroy(trail, trail.time);
+        }
+    }
+
     private float CalculateHitChance()
     {
         float chance = Random.Range(0f, 1f);
@@ -189,14 +218,16 @@ public class AI : MonoBehaviour
 
     public void SetAimRigWeight(float newWeight)
     {
-        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
-            .setOnUpdate((value) =>
-            {
-                aimRig.weight = value;
-            });
+        if(Time.timeScale > 0f)
+        {
+            LeanTween.value(gameObject, aimRig.weight, newWeight, rigBlendTime)
+                    .setOnUpdate((value) =>
+                    {
+                        aimRig.weight = value;
+                    });
 
-        Timing.RunCoroutine(UpdateAimTarget());
-        
+            Timing.RunCoroutine(UpdateAimTarget().CancelWith(gameObject));
+        }
     }
 
     private IEnumerator<float> UpdateAimTarget()
@@ -204,7 +235,7 @@ public class AI : MonoBehaviour
         while (aimRig.weight > 0f)
         {
             Vector3 direction = targetForEnemy.position - muzzle.position;
-            if (Physics.Raycast(muzzle.position, direction, out RaycastHit hit, 999f))
+            if (Physics.Raycast(muzzle.position, direction, out RaycastHit hit, 999f, aimColliderLayerMask))
             {
                 aimTarget.position = hit.point;
             }

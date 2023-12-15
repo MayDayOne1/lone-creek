@@ -1,20 +1,20 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using MEC;
+using Zenject;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
 #endif
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController controller;
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup settings;
     [SerializeField] private GameObject onboarding;
     private bool isViewingOnboarding = false;
+
+    [Inject] private PlayerController controller;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public float onboardingTimeSpent = 0f;

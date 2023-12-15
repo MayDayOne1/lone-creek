@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using MEC;
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+using Unity.Services.Analytics;
+#endif
+
 public class State
 {
     public enum STATE
@@ -239,6 +243,9 @@ public class Pursue : State
     public override void Enter()
     {
         base.Enter();
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+        PlayerController.playerTimesDetected++;
+#endif
     }
 
     public override void Update()

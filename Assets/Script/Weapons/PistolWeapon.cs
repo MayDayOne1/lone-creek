@@ -5,23 +5,22 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class PistolWeapon : MonoBehaviour, IWeapon
 {
-    public GameObject pistol;
-    public GameObject player;
     public CanvasGroup ammoBG;
     public bool isSelected = false;
     public bool isAiming = false;
     public float pistolDamage = .2f;
 
-    PlayerController controller;
-    PlayerCamManager camManager;
-    PlayerAnimManager animManager;
-    PlayerShootingManager shootingManager;
-    PlayerAmmoManager ammoManager;
+    [Inject] PlayerController controller;
+    [Inject] PlayerCamManager camManager;
+    [Inject] PlayerAnimManager animManager;
+    [Inject] PlayerShootingManager shootingManager;
+    [Inject] PlayerAmmoManager ammoManager;
 
     [SerializeField] private Rig aimRig;
     [SerializeField] private Image crosshair;
@@ -34,7 +33,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     [SerializeField] private AudioClip onSelect;
 
     private Vector3 mouseWorldPos = Vector3.zero;
-    private float aimRigWeight;
     private float cooldownTimer;
     private readonly float cooldown = .5f;
     private bool canShoot;
@@ -78,12 +76,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     void Start()
     {
-        controller = player.GetComponent<PlayerController>();
-        camManager = player.GetComponent<PlayerCamManager>();
-        animManager = player.GetComponent<PlayerAnimManager>();
-        shootingManager = player.GetComponent<PlayerShootingManager>();
-        ammoManager = player.GetComponent<PlayerAmmoManager>();
-
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = onSelect;
 
@@ -124,7 +116,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         shootingManager.previousWeapon = this;
         shootingManager.isPistolEquipped = false;
 
-        pistol.SetActive(false);
+        this.gameObject.SetActive(false);
         animManager.SetPistol(false, controller.IsCrouching);
         crosshair.gameObject.SetActive(false);
         isSelected = false;
@@ -169,7 +161,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             shootingManager.isPistolEquipped = true;
             animManager.SetPistol(true, controller.IsCrouching);
-            pistol.SetActive(true);
+            this.gameObject.SetActive(true);
 
             PlaySelectionSound();
 
@@ -208,7 +200,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         SetCrosshair(false);
 
         SetAimRigWeight(0f);
-        animManager.SetPistol(false, controller.IsCrouching);
 
         animManager.SetBool(IS_AIMING_PISTOL, false);
         CamSetup();
@@ -236,11 +227,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     private void SetAimRigWeight(float newWeight)
     {
-        LeanTween.value(gameObject, aimRigWeight, newWeight, .15f)
-            .setOnUpdate((value) =>
-            {
-                aimRig.weight = value;
-            });
+        aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, .15f);
     }
     private void SetCrosshair(bool isVisible) => crosshair.gameObject.SetActive(isVisible);
 
@@ -248,6 +235,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     {
         fireEffect.Play();
         AudioSource.PlayClipAtPoint(gunshot, transform.position);
+        camManager.ShootCamShake();
         ammoManager.DecrementClip();
         if (hitTransform != null)
         {

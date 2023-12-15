@@ -1,11 +1,116 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-	public void SetFullscreen (bool isFullscreen)
+	[SerializeField] Toggle vsyncToggle;
+	[SerializeField] Toggle fullScreenToggle;
+	[SerializeField] Toggle camShakeToggle;
+	[SerializeField] Slider volumeSlider;
+
+	private const string VSYNC_KEY = "isVsync";
+	private const string FULLSCREEN_KEY = "isFullScreen";
+	private const string CAM_SHAKE_KEY = "isCamShakeEnabled";
+	private const string SOUND_VOLUME_KEY = "soundVolume";
+
+    void Start()
+    {
+		LoadVsync();
+		LoadFullScreen();
+		LoadCamShake();
+		LoadSoundVolume();
+    }
+
+    public void SetVsync(bool isSet)
 	{
-		Screen.fullScreen = isFullscreen;
+		if (isSet)
+		{
+            QualitySettings.vSyncCount = 1;
+        }
+		else
+		{
+			QualitySettings.vSyncCount = 0;
+		}
+		SaveToPlayerPrefs(VSYNC_KEY, isSet);
 	}
+
+	public void SetFullscreen(bool isFullScreen)
+	{
+		Screen.fullScreen = isFullScreen;
+		SaveToPlayerPrefs(FULLSCREEN_KEY, isFullScreen);
+	}
+
+	public void SetCameraShake(bool isSet)
+	{
+		SaveToPlayerPrefs(CAM_SHAKE_KEY, isSet);
+	}
+
+	public void SetVolume()
+	{
+		AudioListener.volume = volumeSlider.value;
+		SaveFloatToPlayerPrefs(SOUND_VOLUME_KEY, volumeSlider.value);
+	}
+
+	private void SaveToPlayerPrefs(string key, bool isSet)
+	{
+		if(isSet)
+		{
+			PlayerPrefs.SetInt(key, 1);
+		}
+		else
+		{
+			PlayerPrefs.SetInt(key, 0);
+		}
+		PlayerPrefs.Save();
+	}
+
+	private void SaveFloatToPlayerPrefs(string key, float value)
+	{
+		PlayerPrefs.SetFloat(key, value);
+	}
+
+	private void LoadToggleFromPlayerPrefs(Toggle toggle, string key)
+	{
+		int setting = PlayerPrefs.GetInt(key);
+		if(setting == 1)
+		{
+			toggle.isOn = true;
+		}
+		else
+		{
+			toggle.isOn = false;
+		}
+	}
+
+	private void LoadVsync()
+	{
+		LoadToggleFromPlayerPrefs(vsyncToggle, VSYNC_KEY);
+		QualitySettings.vSyncCount = PlayerPrefs.GetInt(VSYNC_KEY);
+	}
+
+	private void LoadFullScreen()
+	{
+		LoadToggleFromPlayerPrefs(fullScreenToggle, FULLSCREEN_KEY);
+		if(fullScreenToggle.isOn)
+		{
+			Screen.fullScreen = true;
+        }
+		else
+		{
+			Screen.fullScreen = false;
+		}
+	}
+
+	private void LoadCamShake()
+	{
+		LoadToggleFromPlayerPrefs(camShakeToggle, CAM_SHAKE_KEY);
+	}
+
+    public void LoadSoundVolume()
+    {
+        volumeSlider.value = PlayerPrefs.GetFloat(SOUND_VOLUME_KEY);
+        AudioListener.volume = volumeSlider.value;
+    }
 }

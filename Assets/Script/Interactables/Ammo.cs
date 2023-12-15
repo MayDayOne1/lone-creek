@@ -5,20 +5,23 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using MEC;
+using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class Ammo : MonoBehaviour, IInteractable
 {
-    [SerializeField] private PlayerInteract interact;
-    [SerializeField] private PlayerAmmoManager ammoManager;
-    [SerializeField] private PlayerAudioManager audioManager;
     [SerializeField] private Image iconBG;
     [SerializeField] private Image icon;
     [SerializeField] private Image redFilter;
     [SerializeField] private TextMeshProUGUI ammoText;
 
     [SerializeField] private AudioClip pickup;
+
+    [Inject] private PlayerAmmoManager ammoManager;
+    [Inject] private PlayerAudioManager audioManager;
+
+
     private AudioSource audioSource;
     void Start()
     {
@@ -44,12 +47,15 @@ public class Ammo : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        SetIconVisibility(0f);
+        if (other.gameObject.GetComponent<PlayerController>() != null)
+        {
+            SetIconVisibility(0f);
+        }
     }
 
     public void ActivateRedFilter(bool activate)
     {
-        if (activate && isActiveAndEnabled)
+        if (activate && redFilter.isActiveAndEnabled)
         {
             redFilter.DOFade(.6f, .1f);
         }
@@ -71,7 +77,10 @@ public class Ammo : MonoBehaviour, IInteractable
 
     public void PlayInteractionSound()
     {
-        audioManager.PlayInteractionSound(pickup);
+        if(audioManager != null)
+        {
+            audioManager.PlayInteractionSound(pickup);
+        }
     }
 
     public void SetIconVisibility(float alpha)
