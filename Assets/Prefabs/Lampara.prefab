@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7968529833595547787
 Transform:
@@ -99,7 +99,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2523154222613354423
 Transform:
@@ -182,7 +182,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &889361081532108170
 Transform:
@@ -263,7 +263,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5516152582996398181
 Transform:
@@ -301,7 +301,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2551657585483689170
 Transform:
@@ -380,6 +380,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Point Light
       objectReference: {fileID: 0}
+    - target: {fileID: 190369449565585921, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_Type
@@ -388,27 +393,32 @@ PrefabInstance:
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_Range
-      value: 10
+      value: 6.76
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_Intensity
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_SpotAngle
-      value: 179
+      value: 115.887
+      objectReference: {fileID: 0}
+    - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
+        type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_InnerSpotAngle
-      value: 47.870033
+      value: 31.7
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
       propertyPath: m_ColorTemperature
-      value: 3600
+      value: 3900
       objectReference: {fileID: 0}
     - target: {fileID: 453318855981789352, guid: 5156b17c583815a47b40929bcb426020,
         type: 3}
