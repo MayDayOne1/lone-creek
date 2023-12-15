@@ -74,6 +74,7 @@ public class PauseMenuManager : MonoBehaviour
         }
 #endif
         Time.timeScale = 1f;
+        SurveyManager.isActive = true;
         SceneManager.LoadScene(0);
     }
 

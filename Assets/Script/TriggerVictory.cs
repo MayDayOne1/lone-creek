@@ -54,5 +54,6 @@ public class TriggerVictory : MonoBehaviour
     public void OnReturnToMainMenu()
     {
         asyncLoader.LoadLevel(0);
+        SurveyManager.isActive = true;
     }
 }
