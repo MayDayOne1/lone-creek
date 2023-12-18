@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class PlayerFootstepManager : MonoBehaviour
 {
-    [SerializeField] Transform footstepEmitter;
     [SerializeField] AudioClip[] footsteps;
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("ok");
+        Step();    
+    }
 
     private AudioClip SelectRandomFootstep()
     {
@@ -15,6 +20,6 @@ public class PlayerFootstepManager : MonoBehaviour
     private void Step()
     {
         AudioClip clip = SelectRandomFootstep();
-        AudioSource.PlayClipAtPoint(clip, footstepEmitter.position);
+        AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 }
