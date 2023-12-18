@@ -216,14 +216,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwable: {fileID: 6085928130325840259}
-  player: {fileID: 0}
   throwableBG: {fileID: 8892725772089891595, guid: 61b59c2368b183a49abd082b3b7bf3d1,
     type: 3}
   isSelected: 0
   isAiming: 0
   throwablePlayerBottle: {fileID: 6085928130325840259, guid: 22edafa6ab54c3e468b3b6434afb28d8,
     type: 3}
-  onSelect: {fileID: 8300000, guid: 54def6f760cdcf144bcde69304819cf5, type: 3}
+  onSelect: {fileID: 8300000, guid: de798f20bc94e89409bc5e142462d83a, type: 3}
   throwStrength: 20
   linePoints: 25
   timeBetweenPoints: 0.1

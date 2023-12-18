@@ -1425,11 +1425,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ai: {fileID: 3636924020291663329}
   idles:
-  - {fileID: 8300000, guid: 674b92564d32a9a45973a4ffee1ce19a, type: 3}
-  - {fileID: 8300000, guid: e9da1e12243c6c4429e048f23a7e3f25, type: 3}
-  - {fileID: 8300000, guid: c316d89b447f9b64a80ea1a8e9f14ed0, type: 3}
-  damage: {fileID: 8300000, guid: f208b70d772aaa844bc81be63441460b, type: 3}
-  death: {fileID: 8300000, guid: 396c8acff31e5b84783c1b185d818982, type: 3}
+  - {fileID: 8300000, guid: 32c1625c67b6b244e953852cfada71c1, type: 3}
+  - {fileID: 8300000, guid: 49b778a4d05cf4f4bbc6050610e7051d, type: 3}
+  - {fileID: 8300000, guid: 9fca6bd3097303046a47d09e946908f1, type: 3}
+  damage: {fileID: 8300000, guid: 8a72594125374664193a12b687143cca, type: 3}
+  death: {fileID: 8300000, guid: dc06487ffd97dc947acd290881326a6d, type: 3}
   isAlive: 1
 --- !u!1 &2075513601905486197
 GameObject:
@@ -2707,7 +2707,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  targetForEnemy: {fileID: 0}
   muzzle: {fileID: 4653482430279220920}
   Gunshot: {fileID: 4650150729981386552}
   MuzzleFlash: {fileID: 4818575802456699461}
@@ -2736,10 +2735,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   footstepEmitter: {fileID: 3475482437299254343}
   footsteps:
-  - {fileID: 8300000, guid: 8a54fa4e3ffe463409c51c2b1b0d8005, type: 3}
-  - {fileID: 8300000, guid: 4f65ae29f2126cc43b51ebb72f6a5369, type: 3}
-  - {fileID: 8300000, guid: 884cd8f3e4ff2644c94a35adf61155da, type: 3}
-  - {fileID: 8300000, guid: 6afd9ddeae15e9e4086df9f46f032c0c, type: 3}
+  - {fileID: 8300000, guid: 388b7c40ab210b740acd551ef12b3a69, type: 3}
+  - {fileID: 8300000, guid: 73a83351460967d45b3d044b176c83dd, type: 3}
+  - {fileID: 8300000, guid: d843ae06648ae6746a4c29b8ae5aa27c, type: 3}
+  - {fileID: 8300000, guid: 43f7b8b40df80024e858f033368c10bd, type: 3}
 --- !u!114 &3151008739763045879
 MonoBehaviour:
   m_ObjectHideFlags: 0

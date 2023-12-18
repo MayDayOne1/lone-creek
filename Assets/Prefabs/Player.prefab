@@ -884,9 +884,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655d298a713342345af965336e9847c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOver: {fileID: 8300000, guid: e76a0729bc19da747a4f2c90f7383473, type: 3}
+  gameOver: {fileID: 8300000, guid: af5a8d0b2fe0081408f3576460521fd6, type: 3}
   damages:
-  - {fileID: 8300000, guid: 10bc6f8a06393cc40b8fad4126bdd7d7, type: 3}
+  - {fileID: 0}
   - {fileID: 8300000, guid: e70cadb9991dfbe4984284e2f412a66e, type: 3}
   - {fileID: 8300000, guid: 7c294d6726dadde4cbd6de44f2f9c56d, type: 3}
 --- !u!114 &7157316898138996090
@@ -903,10 +903,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   footstepEmitter: {fileID: 496336918852914087}
   footsteps:
-  - {fileID: 8300000, guid: 8a54fa4e3ffe463409c51c2b1b0d8005, type: 3}
-  - {fileID: 8300000, guid: 4f65ae29f2126cc43b51ebb72f6a5369, type: 3}
-  - {fileID: 8300000, guid: 884cd8f3e4ff2644c94a35adf61155da, type: 3}
-  - {fileID: 8300000, guid: 6afd9ddeae15e9e4086df9f46f032c0c, type: 3}
+  - {fileID: 8300000, guid: 388b7c40ab210b740acd551ef12b3a69, type: 3}
+  - {fileID: 8300000, guid: 73a83351460967d45b3d044b176c83dd, type: 3}
+  - {fileID: 8300000, guid: d843ae06648ae6746a4c29b8ae5aa27c, type: 3}
+  - {fileID: 8300000, guid: 43f7b8b40df80024e858f033368c10bd, type: 3}
 --- !u!114 &6136549156491602391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4982,11 +4982,6 @@ PrefabInstance:
       propertyPath: bodyAim
       value: 
       objectReference: {fileID: 3859191071062838810}
-    - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
-        type: 3}
-      propertyPath: onSelect
-      value: 
-      objectReference: {fileID: 8300000, guid: 54def6f760cdcf144bcde69304819cf5, type: 3}
     - target: {fileID: 5772709112272572322, guid: 6ea2d2bebc15e2b4296b5560e7dc315a,
         type: 3}
       propertyPath: aimTarget
