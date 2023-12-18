@@ -45,13 +45,6 @@ public class Pistol : MonoBehaviour, IInteractable
             }
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
-        }
-    }
     public void ActivateRedFilter(bool activate)
     {
         if (activate && redFilter.isActiveAndEnabled)
@@ -71,20 +64,18 @@ public class Pistol : MonoBehaviour, IInteractable
             PlayerInteract.hasPrimary = true;
             chooseWeapon.SelectPrimary();
 
-            int ammo = int.Parse(ammoText.text);
-            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerInteract.playerPistolsPickedUp++;
 #endif
         }
         else
         {
-            int ammo = int.Parse(ammoText.text);
             PlayInteractionSound();
+        }
 
-            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
-        }      
+        int ammo = int.Parse(ammoText.text);
+        ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerInteract.playerAmmoClipCount++;
 #endif
@@ -97,10 +88,10 @@ public class Pistol : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ammoText.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }

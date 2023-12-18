@@ -17,6 +17,9 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private Camera cam;
     [SerializeField] private PlayerCamManager camManager;
     [SerializeField] private CinemachineImpulseSource impulseSource;
+
+    [Header("ENEMY")]
+    [SerializeField] private TargetForEnemy targetForEnemy;
     public override void InstallBindings()
     {
         Container.Bind<PlayerController>().FromInstance(controller);
@@ -30,5 +33,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<Camera>().FromInstance(cam);
         Container.Bind<PlayerCamManager>().FromInstance(camManager);
         Container.Bind<CinemachineImpulseSource>().FromInstance(impulseSource);
+
+        Container.Bind<TargetForEnemy>().FromInstance(targetForEnemy);
     }
 }

@@ -42,13 +42,6 @@ public class HealthKit : MonoBehaviour, IInteractable
             }
         } 
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
-        }
-    }
 
     public void ActivateRedFilter(bool activate)
     {
@@ -79,10 +72,10 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }
     }

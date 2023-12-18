@@ -45,13 +45,6 @@ public class Ammo : MonoBehaviour, IInteractable
             }
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
-        }
-    }
 
     public void ActivateRedFilter(bool activate)
     {
@@ -69,10 +62,12 @@ public class Ammo : MonoBehaviour, IInteractable
     {
         int ammo = int.Parse(ammoText.text);
         PlayInteractionSound();
-        ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+        ammoManager.CalculateAmmoFromPickup(gameObject, ammo);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerInteract.playerAmmoClipCount++;
 #endif
+
     }
 
     public void PlayInteractionSound()
@@ -85,10 +80,10 @@ public class Ammo : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ammoText.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }

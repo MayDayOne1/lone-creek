@@ -24,10 +24,10 @@ public class AI : MonoBehaviour
     public GameObject[] waypoints;
 
     [Header("PLAYER")]
-    public Transform targetForEnemy;
+    [Inject] private PlayerController controller;
+    [Inject] private TargetForEnemy targetForEnemy;
     private const int PLAYER_LAYER = 6;
 
-    [Inject] private PlayerController controller;
 
     [Header("SHOOTING")]
     public Transform muzzle;
@@ -64,7 +64,7 @@ public class AI : MonoBehaviour
     {
         get
         {
-            return targetForEnemy.position - muzzle.position;
+            return targetForEnemy.transform.position - muzzle.position;
         }
     }
 
@@ -77,7 +77,11 @@ public class AI : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        currentState = new Idle(this.gameObject, targetForEnemy, agent, waypoints, anim);
+        currentState = new Idle(this.gameObject, targetForEnemy.transform, agent, waypoints, anim);
+        if(waypoints.Length == 0)
+        {
+            throw new System.Exception(gameObject.name + " has no waypoints! Assign them in the Inspector.");
+        }
 
         aimRig.weight = 0f;
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
@@ -19,16 +20,19 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<IInteractable>() != null)
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null)
         {
-            interactablesTriggered.Add(other.GetComponent<IInteractable>());
+            interactablesTriggered.Add(interactable);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.GetComponent<IInteractable>() != null)
+        var interactable = other.GetComponent<IInteractable>();
+        if(interactable != null)
         {
-            interactablesTriggered.Remove(other.GetComponent<IInteractable>());
+            interactable.SetIconVisibility(0f);
+            interactablesTriggered.Remove(interactable);
         }
     }
 
@@ -41,6 +45,16 @@ public class PlayerInteract : MonoBehaviour
                 interactable.Interact();
             }
             interactablesTriggered.Clear();
+        }
+    }
+
+    private void DebugListElements()
+    {
+        StringBuilder sb = new();
+        foreach (IInteractable interactable in interactablesTriggered)
+        {
+            sb.AppendLine(interactable.ToString());
+            Debug.Log(sb.ToString());
         }
     }
 }
