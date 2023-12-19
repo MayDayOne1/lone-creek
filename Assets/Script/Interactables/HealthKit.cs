@@ -32,7 +32,7 @@ public class HealthKit : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (PlayerController.health >= 1f)
+            if (PlayerParams.health >= 1f)
             {
                 ActivateRedFilter(true);
             }
@@ -57,7 +57,7 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if(PlayerController.health < 1f)
+        if(PlayerParams.health < 1f)
         {
             controller.PlayerRestoreHealth(.25f);
             PlayInteractionSound();

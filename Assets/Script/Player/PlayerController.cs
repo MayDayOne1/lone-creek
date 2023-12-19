@@ -45,9 +45,6 @@ public class PlayerController : MonoBehaviour
     public GameObject HUD;
     [SerializeField] private GameObject PauseMenu;
 
-    [Header("HEALTH")]
-    public static float health = 1f;
-    public static float savedHealth;
     private Rigidbody[] childrenRB;
 
     [Header("COROUTINES")]
@@ -72,18 +69,9 @@ public class PlayerController : MonoBehaviour
     }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int enemiesKilled = 0;
-    public static int enemyShotsFiredCount = 0;
-    public static int enemyShotsHit = 0;
-    public static int playerDeathCount = 0;
-    public static int playerHealthKitCount = 0;
     [HideInInspector] public float onboardingTimeSpent = 0f;
     [HideInInspector] public float level1TimeSpent = 0f;
     [HideInInspector] public float level2TimeSpent = 0f;
-    public static int playerTimesCrouched = 0;
-    public static int playerTimesDetected = 0;
-    public static float playerTimeSpentCrouching = 0f;
-    public static float playerTimeSpentStanding = 0f;
 
 #endif
   
@@ -186,29 +174,30 @@ public class PlayerController : MonoBehaviour
     #region ANALYTICS
     public void ResetAnalyticsData()
     {
-        enemiesKilled = 0;
-        enemyShotsFiredCount = 0;
-        enemyShotsHit = 0;
-        playerDeathCount = 0;
-        playerHealthKitCount = 0;
+        PlayerParams.enemiesKilled = 0;
+        PlayerParams.enemyShotsFiredCount = 0;
+        PlayerParams.enemyShotsHit = 0;
+        PlayerParams.playerDeathCount = 0;
+        PlayerParams.playerHealthKitCount = 0;
+        PlayerParams.playerTimesCrouched = 0;
+        PlayerParams.playerTimesDetected = 0;
+        PlayerParams.playerTimeSpentCrouching = 0f;
+        PlayerParams.playerTimeSpentStanding = 0f;
+
         onboardingTimeSpent = 0f;
         level1TimeSpent = 0f;
         level2TimeSpent = 0f;
-        playerTimesCrouched = 0;
-        playerTimesDetected = 0;
-        playerTimeSpentCrouching = 0f;
-        playerTimeSpentStanding = 0f;
 
         // ammo reset in LoadFromCheckpoint(), no reason to do it twice
-        ThrowableWeapon.playerBottleThrowCount = 0;
-        PistolWeapon.playerShotsFiredCount = 0;
-        PistolWeapon.playerShotsHit = 0;
-        PlayerShootingManager.playerTimesAimed = 0;
-        PlayerShootingManager.playerTimeSpentAiming = 0;
+        PlayerParams.playerBottleThrowCount = 0;
+        PlayerParams.playerShotsFiredCount = 0;
+        PlayerParams.playerShotsHit = 0;
+        PlayerParams.playerTimesAimed = 0;
+        PlayerParams.playerTimeSpentAiming = 0;
 
-        PlayerInteract.playerAmmoClipCount = 0;
-        PlayerInteract.playerBottleCount = 0;
-        PlayerInteract.playerPistolsPickedUp = 0;
+        PlayerParams.playerAmmoClipCount = 0;
+        PlayerParams.playerBottleCount = 0;
+        PlayerParams.playerPistolsPickedUp = 0;
 }
     private IEnumerator<float> Level1Timer()
     {
@@ -228,39 +217,39 @@ public class PlayerController : MonoBehaviour
     }
     private void Checkpoint()
     {
-        savedHealth = health;
-        healthSlider.value = savedHealth;
-        PlayerInteract.savedThrowable = PlayerInteract.hasThrowable;
-        PlayerInteract.savedPrimary = PlayerInteract.hasPrimary;
-        PlayerAmmoManager.savedAmmo = PlayerAmmoManager.currentAmmo;
-        PlayerAmmoManager.savedClip = PlayerAmmoManager.currentClip;
+        PlayerParams.savedHealth = PlayerParams.health;
+        healthSlider.value = PlayerParams.savedHealth;
+        PlayerParams.savedThrowable = PlayerParams.hasThrowable;
+        PlayerParams.savedPrimary = PlayerParams.hasPrimary;
+        PlayerParams.savedAmmo = PlayerParams.currentAmmo;
+        PlayerParams.savedClip = PlayerParams.currentClip;
     }
     private void LoadFromCheckpoint()
     {
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            health = savedHealth;
-            PlayerInteract.hasThrowable = PlayerInteract.savedThrowable;
-            PlayerInteract.hasPrimary = PlayerInteract.savedPrimary;
-            healthSlider.value = health;
-            PlayerAmmoManager.currentAmmo = PlayerAmmoManager.savedAmmo;
-            PlayerAmmoManager.currentClip = PlayerAmmoManager.savedClip;
+            PlayerParams.health = PlayerParams.savedHealth;
+            PlayerParams.hasThrowable = PlayerParams.savedThrowable;
+            PlayerParams.hasPrimary = PlayerParams.savedPrimary;
+            healthSlider.value = PlayerParams.health;
+            PlayerParams.currentAmmo = PlayerParams.savedAmmo;
+            PlayerParams.currentClip = PlayerParams.savedClip;
         }
         else
         {
-            health = 1;
-            healthSlider.value = health;
-            PlayerInteract.hasThrowable = false;
-            PlayerInteract.hasPrimary = false;
-            PlayerAmmoManager.currentAmmo = 0;
-            PlayerAmmoManager.currentClip = 0;
+            PlayerParams.health = 1;
+            healthSlider.value = PlayerParams.health;
+            PlayerParams.hasThrowable = false;
+            PlayerParams.hasPrimary = false;
+            PlayerParams.currentAmmo = 0;
+            PlayerParams.currentClip = 0;
         }
     }
     private IEnumerator<float> CountStandingTime()
     {
         while (!IsCrouching)
         {
-            playerTimeSpentStanding += Time.deltaTime;
+            PlayerParams.playerTimeSpentStanding += Time.deltaTime;
             yield return Timing.WaitForOneFrame;
         }
     }
@@ -268,7 +257,7 @@ public class PlayerController : MonoBehaviour
     {
         while (IsCrouching)
         {
-            playerTimeSpentCrouching += Time.deltaTime;
+            PlayerParams.playerTimeSpentCrouching += Time.deltaTime;
             yield return Timing.WaitForOneFrame;
         }
     }
@@ -332,7 +321,7 @@ public class PlayerController : MonoBehaviour
             CrouchControllerSetup();
             CrouchCamSetup();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            playerTimesCrouched++;
+            PlayerParams.playerTimesCrouched++;
             StopCoroutine(CountStandingTime());
             Timing.RunCoroutine(CountCrouchTime());
 #endif
@@ -417,22 +406,22 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerDeathCount++;
+        PlayerParams.playerDeathCount++;
         AnalyticsService.Instance.CustomData("playerDie", new Dictionary<string, object>()
             {
-                { "playerHealthKitCount", playerHealthKitCount },
-                { "playerDeathCount", playerDeathCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "enemiesKilled", enemiesKilled },
-                { "enemyShotsFiredCount", enemyShotsFiredCount },
-                { "enemyShotsHit", enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesDetected", PlayerController.playerTimesDetected }
+                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
+                { "playerDeathCount", PlayerParams.playerDeathCount },
+                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
+                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerParams.playerBottleCount },
+                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
+                { "enemiesKilled", PlayerParams.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerParams.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerParams.playerShotsHit },
+                { "playerTimesDetected", PlayerParams.playerTimesDetected }
             });
 #endif
         DeathSetup();
@@ -478,30 +467,30 @@ public class PlayerController : MonoBehaviour
     public void PlayerTakeDamage(float damage)
     {
         camManager.DamageCamShake();
-        health -= damage;
-        if(health <= 0f)
+        PlayerParams.health -= damage;
+        if(PlayerParams.health <= 0f)
         {
-            health = 0f;
+            PlayerParams.health = 0f;
             StopAllCoroutines();
             Die();
         }
-        healthSlider.DOValue(health, .2f, false);
+        healthSlider.DOValue(PlayerParams.health, .2f, false);
         BloodOverlayAnim();
         audioManager.PlayDamageSound();
     }
     public void PlayerRestoreHealth(float healthAmount)
     {
-        if (health + healthAmount > 1f)
+        if (PlayerParams.health + healthAmount > 1f)
         {
-            health = 1f;
+            PlayerParams.health = 1f;
         }
         else
         {
-            health += healthAmount;
+            PlayerParams.health += healthAmount;
         }
-        healthSlider.DOValue(health, .5f, false);
+        healthSlider.DOValue(PlayerParams.health, .5f, false);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerHealthKitCount++;
+        PlayerParams.playerHealthKitCount++;
 #endif
     }
     #endregion

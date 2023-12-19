@@ -244,7 +244,7 @@ public class Pursue : State
     {
         base.Enter();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerController.playerTimesDetected++;
+        PlayerParams.playerTimesDetected++;
 #endif
     }
 

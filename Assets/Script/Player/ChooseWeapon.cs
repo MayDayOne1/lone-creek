@@ -11,7 +11,7 @@ public class ChooseWeapon : MonoBehaviour
     public void SelectThrowable()
     {
         shootingManager.currentWeapon?.Disable();
-        if(PlayerInteract.hasThrowable)
+        if(PlayerParams.hasThrowable)
         {
             shootingManager.currentWeapon = throwableWeapon;
             shootingManager.currentWeapon.Select();
@@ -21,7 +21,7 @@ public class ChooseWeapon : MonoBehaviour
     public void SelectPrimary()
     {
         shootingManager.currentWeapon?.Disable();
-        if(PlayerInteract.hasPrimary)
+        if(PlayerParams.hasPrimary)
         {
             shootingManager.currentWeapon = pistolWeapon;
             shootingManager.currentWeapon.Select();

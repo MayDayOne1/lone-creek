@@ -19,25 +19,25 @@ public class PlayerEnterCabin : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             AnalyticsService.Instance.CustomData("playerReachedCabin", new Dictionary<string, object>()
             {
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
+                { "enemiesKilled", PlayerParams.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerParams.enemyShotsHit },
                 { "level2TimeSpent", controller.level2TimeSpent },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
+                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerParams.playerBottleCount },
+                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
+                { "playerHealth", PlayerParams.health },
+                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
+                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
+                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
+                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
+                { "playerShotsHit", PlayerParams.playerShotsHit },
+                { "playerTimesAimed", PlayerParams.playerTimesAimed },
+                { "playerTimesCrouched", PlayerParams.playerTimesCrouched },
+                { "playerTimesDetected", PlayerParams.playerTimesDetected },
+                { "playerTimeSpentAiming", PlayerParams.playerTimeSpentAiming },
+                { "playerTimeSpentCrouching", PlayerParams.playerTimeSpentCrouching },
+                { "playerTimeSpentStanding", PlayerParams.playerTimeSpentStanding }
             });
 #endif
         }

@@ -18,26 +18,26 @@ public class LoadDesert : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             AnalyticsService.Instance.CustomData("level1Completed", new Dictionary<string, object>()
             {
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerDeathCount", PlayerController.playerDeathCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
+                { "playerHealth", PlayerParams.health },
+                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
+                { "playerDeathCount", PlayerParams.playerDeathCount },
+                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
+                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerParams.playerBottleCount },
+                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
                 { "level1TimeSpent", controller.level1TimeSpent },
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
+                { "enemiesKilled", PlayerParams.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerParams.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerParams.playerShotsHit },
+                { "playerTimesAimed", PlayerParams.playerTimesAimed },
+                { "playerTimeSpentAiming", PlayerParams.playerTimeSpentAiming },
+                { "playerTimesCrouched", PlayerParams.playerTimesCrouched },
+                { "playerTimesDetected", PlayerParams.playerTimesDetected },
+                { "playerTimeSpentCrouching", PlayerParams.playerTimeSpentCrouching },
+                { "playerTimeSpentStanding", PlayerParams.playerTimeSpentStanding }
             });
 #endif
             asyncLoader.LoadLevel(2);

@@ -38,12 +38,6 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
     private const string IS_AIMING_THROWABLE = "isAimingThrowable";
     private const string THROW = "Throw";
 
-    
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerBottleThrowCount = 0;
-#endif
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -124,7 +118,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
 
     public void Select()
     {
-        if(PlayerInteract.hasThrowable)
+        if(PlayerParams.hasThrowable)
         {
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             throwable.SetActive(true);
@@ -145,12 +139,12 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
             InstanceBottle();
 
             Disable();
-            PlayerInteract.hasThrowable = false;
+            PlayerParams.hasThrowable = false;
             isAiming = false;
             StopAim();
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            playerBottleThrowCount++;
+            PlayerParams.playerBottleThrowCount++;
 #endif
         }
     }

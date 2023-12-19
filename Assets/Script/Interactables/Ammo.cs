@@ -65,7 +65,7 @@ public class Ammo : MonoBehaviour, IInteractable
         ammoManager.CalculateAmmoFromPickup(gameObject, ammo);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerInteract.playerAmmoClipCount++;
+        PlayerParams.playerAmmoClipCount++;
 #endif
 
     }

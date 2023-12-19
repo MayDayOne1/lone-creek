@@ -32,7 +32,7 @@ public class Throwable : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (PlayerInteract.hasThrowable)
+            if (PlayerParams.hasThrowable)
             {
                 ActivateRedFilter(true);
             }
@@ -56,18 +56,18 @@ public class Throwable : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        if (PlayerInteract.hasThrowable) return;
+        if (PlayerParams.hasThrowable) return;
         else
         {
-            PlayerInteract.hasThrowable = true;
-            if (!PlayerInteract.hasPrimary) chooseWeapon.SelectThrowable();
+            PlayerParams.hasThrowable = true;
+            if (!PlayerParams.hasPrimary) chooseWeapon.SelectThrowable();
             else
             {
                 PlayInteractionSound();
             }
             Destroy(this.gameObject);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            PlayerInteract.playerBottleCount++;
+            PlayerParams.playerBottleCount++;
 #endif
         }
     }

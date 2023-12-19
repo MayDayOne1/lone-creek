@@ -35,7 +35,7 @@ public class Pistol : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (!ammoManager.CanAcceptAmmo() && PlayerInteract.hasPrimary)
+            if (!ammoManager.CanAcceptAmmo() && PlayerParams.hasPrimary)
             {
                 ActivateRedFilter(true);
             }
@@ -59,13 +59,13 @@ public class Pistol : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if(!PlayerInteract.hasPrimary)
+        if(!PlayerParams.hasPrimary)
         {
-            PlayerInteract.hasPrimary = true;
+            PlayerParams.hasPrimary = true;
             chooseWeapon.SelectPrimary();
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            PlayerInteract.playerPistolsPickedUp++;
+            PlayerParams.playerPistolsPickedUp++;
 #endif
         }
         else
@@ -77,7 +77,7 @@ public class Pistol : MonoBehaviour, IInteractable
         ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerInteract.playerAmmoClipCount++;
+        PlayerParams.playerAmmoClipCount++;
 #endif
     }
 

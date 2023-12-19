@@ -118,7 +118,7 @@ public class AI : MonoBehaviour
 
     public void ShootAtPlayer()
     {
-        if(agent.enabled && PlayerController.health > 0f)
+        if(agent.enabled && PlayerParams.health > 0f)
         {
             Shoot();
             TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
@@ -132,13 +132,13 @@ public class AI : MonoBehaviour
                     {
                         controller.PlayerTakeDamage(rifleDamage);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-                        PlayerController.enemyShotsHit++;
+                        PlayerParams.enemyShotsHit++;
 #endif
                     }
                 }
             }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            PlayerController.enemyShotsFiredCount++;
+            PlayerParams.enemyShotsFiredCount++;
 #endif
         }
     }
@@ -225,22 +225,22 @@ public class AI : MonoBehaviour
         ActivateRagdoll(true);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerController.enemiesKilled++;
+        PlayerParams.enemiesKilled++;
         AnalyticsService.Instance.CustomData("enemyDie", new Dictionary<string, object>()
             {
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerDeathCount", PlayerController.playerDeathCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PistolWeapon.playerShotsHit }
+                { "playerHealth", PlayerParams.health },
+                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
+                { "playerDeathCount", PlayerParams.playerDeathCount },
+                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
+                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
+                { "playerBottleCount",  PlayerParams.playerBottleCount },
+                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
+                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
+                { "enemiesKilled", PlayerParams.enemiesKilled },
+                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
+                { "enemyShotsHit", PlayerParams.enemyShotsHit },
+                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
+                { "playerShotsHit", PlayerParams.playerShotsHit }
             });
 #endif
     }

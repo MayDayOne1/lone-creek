@@ -11,10 +11,10 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] private CinemachineFreeLook crouchCam;
     [SerializeField] private CinemachineFreeLook crouchAimCam;
 
-    [SerializeField] float impulseShootForce = .5f;
-    [SerializeField] float impulseDamageForce = -.1f;
+    [SerializeField] private float impulseShootForce = .5f;
+    [SerializeField] private float impulseDamageForce = -.1f;
 
-    [Inject] CinemachineImpulseSource impulseSource;
+    [Inject] private CinemachineImpulseSource impulseSource;
     private bool IsCamShakeEnabled => PlayerPrefs.GetInt("isCamShakeEnabled") == 1;
 
     private void Start()

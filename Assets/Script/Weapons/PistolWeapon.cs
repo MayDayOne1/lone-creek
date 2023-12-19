@@ -35,7 +35,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     private Vector3 mouseWorldPos = Vector3.zero;
     private float cooldownTimer;
     private readonly float cooldown = .5f;
-    private bool canShoot;
     private Transform hitTransform = null;
 
     private AudioSource audioSource;
@@ -62,17 +61,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
             return false;
         }
-
-        set
-        {
-            canShoot = value;
-        }
     }
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerShotsFiredCount = 0;
-    public static int playerShotsHit = 0;
-#endif
 
     void Start()
     {
@@ -156,7 +145,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     public void Select()
     {
-        if(PlayerInteract.hasPrimary)
+        if(PlayerParams.hasPrimary)
         {
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             shootingManager.isPistolEquipped = true;
@@ -246,12 +235,12 @@ public class PistolWeapon : MonoBehaviour, IWeapon
                 hitTransform.GetComponentInParent<AI>().TakeDamage(pistolDamage);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-                playerShotsHit++;
+                PlayerParams.playerShotsHit++;
 #endif
             }
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerShotsFiredCount++;
+        PlayerParams.playerShotsFiredCount++;
 #endif
     }
 }

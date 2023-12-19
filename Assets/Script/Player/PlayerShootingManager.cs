@@ -12,17 +12,11 @@ public class PlayerShootingManager : MonoBehaviour
     public bool isAiming = false;
     public bool isPistolEquipped = false;
 
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerTimesAimed = 0;
-    public static float playerTimeSpentAiming = 0f;
-#endif
-
     private IEnumerator<float> CountAimingTime()
     {
         while(isAiming)
         {
-            playerTimeSpentAiming += Time.deltaTime;
+            PlayerParams.playerTimeSpentAiming += Time.deltaTime;
             yield return Timing.WaitForOneFrame;
         }
     }
@@ -38,7 +32,7 @@ public class PlayerShootingManager : MonoBehaviour
             }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            playerTimesAimed++;
+            PlayerParams.playerTimesAimed++;
             Timing.RunCoroutine(CountAimingTime());
 #endif
         }

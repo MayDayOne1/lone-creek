@@ -5,19 +5,6 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private readonly List<IInteractable> interactablesTriggered = new();
-
-    public static bool hasThrowable = false;
-    public static bool hasPrimary = false;
-
-    public static bool savedThrowable;
-    public static bool savedPrimary;
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerBottleCount = 0;
-    public static int playerAmmoClipCount = 0;
-    public static int playerPistolsPickedUp = 0;
-#endif
-
     private void OnTriggerEnter(Collider other)
     {
         var interactable = other.GetComponent<IInteractable>();
