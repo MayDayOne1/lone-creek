@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
     private bool isViewingOnboarding = false;
 
     [Inject] private PlayerController controller;
+    [Inject] private AnalyticsManager analyticsManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public float onboardingTimeSpent = 0f;
@@ -50,13 +51,12 @@ public class MainMenuManager : MonoBehaviour
     {
         isViewingOnboarding = false;
         StopCoroutine(CountOnboardingTime());
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         controller.ResetAnalyticsData();
-        AnalyticsService.Instance.CustomData("onboardingCompleted", new Dictionary<string, object>()
-        {
-            { "onboardingTimeSpent", onboardingTimeSpent }
-        });
+        analyticsManager.SendOnboardingCompleted(onboardingTimeSpent);
 #endif
+
     }
 
     public void QuitGame()

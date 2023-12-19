@@ -69,6 +69,10 @@ public class PlayerController : MonoBehaviour
     }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] AnalyticsManager analyticsManager;
+#endif
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
     [HideInInspector] public float onboardingTimeSpent = 0f;
     [HideInInspector] public float level1TimeSpent = 0f;
     [HideInInspector] public float level2TimeSpent = 0f;
@@ -320,20 +324,24 @@ public class PlayerController : MonoBehaviour
         {
             CrouchControllerSetup();
             CrouchCamSetup();
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerParams.playerTimesCrouched++;
             StopCoroutine(CountStandingTime());
             Timing.RunCoroutine(CountCrouchTime());
 #endif
+
         }
         else
         {
             StandControllerSetup();
             StandCamSetup();
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             StopCoroutine(CountCrouchTime());
             Timing.RunCoroutine(CountStandingTime());
 #endif
+
         }
     }
     private void CrouchControllerSetup()
@@ -405,25 +413,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Die()
     {
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerParams.playerDeathCount++;
-        AnalyticsService.Instance.CustomData("playerDie", new Dictionary<string, object>()
-            {
-                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
-                { "playerDeathCount", PlayerParams.playerDeathCount },
-                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
-                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerParams.playerBottleCount },
-                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
-                { "enemiesKilled", PlayerParams.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerParams.enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerParams.playerShotsHit },
-                { "playerTimesDetected", PlayerParams.playerTimesDetected }
-            });
+        analyticsManager.SendPlayerDie();
 #endif
+
         DeathSetup();
         Timing.RunCoroutine(DeathSequence());
         NavigateDeathScreen();
@@ -489,9 +484,11 @@ public class PlayerController : MonoBehaviour
             PlayerParams.health += healthAmount;
         }
         healthSlider.DOValue(PlayerParams.health, .5f, false);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerParams.playerHealthKitCount++;
 #endif
+
     }
     #endregion
 

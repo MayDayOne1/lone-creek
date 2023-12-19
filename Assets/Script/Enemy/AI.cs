@@ -68,6 +68,10 @@ public class AI : MonoBehaviour
         }
     }
 
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] AnalyticsManager analyticsManager;
+#endif
+
     void Start()
     {
         healthSlider.gameObject.SetActive(false);
@@ -226,22 +230,7 @@ public class AI : MonoBehaviour
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         PlayerParams.enemiesKilled++;
-        AnalyticsService.Instance.CustomData("enemyDie", new Dictionary<string, object>()
-            {
-                { "playerHealth", PlayerParams.health },
-                { "playerHealthKitCount", PlayerParams.playerHealthKitCount },
-                { "playerDeathCount", PlayerParams.playerDeathCount },
-                { "playerPistolAmmo", PlayerParams.currentAmmo + PlayerParams.currentClip },
-                { "playerAmmoClipCount", PlayerParams.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerParams.playerBottleCount },
-                { "playerBottleThrowCount", PlayerParams.playerBottleThrowCount },
-                { "playerShotsFiredCount", PlayerParams.playerShotsFiredCount },
-                { "enemiesKilled", PlayerParams.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerParams.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerParams.enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerParams.playerPistolsPickedUp },
-                { "playerShotsHit", PlayerParams.playerShotsHit }
-            });
+        analyticsManager.SendEnemyDie();
 #endif
     }
 

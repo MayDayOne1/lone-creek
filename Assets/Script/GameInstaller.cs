@@ -20,6 +20,7 @@ public class GameInstaller : MonoInstaller
 
     [Header("ENEMY")]
     [SerializeField] private TargetForEnemy targetForEnemy;
+
     public override void InstallBindings()
     {
         Container.Bind<PlayerController>().FromInstance(controller);
@@ -35,5 +36,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<CinemachineImpulseSource>().FromInstance(impulseSource);
 
         Container.Bind<TargetForEnemy>().FromInstance(targetForEnemy);
+
+        Container.Bind<AnalyticsManager>().AsSingle();
     }
 }
