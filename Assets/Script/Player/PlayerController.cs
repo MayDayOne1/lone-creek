@@ -77,9 +77,9 @@ public class PlayerController : MonoBehaviour
     public static int enemyShotsHit = 0;
     public static int playerDeathCount = 0;
     public static int playerHealthKitCount = 0;
-    public float onboardingTimeSpent = 0f;
-    public float level1TimeSpent = 0f;
-    public float level2TimeSpent = 0f;
+    [HideInInspector] public float onboardingTimeSpent = 0f;
+    [HideInInspector] public float level1TimeSpent = 0f;
+    [HideInInspector] public float level2TimeSpent = 0f;
     public static int playerTimesCrouched = 0;
     public static int playerTimesDetected = 0;
     public static float playerTimeSpentCrouching = 0f;
