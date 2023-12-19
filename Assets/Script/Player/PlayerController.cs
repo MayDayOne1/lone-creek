@@ -19,42 +19,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 4f;
-    [SerializeField] private float standingHeight = 1.8f;
     [SerializeField] private float blendSpaceDampTime = .1f;
     public float runSpeed;
     private float speed;
-    public float Speed
-    {
-        private get
-        {
-            return speed;
-        }
-        set
-        {
-            speed = value;
-        }
-    }
+    private float standingHeight = 1.62f;
     private bool isGrounded;
     private Vector2 movement;
     private Vector3 playerVelocity;
 
     [Header("CROUCH")]
-    [SerializeField] private float crouchingHeight = 1.0f;
     public float crouchSpeed;
     public bool IsCrouching;
+    private float crouchingHeight = .8f;
 
     [Header("CAMERA")]
-    [Inject] PlayerCamManager camManager;
+    [Inject] private PlayerCamManager camManager;
     private Transform cameraMainTransform;
 
     [Header("UI")]
-    [SerializeField] private GameObject PauseMenu;
     public bool isShowingPauseMenu = false;
     public Image bloodOverlay;
     public Slider healthSlider;
     public CanvasGroup GameOverScreen;
     public CanvasGroup gameOverBlackout;
     public GameObject HUD;
+    [SerializeField] private GameObject PauseMenu;
 
     [Header("HEALTH")]
     public static float health = 1f;
@@ -70,6 +59,17 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimManager animManager;
     private PlayerShootingManager shootingManager;
     private PlayerAudioManager audioManager;
+    public float Speed
+    {
+        private get
+        {
+            return speed;
+        }
+        set
+        {
+            speed = value;
+        }
+    }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     public static int enemiesKilled = 0;

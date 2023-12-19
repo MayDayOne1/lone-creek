@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerFootstepManager : MonoBehaviour
 {
     [SerializeField] AudioClip[] footsteps;
-
-    void OnCollisionEnter(Collision collision)
+    [SerializeField] AudioSource footstepEmitter;
+    void OnTriggerEnter(Collider other)
     {
         Debug.Log("ok");
         Step();    
@@ -20,6 +20,18 @@ public class PlayerFootstepManager : MonoBehaviour
     private void Step()
     {
         AudioClip clip = SelectRandomFootstep();
-        AudioSource.PlayClipAtPoint(clip, transform.position);
+        if(footstepEmitter != null )
+        {
+            if(!footstepEmitter.isPlaying)
+            {
+                footstepEmitter.clip = clip;
+                footstepEmitter.Play();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("footstep emitter is null on " + gameObject.name);
+        }
+        
     }
 }
