@@ -35,6 +35,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
     private Vector3 mouseWorldPos = Vector3.zero;
     private float cooldownTimer;
     private readonly float cooldown = .5f;
+    private bool canShoot;
     private Transform hitTransform = null;
 
     private AudioSource audioSource;
@@ -60,6 +61,11 @@ public class PistolWeapon : MonoBehaviour, IWeapon
             }
 
             return false;
+        }
+
+        set
+        {
+            canShoot = value;
         }
     }
 
@@ -216,7 +222,15 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     private void SetAimRigWeight(float newWeight)
     {
-        aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, .15f);
+        if (Time.timeScale > 0f)
+        {
+            LeanTween.value(gameObject, aimRig.weight, newWeight, .15f)
+                    .setOnUpdate((value) =>
+                    {
+                        aimRig.weight = value;
+                    });
+
+        }
     }
     private void SetCrosshair(bool isVisible) => crosshair.gameObject.SetActive(isVisible);
 
