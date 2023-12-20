@@ -24,7 +24,7 @@ public class PlayerEnterCabin : MonoBehaviour
             hasEntered = true;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            analyticsManager.SendPlayerReachedCabin();
+            analyticsManager.SendPlayerReachedCabin(controller.level2TimeSpent);
 #endif
         }
     }

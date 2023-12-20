@@ -31,7 +31,7 @@ public class TriggerVictory : MonoBehaviour
             controller.VictorySetup();
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            analyticsManager.SendLevel2Completed();
+            analyticsManager.SendLevel2Completed(controller.level2TimeSpent);
 #endif
 
         }

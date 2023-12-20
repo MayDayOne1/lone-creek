@@ -24,7 +24,7 @@ public class PlayerEnterGas : MonoBehaviour
             hasEntered = true;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            analyticsManager.SendPlayerReachedGas();
+            analyticsManager.SendPlayerReachedGas(controller.level2TimeSpent);
 #endif
         }
     }

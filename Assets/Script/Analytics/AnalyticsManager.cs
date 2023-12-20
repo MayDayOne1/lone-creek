@@ -6,8 +6,6 @@ using Zenject;
 
 public class AnalyticsManager
 {
-    [Inject] PlayerController controller;
-
     #region EVENTS
     private const string LEVEL_1_COMPLETED = "level1Completed";
     private const string LEVEL_2_COMPLETED = "level2Completed";
@@ -52,14 +50,14 @@ public class AnalyticsManager
         AnalyticsService.Instance.CustomData(name, dictionary);
     }
 
-    public void SendLevel1Completed()
+    public void SendLevel1Completed(float timeSpent)
     {
         SendEvent(LEVEL_1_COMPLETED, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_1_TIME_SPENT, controller.level1TimeSpent },
+                { LEVEL_1_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -79,14 +77,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendLevel2Completed()
+    public void SendLevel2Completed(float timeSpent)
     {
         SendEvent(LEVEL_2_COMPLETED, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_2_TIME_SPENT, controller.level2TimeSpent },
+                { LEVEL_2_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -114,14 +112,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendLevel1Quit()
+    public void SendLevel1Quit(float timeSpent)
     {
         SendEvent(LEVEL_1_QUIT, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_1_TIME_SPENT, controller.level1TimeSpent },
+                { LEVEL_1_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -141,14 +139,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendLevel2Quit()
+    public void SendLevel2Quit(float timeSpent)
     {
         SendEvent(LEVEL_2_QUIT, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_2_TIME_SPENT, controller.level2TimeSpent },
+                { LEVEL_2_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -207,14 +205,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendPlayerReachedCabin()
+    public void SendPlayerReachedCabin(float timeSpent)
     {
         SendEvent(PLAYER_REACHED_CABIN, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_2_TIME_SPENT, controller.level2TimeSpent },
+                { LEVEL_2_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -233,14 +231,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendPlayerReachedBarn()
+    public void SendPlayerReachedBarn(float timeSpent)
     {
         SendEvent(PLAYER_REACHED_BARN, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_2_TIME_SPENT, controller.level2TimeSpent },
+                { LEVEL_2_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },
@@ -259,14 +257,14 @@ public class AnalyticsManager
             });
     }
 
-    public void SendPlayerReachedGas()
+    public void SendPlayerReachedGas(float timeSpent)
     {
         SendEvent(PLAYER_REACHED_GAS, new Dictionary<string, object>
             {
                 { ENEMIES_KILLED, PlayerParams.enemiesKilled },
                 { ENEMY_SHOTS_FIRED_COUNT, PlayerParams.enemyShotsFiredCount },
                 { ENEMY_SHOTS_HIT, PlayerParams.enemyShotsHit },
-                { LEVEL_2_TIME_SPENT, controller.level2TimeSpent },
+                { LEVEL_2_TIME_SPENT, timeSpent },
                 { PLAYER_AMMO_CLIP_COUNT, PlayerParams.playerAmmoClipCount },
                 { PLAYER_BOTTLE_COUNT,  PlayerParams.playerBottleCount },
                 { PLAYER_BOTTLE_THROW_COUNT, PlayerParams.playerBottleThrowCount },

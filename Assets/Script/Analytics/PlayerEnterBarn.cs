@@ -24,7 +24,7 @@ public class PlayerEnterBarn : MonoBehaviour
             hasEntered = true;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            analyticsManager.SendPlayerReachedBarn();
+            analyticsManager.SendPlayerReachedBarn(controller.level2TimeSpent);
 #endif
         }
     }

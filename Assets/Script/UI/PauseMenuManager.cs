@@ -24,12 +24,12 @@ public class PauseMenuManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             controller.StopCoroutine(controller.level1coroutine);
-            analyticsManager.SendLevel1Quit();
+            analyticsManager.SendLevel1Quit(controller.level1TimeSpent);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             controller.StopCoroutine(controller.level2coroutine);
-            analyticsManager.SendLevel2Quit();
+            analyticsManager.SendLevel2Quit(controller.level2TimeSpent);
         }
 #endif
 

@@ -24,7 +24,7 @@ public class LoadDesert : MonoBehaviour
             controller.StopCoroutine(controller.level1coroutine);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            analyticsManager.SendLevel1Completed();
+            analyticsManager.SendLevel1Completed(controller.level1TimeSpent);
 #endif
 
             asyncLoader.LoadLevel(2);
