@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerFootstepManager : MonoBehaviour
 {
-    [SerializeField] Transform footstepEmitter;
-    [SerializeField] AudioClip[] footsteps;
+    [SerializeField] private AudioClip[] footsteps;
+    [SerializeField] private AudioSource footstepEmitter;
+    void OnTriggerEnter(Collider other)
+    {
+        Step();    
+    }
 
     private AudioClip SelectRandomFootstep()
     {
@@ -14,7 +19,11 @@ public class PlayerFootstepManager : MonoBehaviour
 
     private void Step()
     {
-        AudioClip clip = SelectRandomFootstep();
-        AudioSource.PlayClipAtPoint(clip, footstepEmitter.position);
+        if(!footstepEmitter.isPlaying)
+        {
+            AudioClip clip = SelectRandomFootstep();
+            footstepEmitter.clip = clip;
+            footstepEmitter.PlayOneShot(clip, .1f);
+        }
     }
 }

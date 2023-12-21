@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
+
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -9,6 +11,11 @@ using Unity.Services.Analytics;
 public class PlayerEnterGas : MonoBehaviour
 {
     private bool hasEntered = false;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] AnalyticsManager analyticsManager;
+#endif
+
     void OnTriggerEnter(Collider other)
     {
         PlayerController controller = other.GetComponent<PlayerController>();
@@ -17,28 +24,7 @@ public class PlayerEnterGas : MonoBehaviour
             hasEntered = true;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            AnalyticsService.Instance.CustomData("playerReachedGas", new Dictionary<string, object>()
-            {
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "level2TimeSpent", controller.level2TimeSpent },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
-            });
+            analyticsManager.SendPlayerReachedGas(controller.level2TimeSpent);
 #endif
         }
     }

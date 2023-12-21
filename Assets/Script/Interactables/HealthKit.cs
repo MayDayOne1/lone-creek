@@ -32,7 +32,7 @@ public class HealthKit : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (PlayerController.health >= 1f)
+            if (PlayerParams.health >= 1f)
             {
                 ActivateRedFilter(true);
             }
@@ -41,13 +41,6 @@ public class HealthKit : MonoBehaviour, IInteractable
                 ActivateRedFilter(false);
             }
         } 
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
-        }
     }
 
     public void ActivateRedFilter(bool activate)
@@ -64,7 +57,7 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if(PlayerController.health < 1f)
+        if(PlayerParams.health < 1f)
         {
             controller.PlayerRestoreHealth(.25f);
             PlayInteractionSound();
@@ -79,10 +72,10 @@ public class HealthKit : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }
     }

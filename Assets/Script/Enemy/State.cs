@@ -21,23 +21,23 @@ public class State
     };
     public GameObject npc;
     public STATE stateName;
+    public float visDist = 12.0f;
+    public float visAngle = 90.0f;
+    public float attackDist = 10.0f;
+    public Vector3 hitPosition;
+
     protected EVENT eventName;
     protected Transform player;
     protected State nextState;
     protected NavMeshAgent agent;
     protected GameObject[] waypoints;
     protected Animator animator;
-    public float visDist = 12.0f;
-    public float visAngle = 90.0f;
-    public float attackDist = 10.0f;
-
     protected float attackCooldown = 2f;
     protected float attackTimer = 0f;
     protected float patrolSpeed = 2f;
     protected float pursueSpeed = 3f;
 
     protected int playerLayerMask = 6;
-    public Vector3 hitPosition;
     public State(GameObject _npc, Transform _player, NavMeshAgent _agent, GameObject[] waypoints, Animator anim)
     {
         npc = _npc;
@@ -68,8 +68,8 @@ public class State
         Vector3 direction = player.position - npc.transform.position;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
-        if((direction.magnitude < visDist && angle < visAngle) ||
-            direction.magnitude <= 4f)
+        if((direction.magnitude < visDist && angle < visAngle)
+            || direction.magnitude <= 4f)
         {
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
@@ -159,7 +159,7 @@ public class Idle : State
 
     public override void Update()
     {
-        if(CanSeePlayer())
+        if (CanSeePlayer())
         {
             nextState = new Pursue(npc, player, agent, waypoints, animator);
             eventName = EVENT.EXIT;
@@ -244,7 +244,7 @@ public class Pursue : State
     {
         base.Enter();
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerController.playerTimesDetected++;
+        PlayerParams.playerTimesDetected++;
 #endif
     }
 

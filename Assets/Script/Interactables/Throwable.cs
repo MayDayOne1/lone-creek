@@ -17,7 +17,7 @@ public class Throwable : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
 
-    [Inject] private ChooseWeapon chooseWeapon;
+    [Inject] private PlayerShootingManager shootingManager;
     [Inject] private PlayerAudioManager audioManager;
 
     void Start()
@@ -32,7 +32,7 @@ public class Throwable : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (PlayerInteract.hasThrowable)
+            if (PlayerParams.hasThrowable)
             {
                 ActivateRedFilter(true);
             }
@@ -40,14 +40,6 @@ public class Throwable : MonoBehaviour, IInteractable
             {
                 ActivateRedFilter(false);
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
         }
     }
 
@@ -64,18 +56,18 @@ public class Throwable : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        if (PlayerInteract.hasThrowable) return;
+        if (PlayerParams.hasThrowable) return;
         else
         {
-            PlayerInteract.hasThrowable = true;
-            if (!PlayerInteract.hasPrimary) chooseWeapon.SelectThrowable();
+            PlayerParams.hasThrowable = true;
+            if (!PlayerParams.hasPrimary) shootingManager.SelectThrowable();
             else
             {
                 PlayInteractionSound();
             }
             Destroy(this.gameObject);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            PlayerInteract.playerBottleCount++;
+            PlayerParams.playerBottleCount++;
 #endif
         }
     }
@@ -87,10 +79,10 @@ public class Throwable : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }
     }

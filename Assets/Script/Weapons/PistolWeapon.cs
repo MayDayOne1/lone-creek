@@ -69,11 +69,6 @@ public class PistolWeapon : MonoBehaviour, IWeapon
         }
     }
 
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerShotsFiredCount = 0;
-    public static int playerShotsHit = 0;
-#endif
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -156,7 +151,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     public void Select()
     {
-        if(PlayerInteract.hasPrimary)
+        if(PlayerParams.hasPrimary)
         {
             shootingManager.previousWeapon = shootingManager.currentWeapon;
             shootingManager.isPistolEquipped = true;
@@ -227,7 +222,15 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     private void SetAimRigWeight(float newWeight)
     {
-        aimRig.weight = Mathf.Lerp(aimRig.weight, newWeight, .15f);
+        if (Time.timeScale > 0f)
+        {
+            LeanTween.value(gameObject, aimRig.weight, newWeight, .15f)
+                    .setOnUpdate((value) =>
+                    {
+                        aimRig.weight = value;
+                    });
+
+        }
     }
     private void SetCrosshair(bool isVisible) => crosshair.gameObject.SetActive(isVisible);
 
@@ -246,12 +249,12 @@ public class PistolWeapon : MonoBehaviour, IWeapon
                 hitTransform.GetComponentInParent<AI>().TakeDamage(pistolDamage);
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-                playerShotsHit++;
+                PlayerParams.playerShotsHit++;
 #endif
             }
         }
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        playerShotsFiredCount++;
+        PlayerParams.playerShotsFiredCount++;
 #endif
     }
 }

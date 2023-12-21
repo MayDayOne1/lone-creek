@@ -24,7 +24,7 @@ public class EnemySoundManager : MonoBehaviour
     }
     private IEnumerator<float> IdleGrowlEmitter()
     {
-        while(isAlive && PlayerController.health > 0f)
+        while(isAlive && PlayerParams.health > 0f)
         {
             AudioClip clip = SelectRandomIdleClip();
             AudioSource.PlayClipAtPoint(clip, transform.position);

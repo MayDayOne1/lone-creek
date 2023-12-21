@@ -9,23 +9,11 @@ public class PlayerShootingManager : MonoBehaviour
     public IWeapon currentWeapon = null;
     public IWeapon previousWeapon = null;
 
+    public ThrowableWeapon throwableWeapon;
+    public PistolWeapon pistolWeapon;
+
     public bool isAiming = false;
     public bool isPistolEquipped = false;
-
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    public static int playerTimesAimed = 0;
-    public static float playerTimeSpentAiming = 0f;
-#endif
-
-    private IEnumerator<float> CountAimingTime()
-    {
-        while(isAiming)
-        {
-            playerTimeSpentAiming += Time.deltaTime;
-            yield return Timing.WaitForOneFrame;
-        }
-    }
 
     public void Aim(InputAction.CallbackContext context)
     {
@@ -38,7 +26,7 @@ public class PlayerShootingManager : MonoBehaviour
             }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            playerTimesAimed++;
+            PlayerParams.playerTimesAimed++;
             Timing.RunCoroutine(CountAimingTime());
 #endif
         }
@@ -58,5 +46,35 @@ public class PlayerShootingManager : MonoBehaviour
     public void Shoot()
     {
         currentWeapon?.Shoot();
+    }
+
+    public void SelectThrowable()
+    {
+        currentWeapon?.Disable();
+        if (PlayerParams.hasThrowable)
+        {
+            currentWeapon = throwableWeapon;
+            currentWeapon.Select();
+        }
+
+    }
+
+    public void SelectPrimary()
+    {
+        currentWeapon?.Disable();
+        if (PlayerParams.hasPrimary)
+        {
+            currentWeapon = pistolWeapon;
+            currentWeapon.Select();
+        }
+    }
+
+    private IEnumerator<float> CountAimingTime()
+    {
+        while (isAiming)
+        {
+            PlayerParams.playerTimeSpentAiming += Time.deltaTime;
+            yield return Timing.WaitForOneFrame;
+        }
     }
 }

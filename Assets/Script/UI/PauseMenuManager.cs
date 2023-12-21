@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-using Unity.Services.Analytics;
-#endif
+using Zenject;
 
 
 public class PauseMenuManager : MonoBehaviour
 {
     public PlayerController controller;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] private AnalyticsManager analyticsManager;
+#endif
+
     public void OnResume()
     {
         controller.TogglePauseMenu();
@@ -17,62 +19,20 @@ public class PauseMenuManager : MonoBehaviour
 
     public void OnQuit()
     {
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             controller.StopCoroutine(controller.level1coroutine);
-            AnalyticsService.Instance.CustomData("level1quit", new Dictionary<string, object>()
-            {
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "level1TimeSpent", controller.level1TimeSpent },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerDeathCount", PlayerController.playerDeathCount },
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
-            });
+            analyticsManager.SendLevel1Quit(controller.level1TimeSpent);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             controller.StopCoroutine(controller.level2coroutine);
-            AnalyticsService.Instance.CustomData("level2quit", new Dictionary<string, object>()
-            {
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "level2TimeSpent", controller.level2TimeSpent },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerDeathCount", PlayerController.playerDeathCount },
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
-            });
+            analyticsManager.SendLevel2Quit(controller.level2TimeSpent);
         }
 #endif
+
         Time.timeScale = 1f;
         SurveyManager.isActive = true;
         SceneManager.LoadScene(0);

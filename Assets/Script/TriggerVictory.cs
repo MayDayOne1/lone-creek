@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Zenject;
+
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -8,9 +10,13 @@ using Unity.Services.Analytics;
 
 public class TriggerVictory : MonoBehaviour
 {
-    [SerializeField] private ASyncLoader asyncLoader;
     public GameObject VictoryScreen;
     public PlayerController controller;
+    [SerializeField] private ASyncLoader asyncLoader;
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] AnalyticsManager analyticsManager;
+#endif
 
     private void Start()
     {
@@ -23,31 +29,11 @@ public class TriggerVictory : MonoBehaviour
         {
             VictoryScreen.SetActive(true);
             controller.VictorySetup();
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            AnalyticsService.Instance.CustomData("level2Completed", new Dictionary<string, object>()
-            {
-                { "playerHealth", PlayerController.health },
-                { "playerHealthKitCount", PlayerController.playerHealthKitCount },
-                { "playerDeathCount", PlayerController.playerDeathCount },
-                { "playerPistolAmmo", PlayerAmmoManager.currentAmmo + PlayerAmmoManager.currentClip },
-                { "playerAmmoClipCount", PlayerInteract.playerAmmoClipCount },
-                { "playerBottleCount",  PlayerInteract.playerBottleCount },
-                { "playerBottleThrowCount", ThrowableWeapon.playerBottleThrowCount },
-                { "playerShotsFiredCount", PistolWeapon.playerShotsFiredCount },
-                { "level2TimeSpent", controller.level2TimeSpent },
-                { "enemiesKilled", PlayerController.enemiesKilled },
-                { "enemyShotsFiredCount", PlayerController.enemyShotsFiredCount },
-                { "enemyShotsHit", PlayerController.enemyShotsHit },
-                { "playerPistolsPickedUp", PlayerInteract.playerPistolsPickedUp },
-                { "playerShotsHit", PistolWeapon.playerShotsHit },
-                { "playerTimesAimed", PlayerShootingManager.playerTimesAimed },
-                { "playerTimeSpentAiming", PlayerShootingManager.playerTimeSpentAiming },
-                { "playerTimesCrouched", PlayerController.playerTimesCrouched },
-                { "playerTimesDetected", PlayerController.playerTimesDetected },
-                { "playerTimeSpentCrouching", PlayerController.playerTimeSpentCrouching },
-                { "playerTimeSpentStanding", PlayerController.playerTimeSpentStanding }
-            });
+            analyticsManager.SendLevel2Completed(controller.level2TimeSpent);
 #endif
+
         }
     }
 

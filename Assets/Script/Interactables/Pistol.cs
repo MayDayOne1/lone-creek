@@ -19,7 +19,7 @@ public class Pistol : MonoBehaviour, IInteractable
     private AudioSource audioSource;
 
     [Inject] PlayerAmmoManager ammoManager;
-    [Inject] ChooseWeapon chooseWeapon;
+    [Inject] PlayerShootingManager shootingManager;
     [Inject] PlayerAudioManager audioManager;
 
 
@@ -35,7 +35,7 @@ public class Pistol : MonoBehaviour, IInteractable
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             SetIconVisibility(1f);
-            if (!ammoManager.CanAcceptAmmo() && PlayerInteract.hasPrimary)
+            if (!ammoManager.CanAcceptAmmo() && PlayerParams.hasPrimary)
             {
                 ActivateRedFilter(true);
             }
@@ -43,13 +43,6 @@ public class Pistol : MonoBehaviour, IInteractable
             {
                 ActivateRedFilter(false);
             }
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            SetIconVisibility(0f);
         }
     }
     public void ActivateRedFilter(bool activate)
@@ -66,27 +59,25 @@ public class Pistol : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if(!PlayerInteract.hasPrimary)
+        if(!PlayerParams.hasPrimary)
         {
-            PlayerInteract.hasPrimary = true;
-            chooseWeapon.SelectPrimary();
-
-            int ammo = int.Parse(ammoText.text);
-            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+            PlayerParams.hasPrimary = true;
+            shootingManager.SelectPrimary();
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-            PlayerInteract.playerPistolsPickedUp++;
+            PlayerParams.playerPistolsPickedUp++;
 #endif
         }
         else
         {
-            int ammo = int.Parse(ammoText.text);
             PlayInteractionSound();
+        }
 
-            ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
-        }      
+        int ammo = int.Parse(ammoText.text);
+        ammoManager.CalculateAmmoFromPickup(this.gameObject, ammo);
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-        PlayerInteract.playerAmmoClipCount++;
+        PlayerParams.playerAmmoClipCount++;
 #endif
     }
 
@@ -97,10 +88,10 @@ public class Pistol : MonoBehaviour, IInteractable
 
     public void SetIconVisibility(float alpha)
     {
-        if (isActiveAndEnabled)
+        if (gameObject != null)
         {
-            iconBG.DOFade(alpha, .1f);
-            icon.DOFade(alpha, .1f);
+            if (iconBG != null) iconBG.DOFade(alpha, .1f);
+            if (icon != null) icon.DOFade(alpha, .1f);
             ammoText.DOFade(alpha, .1f);
             ActivateRedFilter(false);
         }
