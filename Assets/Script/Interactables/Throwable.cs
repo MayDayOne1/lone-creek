@@ -17,7 +17,7 @@ public class Throwable : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
 
-    [Inject] private ChooseWeapon chooseWeapon;
+    [Inject] private PlayerShootingManager shootingManager;
     [Inject] private PlayerAudioManager audioManager;
 
     void Start()
@@ -60,7 +60,7 @@ public class Throwable : MonoBehaviour, IInteractable
         else
         {
             PlayerParams.hasThrowable = true;
-            if (!PlayerParams.hasPrimary) chooseWeapon.SelectThrowable();
+            if (!PlayerParams.hasPrimary) shootingManager.SelectThrowable();
             else
             {
                 PlayInteractionSound();

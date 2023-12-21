@@ -495,7 +495,6 @@ GameObject:
   - component: {fileID: 430192777769341732}
   - component: {fileID: 5812681023532125497}
   - component: {fileID: 7002870530063500581}
-  - component: {fileID: 430192777216509596}
   - component: {fileID: 6136549156491602388}
   - component: {fileID: 6136549156491602392}
   - component: {fileID: 975259930334854276}
@@ -766,8 +765,8 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 430192777216509596}
-        m_TargetAssemblyTypeName: ChooseWeapon, Assembly-CSharp
+      - m_Target: {fileID: 6136549156491602392}
+        m_TargetAssemblyTypeName: PlayerShootingManager, Assembly-CSharp
         m_MethodName: SelectThrowable
         m_Mode: 1
         m_Arguments:
@@ -782,8 +781,8 @@ MonoBehaviour:
     m_ActionName: Player/ChooseThrowable[/Keyboard/1]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 430192777216509596}
-        m_TargetAssemblyTypeName: ChooseWeapon, Assembly-CSharp
+      - m_Target: {fileID: 6136549156491602392}
+        m_TargetAssemblyTypeName: PlayerShootingManager, Assembly-CSharp
         m_MethodName: SelectPrimary
         m_Mode: 1
         m_Arguments:
@@ -926,20 +925,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClipUI: {fileID: 0}
   TotalAmmoUI: {fileID: 0}
---- !u!114 &430192777216509596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664619444015225784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4207bfa0bc31954ebca1163be6b1e5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwableWeapon: {fileID: 1472451577212434636}
-  pistolWeapon: {fileID: 2355154991935681442}
 --- !u!114 &6136549156491602388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,6 +949,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d45eccb6b2b7f48a8227befc0051ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throwableWeapon: {fileID: 1472451577212434636}
+  pistolWeapon: {fileID: 2355154991935681442}
   isAiming: 0
   isPistolEquipped: 0
 --- !u!114 &975259930334854276

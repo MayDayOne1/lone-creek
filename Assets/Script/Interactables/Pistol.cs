@@ -19,7 +19,7 @@ public class Pistol : MonoBehaviour, IInteractable
     private AudioSource audioSource;
 
     [Inject] PlayerAmmoManager ammoManager;
-    [Inject] ChooseWeapon chooseWeapon;
+    [Inject] PlayerShootingManager shootingManager;
     [Inject] PlayerAudioManager audioManager;
 
 
@@ -62,7 +62,7 @@ public class Pistol : MonoBehaviour, IInteractable
         if(!PlayerParams.hasPrimary)
         {
             PlayerParams.hasPrimary = true;
-            chooseWeapon.SelectPrimary();
+            shootingManager.SelectPrimary();
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerParams.playerPistolsPickedUp++;
