@@ -24,7 +24,7 @@ public class PlayerAmmoManager : MonoBehaviour
     public bool CanAcceptAmmo() => PlayerParams.currentAmmo + PlayerParams.currentClip < maxAmmo - 1;
     public void CalculateAmmoFromPickup(GameObject obj, int ammoPickup)
     {
-        int ammoDiff = maxAmmo -PlayerParams.currentAmmo;
+        int ammoDiff = maxAmmo - PlayerParams.currentAmmo;
 
         // case #1: ammoPickup has less or the same amount of ammo than you need
         if (ammoPickup <= ammoDiff)
@@ -34,15 +34,18 @@ public class PlayerAmmoManager : MonoBehaviour
             Destroy(obj);
         }
         // case #2: ammoPickup has more ammo than you can have
-        else if (ammoPickup +PlayerParams.currentAmmo > maxAmmo)
+        else if (ammoPickup + PlayerParams.currentAmmo > maxAmmo)
         {
             ammoDiff = ammoPickup + PlayerParams.currentAmmo - maxAmmo;
-           PlayerParams.currentAmmo = maxAmmo;
+            PlayerParams.currentAmmo = maxAmmo;
             TotalAmmoUI.text = maxAmmo.ToString();
             obj.GetComponentInChildren<TextMeshProUGUI>().text = (ammoDiff).ToString();
 
         }
-        if (PlayerParams.currentClip < 1 && PlayerParams.currentAmmo > 0) Reload();
+        if (PlayerParams.currentClip < 1 && PlayerParams.currentAmmo > 0)
+        {
+            Reload();
+        }
     }
     public bool HasAmmoToShoot() => PlayerParams.currentClip > 0;
     public void Reload()
