@@ -27,6 +27,9 @@ public class MainMenuManager : MonoBehaviour
         settings.gameObject.SetActive(false);
         onboarding.SetActive(false);
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         Time.timeScale = 1f;
     }
 
