@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MEC;
+using UnityEngine.Video;
 
 public class ASyncLoader : MonoBehaviour
 {
@@ -12,27 +13,37 @@ public class ASyncLoader : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private Image loadingCircle;
+    [SerializeField] private GameObject onboarding;
+
+    [SerializeField] private GameObject[] objectsToDestroy;
 
     [Header("Slider")]
-    [SerializeField] private Slider loadingSlider; // Zmieni³em GameObject na Slider
+    [SerializeField] private Slider loadingSlider;
+
+
+    private VideoPlayer videoPlayer;
 
     private void Start()
     {
         loadingScreen.SetActive(false);
+        videoPlayer = GetComponent<VideoPlayer>();
+        videoPlayer.Prepare();
     }
 
     public void LoadLevel(int levelIndex)
     {
-        if (mainMenu != null)
+        if (levelIndex == 1)
         {
             mainMenu.SetActive(false);
-        }
-        loadingScreen.SetActive(true);
+            Timing.RunCoroutine(PlayIntroCoroutine(levelIndex).CancelWith(gameObject));
+        } else
+        {
+            Timing.RunCoroutine(LoadLevelASync(levelIndex));
 
-        Timing.RunCoroutine(LoadLevelASync(levelIndex));
+        }
     }
 
-    IEnumerator<float> LoadLevelASync(int levelIndex)
+    private IEnumerator<float> LoadLevelASync(int levelIndex)
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelIndex);
         // Debug.Log("Progress: " + loadOperation.progress.ToString());
@@ -43,5 +54,25 @@ public class ASyncLoader : MonoBehaviour
             // loadingCircle.transform.Rotate(0, 0, 60f);
             yield return Timing.WaitForOneFrame;
         }
+    }
+
+    private IEnumerator<float> PlayIntroCoroutine(int levelIndex)
+    {
+        loadingScreen.SetActive(false);
+        if(onboarding != null)
+        {
+            onboarding.SetActive(false);
+        }
+
+        foreach(GameObject obj in objectsToDestroy)
+        {
+            Destroy(obj);
+        }
+
+        
+        videoPlayer.Play();
+        yield return Timing.WaitForSeconds(11f);
+        loadingScreen.SetActive(true);
+        Timing.RunCoroutine(LoadLevelASync(levelIndex));
     }
 }

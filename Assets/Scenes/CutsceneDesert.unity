@@ -25022,9 +25022,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f631c159003ec498d6d2221228652e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asyncLoader: {fileID: 121841632}
   VictoryScreen: {fileID: 1673876137}
   controller: {fileID: 1895168537}
+  asyncLoader: {fileID: 121841632}
 --- !u!95 &1299572375
 Animator:
   serializedVersion: 5
@@ -30142,13 +30142,13 @@ MonoBehaviour:
   controller: {fileID: 1895168537}
   animManager: {fileID: 1895168542}
   ammoManager: {fileID: 1895168541}
-  chooseWeapon: {fileID: 1895168540}
   interact: {fileID: 1895168539}
   shootingManager: {fileID: 1895168538}
   audioManager: {fileID: 1895168536}
   cam: {fileID: 0}
   camManager: {fileID: 0}
   impulseSource: {fileID: 0}
+  targetForEnemy: {fileID: 0}
 --- !u!114 &1549666355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37141,18 +37141,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 033e5a838a18e3a49b161f02b2fc612b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1895168540 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5856383620854131658, guid: a6cf4704cb21df64bbb338dcfe072732,
-    type: 3}
-  m_PrefabInstance: {fileID: 1895168535}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4207bfa0bc31954ebca1163be6b1e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1895168541 stripped

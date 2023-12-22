@@ -451,9 +451,11 @@ public class PlayerController : MonoBehaviour
     public void VictorySetup()
     {
         StopCoroutine(level2coroutine);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        Time.timeScale = 0;
+        HUD.SetActive(false);
+        playerInput.DeactivateInput();
+        // Cursor.visible = true;
+        // Cursor.lockState = CursorLockMode.Confined;
+        // Time.timeScale = 0;
         camManager.EnableAll(false);
     }
     #endregion

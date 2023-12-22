@@ -642,6 +642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 973215197545714292}
   - component: {fileID: 973215197545714293}
+  - component: {fileID: 7452585943775735639}
   m_Layer: 0
   m_Name: ASyncManager
   m_TagString: Untagged
@@ -680,7 +681,45 @@ MonoBehaviour:
   loadingScreen: {fileID: 973215197056612850}
   mainMenu: {fileID: 0}
   loadingCircle: {fileID: 973215197411579027}
+  onboarding: {fileID: 0}
+  loadingCanvas: {fileID: 973215197056612850}
+  objectsToDestroy: []
   loadingSlider: {fileID: 973215197516497927}
+--- !u!328 &7452585943775735639
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973215197545714295}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: e1991d25b7a57474883035e3f2b07069, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 1
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &973215198012083244
 GameObject:
   m_ObjectHideFlags: 0
