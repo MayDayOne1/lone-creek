@@ -11,6 +11,7 @@ public class PlayerCamManager : MonoBehaviour
 {
     [SerializeField] private PlayerInput input;
     [SerializeField] private InputActionReference lookInput;
+    [SerializeField] private SettingsMenu settingsMenu;
 
     [SerializeField] private CinemachineVirtualCamera normalCam;
     [SerializeField] private CinemachineVirtualCamera aimCam;
@@ -36,6 +37,8 @@ public class PlayerCamManager : MonoBehaviour
     {
         EnableAll(true);
         ActivateNormal();
+
+        settingsMenu.LoadSensitivity();
     }
 
     private void OnEnable()

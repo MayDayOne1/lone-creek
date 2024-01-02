@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,9 +9,18 @@ public class PauseMenuManager : MonoBehaviour
 {
     public PlayerController controller;
 
+    [SerializeField] private CanvasGroup settings;
+    private CanvasGroup pauseMenu;
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     [Inject] private AnalyticsManager analyticsManager;
 #endif
+
+    private void Start()
+    {
+        pauseMenu = GetComponent<CanvasGroup>();
+        settings.gameObject.SetActive(false);
+    }
 
     public void OnResume()
     {
@@ -42,5 +52,33 @@ public class PauseMenuManager : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    public void ShowSettings()
+    {
+        settings.gameObject.SetActive(true);
+
+        ShowCanvasGroup(pauseMenu, false);
+        ShowCanvasGroup(settings, true);
+    }
+    public void HideSettings()
+    {
+        ShowCanvasGroup(settings, false);
+        ShowCanvasGroup(pauseMenu, true);
+        settings.gameObject.SetActive(false);
+    }
+
+    private void ShowCanvasGroup(CanvasGroup group, bool show)
+    {
+        group.interactable = show;
+        group.blocksRaycasts = show;
+        if (show)
+        {
+            group.DOFade(1f, .2f);
+        }
+        else
+        {
+            group.DOFade(0f, .2f);
+        }
     }
 }

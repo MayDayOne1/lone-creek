@@ -499,6 +499,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isShowingPauseMenu)
         {
+            Debug.Log("showing: " + isShowingPauseMenu);
             PauseMenu.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
@@ -508,6 +509,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            Debug.Log("hiding: " + isShowingPauseMenu);
             PauseMenu.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
