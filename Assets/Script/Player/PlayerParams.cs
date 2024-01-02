@@ -5,6 +5,9 @@ public static class PlayerParams
     public static bool savedThrowable;
     public static bool savedPrimary;
 
+    public static float sensitivityX;
+    public static float sensitivityY;
+
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 
     // CONTROLLER

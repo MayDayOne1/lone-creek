@@ -18,7 +18,6 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera crouchAimCam;
     [SerializeField] private Transform cameraLookAt;
 
-    [SerializeField] private float sensitivity = 0f;
     [SerializeField] private float cameraAngleOverride = 0f;
 
     [SerializeField] private float impulseShootForce = .5f;
@@ -59,8 +58,8 @@ public class PlayerCamManager : MonoBehaviour
 
         lookVector = lookInput.action.ReadValue<Vector2>();
 
-        cinemachineTargetYaw += lookVector.x * sensitivity * deltaTimeMultiplier;
-        cinemachineTargetPitch += lookVector.y * sensitivity * deltaTimeMultiplier;
+        cinemachineTargetYaw += lookVector.x * PlayerParams.sensitivityX * deltaTimeMultiplier;
+        cinemachineTargetPitch += lookVector.y * PlayerParams.sensitivityY * deltaTimeMultiplier;
 
         cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
         cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
