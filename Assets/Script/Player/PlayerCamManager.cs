@@ -1,26 +1,72 @@
 using Cinemachine;
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 using Zenject;
 
 public class PlayerCamManager : MonoBehaviour
 {
+    [SerializeField] private PlayerInput input;
+    [SerializeField] private InputActionReference lookInput;
+
     [SerializeField] private CinemachineFreeLook normalCam;
     [SerializeField] private CinemachineFreeLook aimCam;
     [SerializeField] private CinemachineFreeLook crouchCam;
     [SerializeField] private CinemachineFreeLook crouchAimCam;
+    [SerializeField] private Transform cameraLookAt;
+
+    [SerializeField] private float sensitivity = 0f;
+    [SerializeField] private float cameraAngleOverride = 0f;
 
     [SerializeField] private float impulseShootForce = .5f;
     [SerializeField] private float impulseDamageForce = -.1f;
 
     [Inject] private CinemachineImpulseSource impulseSource;
-    private bool IsCamShakeEnabled => PlayerPrefs.GetInt("isCamShakeEnabled") == 1;
+
+    private Vector2 lookVector;
+
+    private float topClamp = 70f;
+    private float bottomClamp = -30f;
+    private float cinemachineTargetYaw;
+    private float cinemachineTargetPitch;
 
     private void Start()
     {
         EnableAll(true);
         ActivateNormal();
+    }
+
+    private void OnEnable()
+    {
+        lookInput.action.Enable();
+    }
+    private void OnDisable()
+    {
+        lookInput.action.Disable();
+    }
+
+    private void LateUpdate()
+    {
+        CameraRotation();
+    }
+
+    private void CameraRotation()
+    {
+        float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
+        lookVector = lookInput.action.ReadValue<Vector2>();
+
+        cinemachineTargetYaw += lookVector.x * sensitivity * deltaTimeMultiplier;
+        cinemachineTargetPitch += lookVector.y * sensitivity * deltaTimeMultiplier;
+
+        cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+
+        cameraLookAt.transform.rotation = Quaternion.Euler(cinemachineTargetPitch + cameraAngleOverride,
+            cinemachineTargetYaw, 0.0f);
     }
 
     public void ActivateNormal()
@@ -87,5 +133,26 @@ public class PlayerCamManager : MonoBehaviour
         {
             impulseSource.GenerateImpulseWithForce(impulseDamageForce);
         }
+    }
+
+    private bool IsCamShakeEnabled => PlayerPrefs.GetInt("isCamShakeEnabled") == 1;
+
+    private bool IsCurrentDeviceMouse
+    {
+        get
+        {
+#if ENABLE_INPUT_SYSTEM
+            return input.currentControlScheme == "KeyboardMouse";
+#else
+				return false;
+#endif
+        }
+    }
+
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 }
