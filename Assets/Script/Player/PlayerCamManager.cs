@@ -12,10 +12,10 @@ public class PlayerCamManager : MonoBehaviour
     [SerializeField] private PlayerInput input;
     [SerializeField] private InputActionReference lookInput;
 
-    [SerializeField] private CinemachineFreeLook normalCam;
-    [SerializeField] private CinemachineFreeLook aimCam;
-    [SerializeField] private CinemachineFreeLook crouchCam;
-    [SerializeField] private CinemachineFreeLook crouchAimCam;
+    [SerializeField] private CinemachineVirtualCamera normalCam;
+    [SerializeField] private CinemachineVirtualCamera aimCam;
+    [SerializeField] private CinemachineVirtualCamera crouchCam;
+    [SerializeField] private CinemachineVirtualCamera crouchAimCam;
     [SerializeField] private Transform cameraLookAt;
 
     [SerializeField] private float sensitivity = 0f;
@@ -110,11 +110,11 @@ public class PlayerCamManager : MonoBehaviour
         crouchCam.enabled = enable;
         crouchAimCam.enabled = enable;
     }
-    private void SetTopPriority(CinemachineFreeLook cam)
+    private void SetTopPriority(CinemachineVirtualCamera cam)
     {
         cam.Priority = 100;
     }
-    private void SetLowestPriority(CinemachineFreeLook cam)
+    private void SetLowestPriority(CinemachineVirtualCamera cam)
     {
         cam.Priority = 1;
     }
