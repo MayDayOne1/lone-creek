@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using MEC;
 using Zenject;
+using Unity.Profiling;
+
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
