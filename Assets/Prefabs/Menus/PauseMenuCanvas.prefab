@@ -220,6 +220,12 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2062712739454949538, guid: 071e68c164c38e5459cab49928f98862, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 071e68c164c38e5459cab49928f98862, type: 3}
+--- !u!223 &404309671877757852 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3238518750978103904, guid: 071e68c164c38e5459cab49928f98862,
+    type: 3}
+  m_PrefabInstance: {fileID: 2985290773974127100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!225 &2665521927468683690 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 977338527521144918, guid: 071e68c164c38e5459cab49928f98862,
@@ -232,6 +238,14 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2985290773974127100}
   m_PrefabAsset: {fileID: 0}
+--- !u!222 &3465174781733934754
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876992806171679134}
+  m_CullTransparentMesh: 1
 --- !u!114 &259737210017581955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,4 +259,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  pauseMenuCanvas: {fileID: 404309671877757852}
   settings: {fileID: 2665521927468683690}
+--- !u!114 &8083885329594782845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876992806171679134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.47058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

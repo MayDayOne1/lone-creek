@@ -150,7 +150,6 @@ public class PlayerController : MonoBehaviour
     private void UISetup()
     {
         ShowGameOverScreen(false);
-        PauseMenu.SetActive(false);
         HUD.SetActive(true);
         bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
     }
@@ -499,7 +498,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!isShowingPauseMenu)
         {
-            Debug.Log("showing: " + isShowingPauseMenu);
             PauseMenu.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
@@ -509,7 +507,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("hiding: " + isShowingPauseMenu);
             PauseMenu.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

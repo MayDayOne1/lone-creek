@@ -9,6 +9,7 @@ public class PauseMenuManager : MonoBehaviour
 {
     public PlayerController controller;
 
+    [SerializeField] private Canvas pauseMenuCanvas;
     [SerializeField] private CanvasGroup settings;
     private CanvasGroup pauseMenu;
 
@@ -19,6 +20,7 @@ public class PauseMenuManager : MonoBehaviour
     private void Start()
     {
         pauseMenu = GetComponent<CanvasGroup>();
+        pauseMenuCanvas.gameObject.SetActive(false);
         settings.gameObject.SetActive(false);
     }
 
@@ -72,13 +74,13 @@ public class PauseMenuManager : MonoBehaviour
     {
         group.interactable = show;
         group.blocksRaycasts = show;
-        if (show)
+        if(show)
         {
-            group.DOFade(1f, .2f);
+            group.alpha = 1f;
         }
         else
         {
-            group.DOFade(0f, .2f);
+            group.alpha = 0f;
         }
     }
 }
