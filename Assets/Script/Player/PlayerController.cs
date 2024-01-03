@@ -504,6 +504,7 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 0;
             camManager.EnableAll(false);
             playerInput.DeactivateInput();
+            isShowingPauseMenu = true;
         }
         else
         {
@@ -513,9 +514,10 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 1;
             camManager.EnableAll(true);
             playerInput.ActivateInput();
+            isShowingPauseMenu = false;
         }
-        isShowingPauseMenu = !isShowingPauseMenu;
     }
+
     private void BloodOverlayAnim()
     {
         bloodOverlay.DOFade(60f, 1f);
