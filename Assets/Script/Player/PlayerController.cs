@@ -388,7 +388,6 @@ public class PlayerController : MonoBehaviour
         .setEaseOutQuart()
         .setOnUpdate((timeValue) =>
             {
-                Time.fixedDeltaTime *= timeValue;
                 Time.timeScale = timeValue;
             });
     }
@@ -445,7 +444,6 @@ public class PlayerController : MonoBehaviour
     private void NavigateDeathScreen()
     {
         Time.timeScale = 0f;
-        Time.fixedDeltaTime = .02f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
