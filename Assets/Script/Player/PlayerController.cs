@@ -162,7 +162,6 @@ public class PlayerController : MonoBehaviour
         Speed = runSpeed;
 
         Time.timeScale = 1;
-        Time.fixedDeltaTime = .02f;
         this.gameObject.SetActive(true);
         Checkpoint();
         LoadFromCheckpoint();
