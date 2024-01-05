@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using MEC;
 using Zenject;
+using Unity.Profiling;
+
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -150,7 +152,6 @@ public class PlayerController : MonoBehaviour
     private void UISetup()
     {
         ShowGameOverScreen(false);
-        PauseMenu.SetActive(false);
         HUD.SetActive(true);
         bloodOverlay.color = new Color(255f, 255f, 255f, 0f);
     }
@@ -161,7 +162,6 @@ public class PlayerController : MonoBehaviour
         Speed = runSpeed;
 
         Time.timeScale = 1;
-        Time.fixedDeltaTime = .02f;
         this.gameObject.SetActive(true);
         Checkpoint();
         LoadFromCheckpoint();
@@ -387,7 +387,6 @@ public class PlayerController : MonoBehaviour
         .setEaseOutQuart()
         .setOnUpdate((timeValue) =>
             {
-                Time.fixedDeltaTime *= timeValue;
                 Time.timeScale = timeValue;
             });
     }
@@ -444,7 +443,6 @@ public class PlayerController : MonoBehaviour
     private void NavigateDeathScreen()
     {
         Time.timeScale = 0f;
-        Time.fixedDeltaTime = .02f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -505,6 +503,7 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 0;
             camManager.EnableAll(false);
             playerInput.DeactivateInput();
+            isShowingPauseMenu = true;
         }
         else
         {
@@ -514,9 +513,10 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 1;
             camManager.EnableAll(true);
             playerInput.ActivateInput();
+            isShowingPauseMenu = false;
         }
-        isShowingPauseMenu = !isShowingPauseMenu;
     }
+
     private void BloodOverlayAnim()
     {
         bloodOverlay.DOFade(60f, 1f);

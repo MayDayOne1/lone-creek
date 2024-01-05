@@ -43,6 +43,13 @@ public class ASyncLoader : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        int levelIndex = SceneManager.GetActiveScene().buildIndex;
+        Timing.RunCoroutine(LoadLevelASync(levelIndex));
+        Debug.Log("ok: " + levelIndex);
+    }
+
     private IEnumerator<float> LoadLevelASync(int levelIndex)
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelIndex);
