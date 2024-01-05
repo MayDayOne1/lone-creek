@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using MEC;
 using Zenject;
+using Unity.Profiling;
+
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
@@ -149,6 +151,8 @@ public class AI : MonoBehaviour
 
     public void SetAimRigWeight(float newWeight)
     {
+        ProfilerMarker marker = new ProfilerMarker("setAimRigWeight");
+        marker.Begin();
         Timing.RunCoroutine(UpdateAimTarget().CancelWith(gameObject));
         if (Time.timeScale > 0f)
         {
@@ -159,6 +163,7 @@ public class AI : MonoBehaviour
                     });
 
         }
+        marker.End();
     }
 
     private bool HasPlayerLayer(Transform t) => t.gameObject.layer == PLAYER_LAYER;
@@ -207,6 +212,8 @@ public class AI : MonoBehaviour
 
     private IEnumerator<float> UpdateAimTarget()
     {
+        ProfilerMarker marker = new ProfilerMarker("updateAimTarget");
+        marker.Begin();
         while (aimRig.weight >= 0f)
         {
             if (Physics.Raycast(muzzle.position,
@@ -217,6 +224,7 @@ public class AI : MonoBehaviour
             {
                 aimTarget.position = hit.point;
             }
+            marker.End();
             yield return Timing.WaitForSeconds(.1f);
         }
     }
@@ -250,13 +258,15 @@ public class AI : MonoBehaviour
             {
                 r.gameObject.tag = "Untagged";
                 r.isKinematic = false;
+                r.useGravity = true;
             }
         }
         else
         {
-            foreach (Rigidbody rb in childrenRB)
+            foreach (Rigidbody r in childrenRB)
             {
-                rb.isKinematic = true;
+                r.isKinematic = true;
+                r.useGravity = false;
             }
         }
 

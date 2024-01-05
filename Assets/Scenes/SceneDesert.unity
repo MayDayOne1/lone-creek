@@ -51056,7 +51056,7 @@ PrefabInstance:
     - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
@@ -51071,7 +51071,12 @@ PrefabInstance:
     - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: LoadLevel
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InterfaceAudioManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
