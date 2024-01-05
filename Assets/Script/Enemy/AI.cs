@@ -151,8 +151,6 @@ public class AI : MonoBehaviour
 
     public void SetAimRigWeight(float newWeight)
     {
-        ProfilerMarker marker = new ProfilerMarker("setAimRigWeight");
-        marker.Begin();
         Timing.RunCoroutine(UpdateAimTarget().CancelWith(gameObject));
         if (Time.timeScale > 0f)
         {
@@ -163,7 +161,6 @@ public class AI : MonoBehaviour
                     });
 
         }
-        marker.End();
     }
 
     private bool HasPlayerLayer(Transform t) => t.gameObject.layer == PLAYER_LAYER;
@@ -212,8 +209,6 @@ public class AI : MonoBehaviour
 
     private IEnumerator<float> UpdateAimTarget()
     {
-        ProfilerMarker marker = new ProfilerMarker("updateAimTarget");
-        marker.Begin();
         while (aimRig.weight >= 0f)
         {
             if (Physics.Raycast(muzzle.position,
@@ -224,7 +219,6 @@ public class AI : MonoBehaviour
             {
                 aimTarget.position = hit.point;
             }
-            marker.End();
             yield return Timing.WaitForSeconds(.1f);
         }
     }
