@@ -219,7 +219,7 @@ public class AI : MonoBehaviour
             {
                 aimTarget.position = hit.point;
             }
-            yield return Timing.WaitForSeconds(.1f);
+            yield return Timing.WaitForOneFrame;
         }
     }
 
