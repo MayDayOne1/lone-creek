@@ -7,7 +7,13 @@ public class PlayerFootstepManager : MonoBehaviour
 {
     [SerializeField] private AudioClip[] footsteps;
     [SerializeField] private AudioSource footstepEmitter;
-    void OnTriggerEnter(Collider other)
+
+    private void Start()
+    {
+        footstepEmitter.volume = .9f;
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         Step();    
     }
@@ -23,7 +29,19 @@ public class PlayerFootstepManager : MonoBehaviour
         {
             AudioClip clip = SelectRandomFootstep();
             footstepEmitter.clip = clip;
+            RandomizePitch();
+            RandomizeVolume();
             footstepEmitter.PlayOneShot(clip, .1f);
         }
+    }
+
+    private void RandomizePitch()
+    {
+        footstepEmitter.pitch = Random.Range(footstepEmitter.pitch - .1f, footstepEmitter.pitch + .1f);
+    }
+
+    private void RandomizeVolume()
+    {
+        footstepEmitter.volume = Random.Range(footstepEmitter.volume - .1f, footstepEmitter.volume + 1f);
     }
 }
