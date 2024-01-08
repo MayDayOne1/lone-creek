@@ -1,6 +1,5 @@
 public static class PlayerParams
 {
-    public static bool firstPlaythrough = true;
     public static bool hasThrowable = false;
     public static bool hasPrimary = false;
     public static bool savedThrowable;

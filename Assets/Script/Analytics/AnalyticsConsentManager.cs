@@ -19,7 +19,6 @@ public class AnalyticsConsentManager : MonoBehaviour
             Debug.Log(e.ToString());
         }
         int consentInt = PlayerPrefs.GetInt("isConsentGiven");
-        // Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
 
         if(LoadFirstTimeOnThisMachine() == 0)
         {

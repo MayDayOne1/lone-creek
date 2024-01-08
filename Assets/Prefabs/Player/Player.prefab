@@ -1353,6 +1353,7 @@ MonoBehaviour:
   input: {fileID: 430192777769341735}
   lookInput: {fileID: 6400285495008595522, guid: b494549bf61672b459bb5ca0a94b32c9,
     type: 3}
+  settingsMenu: {fileID: 0}
   normalCam: {fileID: 700362279325277786}
   aimCam: {fileID: 9097677408374308458}
   crouchCam: {fileID: 5437388138011812680}
@@ -2668,6 +2669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4859083107459766443}
   - component: {fileID: 5437388138011812680}
+  - component: {fileID: 7166954178720108380}
   m_Layer: 0
   m_Name: CM Crouch
   m_TagString: Untagged
@@ -2729,6 +2731,29 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4184925684113826837}
+--- !u!114 &7166954178720108380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3157943949965501007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &3296526807730638088
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,6 +3734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 80463117902658864}
   - component: {fileID: 6794506272273418669}
+  - component: {fileID: 5755855088001162472}
   m_Layer: 0
   m_Name: CM CrouchAim
   m_TagString: Untagged
@@ -3770,6 +3796,29 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2021826975664145121}
+--- !u!114 &5755855088001162472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216255251877071619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &5278265302143316138
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,6 +4791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5259034201771948478}
   - component: {fileID: 700362279325277786}
+  - component: {fileID: 7433847573435211933}
   m_Layer: 0
   m_Name: CM Normal
   m_TagString: Untagged
@@ -4803,6 +4853,29 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 6639428848158805580}
+--- !u!114 &7433847573435211933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709453173953254585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &6837509729395558662
 GameObject:
   m_ObjectHideFlags: 0
@@ -5170,6 +5243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5614159395050390786}
   - component: {fileID: 9097677408374308458}
+  - component: {fileID: 7961195733550169515}
   m_Layer: 0
   m_Name: CM Aim
   m_TagString: Untagged
@@ -5231,6 +5305,29 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 8761136331689517605}
+--- !u!114 &7961195733550169515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7332884474080143163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &7360094363408578128
 GameObject:
   m_ObjectHideFlags: 0

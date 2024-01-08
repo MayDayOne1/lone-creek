@@ -22,7 +22,6 @@ public class SettingsMenu : MonoBehaviour
     void Start()
     {
 		LoadAllSettings();
-        PlayerParams.firstPlaythrough = false;
     }
 
     public void SetVsync(bool isSet)
@@ -94,15 +93,27 @@ public class SettingsMenu : MonoBehaviour
 		PlayerPrefs.SetFloat(key, value);
 	}
 
-	private int LoadDefault(bool isSettingOn) => isSettingOn ? 1 : 0;
+	private void SetDefault(string key, bool isSettingOn)
+	{
+		if(isSettingOn)
+		{
+			PlayerPrefs.SetInt(key, 1);
+		}
+		else
+		{
+			PlayerPrefs.SetInt(key, 0);
+		}
+		PlayerPrefs.Save();
+		
+	}
 
 	private void LoadToggleFromPlayerPrefs(Toggle toggle, string key, bool defaultOn)
 	{
         int setting = PlayerPrefs.GetInt(key);
 
-        if (LoadFirstTimeOnThisMachine() == 0 || PlayerParams.firstPlaythrough)
+        if (LoadFirstTimeOnThisMachine() == 0)
 		{
-            LoadDefault(defaultOn);
+            SetDefault(key, defaultOn);
         }
 		else if(setting == 1)
 		{
