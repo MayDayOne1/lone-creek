@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using MEC;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class EnemySoundManager : MonoBehaviour
 {
     [SerializeField] private AI ai;
@@ -13,9 +15,13 @@ public class EnemySoundManager : MonoBehaviour
     public bool isAlive = true;
     public IEnumerator<float> idleGrowl;
 
+    private AudioSource audioSource;
+
     void Start()
     {
         idleGrowl = IdleGrowlEmitter();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = .9f;
         Timing.RunCoroutine(idleGrowl.CancelWith(gameObject));
     }
     private AudioClip SelectRandomIdleClip()
@@ -27,16 +33,28 @@ public class EnemySoundManager : MonoBehaviour
         while(isAlive && PlayerParams.health > 0f)
         {
             AudioClip clip = SelectRandomIdleClip();
-            AudioSource.PlayClipAtPoint(clip, transform.position);
+            RandomizePitch();
+            RandomizeVolume();
+            audioSource.PlayOneShot(clip);
             yield return Timing.WaitForSeconds(3f);
         }
     }
     public void EmitDamageSound()
     {
-        AudioSource.PlayClipAtPoint(damage, transform.position);
+        audioSource.PlayOneShot(damage);
     }
     public void EmitDeathSound()
     {
-        AudioSource.PlayClipAtPoint(death, transform.position);
+        audioSource.PlayOneShot(death);
+    }
+
+    private void RandomizePitch()
+    {
+        audioSource.pitch = Random.Range(audioSource.pitch - .1f, audioSource.pitch + .1f);
+    }
+
+    private void RandomizeVolume()
+    {
+        audioSource.volume = Random.Range(audioSource.volume - .1f, audioSource.volume + 1f);
     }
 }

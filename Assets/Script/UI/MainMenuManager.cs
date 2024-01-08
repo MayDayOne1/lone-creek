@@ -12,6 +12,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup settings;
     [SerializeField] private GameObject onboarding;
+    [SerializeField] private SettingsMenu settingsMenu;
     private bool isViewingOnboarding = false;
 
     [Inject] private PlayerController controller;
@@ -31,6 +32,8 @@ public class MainMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         Time.timeScale = 1f;
+
+        settingsMenu.LoadAllSettings();
     }
 
     public void ShowOnboarding()

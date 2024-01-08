@@ -7,7 +7,6 @@ using UnityEngine;
 public class AnalyticsConsentManager : MonoBehaviour
 {
     public GameObject consentWindow;
-    public static bool? isConsentGiven = null;
 
     async void Start()
     {
@@ -19,29 +18,22 @@ public class AnalyticsConsentManager : MonoBehaviour
         {
             Debug.Log(e.ToString());
         }
-        Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         int consentInt = PlayerPrefs.GetInt("isConsentGiven");
-        if (consentInt == 0) isConsentGiven = false;
-        else if (consentInt == 1)
-        {
-            isConsentGiven = true;
-            AnalyticsService.Instance.StartDataCollection();
-        }
-        else isConsentGiven = null;
 
-        if (isConsentGiven == null)
+        if(LoadFirstTimeOnThisMachine() == 0)
         {
             ShowConsentWindow(true);
-        } else
+            SetFirstTimeOnThisMachine();
+        }
+        if (consentInt == 1)
         {
-            ShowConsentWindow(false);
+            AnalyticsService.Instance.StartDataCollection();
         }
     }
 
     public void OptIn()
     {
         AnalyticsService.Instance.StartDataCollection();
-        isConsentGiven = true;
         PlayerPrefs.SetInt("isConsentGiven", 1);
         PlayerPrefs.Save();
         Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
@@ -50,13 +42,9 @@ public class AnalyticsConsentManager : MonoBehaviour
 
     public void OptOut()
     {
-        if(isConsentGiven == true)
-        {
-            AnalyticsService.Instance.StopDataCollection();
-            isConsentGiven = false;
-            PlayerPrefs.SetInt("isConsentGiven", 0);
-            PlayerPrefs.Save();
-        }
+        AnalyticsService.Instance.StopDataCollection();
+        PlayerPrefs.SetInt("isConsentGiven", 0);
+        PlayerPrefs.Save();
         
         Debug.Log("isConsentGiven: " + PlayerPrefs.GetInt("isConsentGiven"));
         ShowConsentWindow(false);
@@ -65,5 +53,15 @@ public class AnalyticsConsentManager : MonoBehaviour
     public void ShowConsentWindow(bool show)
     {
         consentWindow.SetActive(show);
+    }
+
+    private void SetFirstTimeOnThisMachine()
+    {
+        PlayerPrefs.SetInt("firstTime", 1);
+    }
+
+    private int LoadFirstTimeOnThisMachine()
+    {
+        return PlayerPrefs.GetInt("firstTime");
     }
 }

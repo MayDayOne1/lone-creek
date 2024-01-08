@@ -21,11 +21,7 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
-		LoadVsync();
-		LoadFullScreen();
-		LoadCamShake();
-		LoadSoundVolume();
-		LoadSensitivity();
+		LoadAllSettings();
     }
 
     public void SetVsync(bool isSet)
@@ -70,6 +66,15 @@ public class SettingsMenu : MonoBehaviour
 		SaveFloatToPlayerPrefs(SENSITIVITY_KEY_Y, sensitivitySliderY.value);
 	}
 
+	public void LoadAllSettings()
+	{
+        LoadVsync();
+        LoadFullScreen();
+        LoadCamShake();
+        LoadSoundVolume();
+        LoadSensitivity();
+    }
+
 	private void SaveToPlayerPrefs(string key, bool isSet)
 	{
 		if(isSet)
@@ -88,28 +93,47 @@ public class SettingsMenu : MonoBehaviour
 		PlayerPrefs.SetFloat(key, value);
 	}
 
-	private void LoadToggleFromPlayerPrefs(Toggle toggle, string key)
+	private void SetDefault(string key, bool isSettingOn)
 	{
-		int setting = PlayerPrefs.GetInt(key);
-		if(setting == 1)
+		if(isSettingOn)
 		{
-			toggle.isOn = true;
+			PlayerPrefs.SetInt(key, 1);
 		}
 		else
 		{
-			toggle.isOn = false;
+			PlayerPrefs.SetInt(key, 0);
 		}
+		PlayerPrefs.Save();
+		
+	}
+
+	private void LoadToggleFromPlayerPrefs(Toggle toggle, string key, bool defaultOn)
+	{
+        int setting = PlayerPrefs.GetInt(key);
+
+        if (LoadFirstTimeOnThisMachine() == 0)
+		{
+            SetDefault(key, defaultOn);
+        }
+		else if(setting == 1)
+		{
+            toggle.isOn = true;
+        }
+		else
+		{
+            toggle.isOn = false;
+        }
 	}
 
 	private void LoadVsync()
 	{
-		LoadToggleFromPlayerPrefs(vsyncToggle, VSYNC_KEY);
+		LoadToggleFromPlayerPrefs(vsyncToggle, VSYNC_KEY, false);
 		QualitySettings.vSyncCount = PlayerPrefs.GetInt(VSYNC_KEY);
 	}
 
 	private void LoadFullScreen()
 	{
-		LoadToggleFromPlayerPrefs(fullScreenToggle, FULLSCREEN_KEY);
+		LoadToggleFromPlayerPrefs(fullScreenToggle, FULLSCREEN_KEY, true);
 		if(fullScreenToggle.isOn)
 		{
 			Screen.fullScreen = true;
@@ -122,12 +146,16 @@ public class SettingsMenu : MonoBehaviour
 
 	private void LoadCamShake()
 	{
-		LoadToggleFromPlayerPrefs(camShakeToggle, CAM_SHAKE_KEY);
+		LoadToggleFromPlayerPrefs(camShakeToggle, CAM_SHAKE_KEY, true);
 	}
 
     public void LoadSoundVolume()
     {
         volumeSlider.value = PlayerPrefs.GetFloat(SOUND_VOLUME_KEY);
+		if(volumeSlider.value == 0f)
+		{
+			volumeSlider.value = 1f;
+		}
         AudioListener.volume = volumeSlider.value;
     }
 
@@ -136,4 +164,9 @@ public class SettingsMenu : MonoBehaviour
 		sensitivitySliderX.value = PlayerPrefs.GetFloat(SENSITIVITY_KEY_X);
 		sensitivitySliderY.value = PlayerPrefs.GetFloat(SENSITIVITY_KEY_Y);
 	}
+
+    private int LoadFirstTimeOnThisMachine()
+    {
+        return PlayerPrefs.GetInt("firstTime");
+    }
 }

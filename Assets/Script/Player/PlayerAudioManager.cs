@@ -11,7 +11,8 @@ public class PlayerAudioManager : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();    
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = .9f;
     }
 
     public void PlayGameOverSound()
@@ -29,6 +30,8 @@ public class PlayerAudioManager : MonoBehaviour
     {
         AudioClip damage = SelectRandomDamageClip();
         audioSource.clip = damage;
+        RandomizePitch();
+        RandomizeVolume();
         audioSource.Play();
     }
 
@@ -36,5 +39,15 @@ public class PlayerAudioManager : MonoBehaviour
     {
         audioSource.clip = pickup;
         audioSource.Play();
+    }
+
+    private void RandomizePitch()
+    {
+        audioSource.pitch = Random.Range(audioSource.pitch - .1f, audioSource.pitch + .1f);
+    }
+
+    private void RandomizeVolume()
+    {
+        audioSource.volume = Random.Range(audioSource.volume - .1f, audioSource.volume + 1f);
     }
 }

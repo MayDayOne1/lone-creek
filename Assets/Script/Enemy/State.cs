@@ -75,11 +75,14 @@ public class State
         {
             if (Physics.Raycast(npc.transform.position, direction, out RaycastHit hit, 999f))
             {
-                npc.GetComponent<AI>().SetAimRigWeight(1f);
+                // npc.GetComponent<AI>().SetAimRigWeight(1f);
                 return hit.transform.gameObject.layer == playerLayerMask;
             }
+            //else
+            //{
+            //    npc.GetComponent<AI>().SetAimRigWeight(0f);
+            //}
         }
-        npc.GetComponent<AI>().SetAimRigWeight(0f);
         return false;
     }
     public bool CanAttackPlayer()
@@ -156,6 +159,7 @@ public class Idle : State
 
     public override void Enter()
     {
+        npc.GetComponent<AI>().SetAimRigWeight(0f);
         base.Enter();
     }
 
@@ -274,6 +278,7 @@ public class Attack : State
     public override void Enter()
     {
         agent.isStopped = true;
+        npc.GetComponent<AI>().SetAimRigWeight(1f);
         base.Enter();
     }
 

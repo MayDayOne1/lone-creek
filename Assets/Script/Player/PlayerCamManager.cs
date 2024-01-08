@@ -131,7 +131,7 @@ public class PlayerCamManager : MonoBehaviour
 
     public void DamageCamShake()
     {
-        if(IsCamShakeEnabled)
+        if (IsCamShakeEnabled)
         {
             impulseSource.GenerateImpulseWithForce(impulseDamageForce);
         }
