@@ -18,9 +18,10 @@ public class Pistol : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip pickup;
     private AudioSource audioSource;
 
-    [Inject] PlayerAmmoManager ammoManager;
-    [Inject] PlayerShootingManager shootingManager;
-    [Inject] PlayerAudioManager audioManager;
+    [Inject] private PlayerAmmoManager ammoManager;
+    [Inject] private PlayerShootingManager shootingManager;
+    [Inject] private PlayerAudioManager audioManager;
+    [Inject] private NotificationManager notificationManager;
 
 
     void Start()
@@ -61,6 +62,7 @@ public class Pistol : MonoBehaviour, IInteractable
     {
         if(!PlayerParams.hasPrimary)
         {
+            notificationManager.WeaponNotification();
             PlayerParams.hasPrimary = true;
             shootingManager.SelectPrimary();
 

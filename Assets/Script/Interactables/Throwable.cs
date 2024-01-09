@@ -19,6 +19,7 @@ public class Throwable : MonoBehaviour, IInteractable
 
     [Inject] private PlayerShootingManager shootingManager;
     [Inject] private PlayerAudioManager audioManager;
+    [Inject] private NotificationManager notificationManager;
 
     void Start()
     { 
@@ -59,8 +60,12 @@ public class Throwable : MonoBehaviour, IInteractable
         if (PlayerParams.hasThrowable) return;
         else
         {
+            notificationManager.WeaponNotification();
             PlayerParams.hasThrowable = true;
-            if (!PlayerParams.hasPrimary) shootingManager.SelectThrowable();
+            if (!PlayerParams.hasPrimary)
+            {
+                shootingManager.SelectThrowable();
+            }
             else
             {
                 PlayInteractionSound();
