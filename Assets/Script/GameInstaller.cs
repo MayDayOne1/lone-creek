@@ -11,6 +11,7 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private PlayerInteract interact;
     [SerializeField] private PlayerShootingManager shootingManager;
     [SerializeField] private PlayerAudioManager audioManager;
+    [SerializeField] private NotificationManager notificationManager;
 
     [Header("CAMERA")]
     [SerializeField] private Camera cam;
@@ -28,6 +29,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<PlayerInteract>().FromInstance(interact);
         Container.Bind<PlayerShootingManager>().FromInstance(shootingManager);
         Container.Bind<PlayerAudioManager>().FromInstance(audioManager);
+        Container.Bind<NotificationManager>().FromInstance(notificationManager);
 
         Container.Bind<Camera>().FromInstance(cam);
         Container.Bind<PlayerCamManager>().FromInstance(camManager);

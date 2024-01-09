@@ -1275,6 +1275,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc12ba87ed6a61347a92c281d44492c5, type: 3}
+--- !u!114 &906854205 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648935524484843028, guid: a6cf4704cb21df64bbb338dcfe072732,
+    type: 3}
+  m_PrefabInstance: {fileID: 6294771695937890349}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e312bb3146fef7745b8447598dfe813b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &951895151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2242,6 +2254,7 @@ MonoBehaviour:
   interact: {fileID: 6294771695937890350}
   shootingManager: {fileID: 6294771695937890365}
   audioManager: {fileID: 6294771695937890361}
+  notificationManager: {fileID: 906854205}
   cam: {fileID: 330585545}
   camManager: {fileID: 788090708}
   impulseSource: {fileID: 788090707}
@@ -2854,6 +2867,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3447205577945398886, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5167094412142345634, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2914,6 +2932,18 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5752387637090356738, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
+    - target: {fileID: 5752387637090356738, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -571293536151283850, guid: 5966518dd9524fc469dfa134e0f2522f,
+        type: 2}
     - target: {fileID: 5856383619156137986, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
       propertyPath: m_Name
