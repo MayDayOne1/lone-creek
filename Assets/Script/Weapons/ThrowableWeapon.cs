@@ -160,9 +160,9 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
 
     private IEnumerator<float> DrawLine()
     {
+        lineRenderer.enabled = true;
         while (isAiming)
         {
-            lineRenderer.enabled = true;
             lineRenderer.positionCount = Mathf.CeilToInt(linePoints / timeBetweenPoints + 1);
             Vector3 startPos = throwable.transform.position;
             Vector3 startVelocity = throwStrength * cam.transform.forward;
@@ -197,6 +197,7 @@ public class ThrowableWeapon : MonoBehaviour, IWeapon
     public void StopAim()
     {
         isAiming = false;
+        lineRenderer.enabled = false;
         animManager.SetThrow(false);
         animManager.SetBool(IS_AIMING_THROWABLE, false);
 

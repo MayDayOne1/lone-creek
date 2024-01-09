@@ -21,6 +21,11 @@ public class PlayerShootingManager : MonoBehaviour
         {
             if(currentWeapon != null)
             {
+                if(previousWeapon != null)
+                {
+                    previousWeapon.StopAim();
+                }
+
                 currentWeapon.StartAim();
                 isAiming = true;
             }
