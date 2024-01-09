@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyFootstepManager : MonoBehaviour
 {
-    [SerializeField] Transform footstepEmitter;
-    [SerializeField] AudioClip[] footsteps;
+    [SerializeField] private AudioSource footstepEmitter;
+    [SerializeField] private AudioClip[] footsteps;
 
     private AudioClip SelectRandomFootstep()
     {
@@ -17,6 +17,19 @@ public class EnemyFootstepManager : MonoBehaviour
 #pragma warning restore IDE0051
     {
         AudioClip clip = SelectRandomFootstep();
-        AudioSource.PlayClipAtPoint(clip, footstepEmitter.position);
+        RandomizePitch();
+        RandomizeVolume();
+        footstepEmitter.clip = clip;
+        footstepEmitter.PlayOneShot(clip);
+    }
+
+    private void RandomizePitch()
+    {
+        footstepEmitter.pitch = Random.Range(footstepEmitter.pitch - .1f, footstepEmitter.pitch + .1f);
+    }
+
+    private void RandomizeVolume()
+    {
+        footstepEmitter.volume = Random.Range(footstepEmitter.volume - .1f, footstepEmitter.volume + 1f);
     }
 }

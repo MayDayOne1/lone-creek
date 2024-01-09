@@ -17,7 +17,7 @@ public class NotificationManager : MonoBehaviour
     private static bool firstWeaponPickup = true;
     private static bool secondWeaponPickup = true;
 
-    void Start()
+    private void Start()
     {
         startPosX = transform.position.x;
         notificationText = GetComponentInChildren<TextMeshProUGUI>();
@@ -29,7 +29,7 @@ public class NotificationManager : MonoBehaviour
     {
         if (firstWeaponPickup)
         {
-            AddToQueue("Press RMB to aim. Press LMB to fire/throw.");
+            AddToQueue("Press and hold RMB to aim. Press LMB to fire/throw.");
             firstWeaponPickup = false;
         }
         else if(secondWeaponPickup)
@@ -37,7 +37,6 @@ public class NotificationManager : MonoBehaviour
             AddToQueue("Press 1 or 2 to switch weapons.");
             secondWeaponPickup = false;
         }
-        DebugQueue();
         Notification();
     }
 
