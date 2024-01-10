@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MEC;
 using UnityEngine.Video;
+using Zenject;
 
 public class ASyncLoader : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class ASyncLoader : MonoBehaviour
 
     [Header("Slider")]
     [SerializeField] private Slider loadingSlider;
-
 
     private VideoPlayer videoPlayer;
 
@@ -39,7 +39,6 @@ public class ASyncLoader : MonoBehaviour
         } else
         {
             Timing.RunCoroutine(LoadLevelASync(levelIndex));
-
         }
     }
 
@@ -47,7 +46,6 @@ public class ASyncLoader : MonoBehaviour
     {
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         Timing.RunCoroutine(LoadLevelASync(levelIndex));
-        Debug.Log("ok: " + levelIndex);
     }
 
     private IEnumerator<float> LoadLevelASync(int levelIndex)

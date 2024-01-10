@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using MEC;
 using Zenject;
-using Unity.Profiling;
 
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
@@ -163,7 +162,6 @@ public class PlayerController : MonoBehaviour
 
         Time.timeScale = 1;
         this.gameObject.SetActive(true);
-        Checkpoint();
         LoadFromCheckpoint();
     }
     private void ActivateRagdoll(bool active)
@@ -219,7 +217,7 @@ public class PlayerController : MonoBehaviour
             yield return Timing.WaitForOneFrame;
         }
     }
-    private void Checkpoint()
+    public void Checkpoint()
     {
         PlayerParams.savedHealth = PlayerParams.health;
         healthSlider.value = PlayerParams.savedHealth;

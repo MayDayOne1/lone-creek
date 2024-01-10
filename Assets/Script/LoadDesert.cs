@@ -26,7 +26,7 @@ public class LoadDesert : MonoBehaviour
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             analyticsManager.SendLevel1Completed(controller.level1TimeSpent);
 #endif
-
+            controller.Checkpoint();
             asyncLoader.LoadLevel(2);
         }
     }
