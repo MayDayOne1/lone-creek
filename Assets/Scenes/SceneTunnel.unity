@@ -32947,6 +32947,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 641853657}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &641925629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648935524484843028, guid: a6cf4704cb21df64bbb338dcfe072732,
+    type: 3}
+  m_PrefabInstance: {fileID: 1234238202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e312bb3146fef7745b8447598dfe813b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &642206390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44221,6 +44233,7 @@ MonoBehaviour:
   interact: {fileID: 1234238207}
   shootingManager: {fileID: 887345272}
   audioManager: {fileID: 193102326}
+  notificationManager: {fileID: 641925629}
   cam: {fileID: 1586097763}
   camManager: {fileID: 1401923966}
   impulseSource: {fileID: 1401923965}
@@ -66609,12 +66622,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2197982235733027594, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197982235733027594, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2197982236194514226, guid: a6cf4704cb21df64bbb338dcfe072732,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197982236194514226, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197982236194514226, guid: a6cf4704cb21df64bbb338dcfe072732,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2474742823871242925, guid: a6cf4704cb21df64bbb338dcfe072732,

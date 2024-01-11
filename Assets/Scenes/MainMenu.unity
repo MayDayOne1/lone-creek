@@ -28853,6 +28853,18 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1705259191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648935524484843028, guid: a6cf4704cb21df64bbb338dcfe072732,
+    type: 3}
+  m_PrefabInstance: {fileID: 2125901809}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e312bb3146fef7745b8447598dfe813b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1737547232
 GameObject:
   m_ObjectHideFlags: 0
@@ -29725,7 +29737,7 @@ MonoBehaviour:
   interact: {fileID: 2125901816}
   shootingManager: {fileID: 2125901815}
   audioManager: {fileID: 2125901814}
-  notificationManager: {fileID: 0}
+  notificationManager: {fileID: 1705259191}
   cam: {fileID: 330585545}
   camManager: {fileID: 2125901813}
   impulseSource: {fileID: 2125901812}
