@@ -56358,6 +56358,7 @@ GameObject:
   - component: {fileID: 23997794524904901}
   - component: {fileID: 64652064124026783}
   - component: {fileID: 95676745696021181}
+  - component: {fileID: 95676745696021182}
   m_Layer: 0
   m_Name: Studnia
   m_TagString: Untagged
@@ -56479,6 +56480,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!208 &95676745696021182
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840075736612033}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.99600005, y: 0.71000004, z: 1.909}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.177}
+  m_TimeToStationary: 0.5
 --- !u!4 &134397683477841459
 Transform:
   m_ObjectHideFlags: 0
