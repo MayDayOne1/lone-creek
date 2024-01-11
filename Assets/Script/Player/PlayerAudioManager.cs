@@ -17,6 +17,7 @@ public class PlayerAudioManager : MonoBehaviour
 
     public void PlayGameOverSound()
     {
+        SetDefaultAudioSettings();
         audioSource.clip = gameOver;
         audioSource.Play();
     }
@@ -37,6 +38,7 @@ public class PlayerAudioManager : MonoBehaviour
 
     public void PlayInteractionSound(AudioClip pickup)
     {
+        SetDefaultAudioSettings();
         audioSource.clip = pickup;
         audioSource.Play();
     }
@@ -49,5 +51,21 @@ public class PlayerAudioManager : MonoBehaviour
     private void RandomizeVolume()
     {
         audioSource.volume = Random.Range(audioSource.volume - .1f, audioSource.volume + 1f);
+    }
+
+    private void SetDefaultAudioSettings()
+    {
+        SetDefaultPitch();
+        SetDefaultVolume();
+    }
+
+    private void SetDefaultPitch()
+    {
+        audioSource.pitch = 1f;
+    }
+
+    private void SetDefaultVolume()
+    {
+        audioSource.volume = .9f;
     }
 }
