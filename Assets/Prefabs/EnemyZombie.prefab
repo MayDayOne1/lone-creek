@@ -1453,7 +1453,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -2913,7 +2913,7 @@ MonoBehaviour:
   rigBlendTime: 0.2
   aimColliderLayerMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 321
   soundManager: {fileID: 6438686167701602160}
 --- !u!114 &3151008739763045879
 MonoBehaviour:
