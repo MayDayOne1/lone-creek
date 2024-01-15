@@ -175,7 +175,7 @@ public class AI : MonoBehaviour
     private void Shoot()
     {
         SetAimRigWeight(1f);
-        Gunshot.Play();
+        PlayGunshot();
         MuzzleFlash.Play();
         anim.SetTrigger("Shoot");
     }
@@ -275,5 +275,22 @@ public class AI : MonoBehaviour
             agent.speed = 4;
         }
 
+    }
+
+    private void RandomizePitch()
+    {
+        Gunshot.pitch = Random.Range(Gunshot.pitch - .1f, Gunshot.pitch + .1f);
+    }
+
+    private void RandomizeVolume()
+    {
+        Gunshot.volume = Random.Range(Gunshot.volume - .1f, Gunshot.volume + 1f);
+    }
+
+    private void PlayGunshot()
+    {
+        RandomizePitch();
+        RandomizeVolume();
+        Gunshot.Play();
     }
 }
