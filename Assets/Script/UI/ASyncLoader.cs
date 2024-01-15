@@ -21,6 +21,8 @@ public class ASyncLoader : MonoBehaviour
     [Header("Slider")]
     [SerializeField] private Slider loadingSlider;
 
+    [Inject] private AmbientManager ambientManager;
+
     private VideoPlayer videoPlayer;
 
     private void Start()
@@ -63,6 +65,7 @@ public class ASyncLoader : MonoBehaviour
 
     private IEnumerator<float> PlayIntroCoroutine(int levelIndex)
     {
+        ambientManager.PauseClip();
         loadingScreen.SetActive(false);
         if(onboarding != null)
         {
