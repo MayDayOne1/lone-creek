@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool hasKeys = false;
+
     [Inject] private AmbientManager ambientManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
