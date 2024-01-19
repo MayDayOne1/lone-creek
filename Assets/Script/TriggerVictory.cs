@@ -6,8 +6,6 @@ using UnityEngine.Video;
 using MEC;
 
 
-
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using Unity.Services.Analytics;
 #endif
@@ -20,6 +18,8 @@ public class TriggerVictory : MonoBehaviour
     [SerializeField] private GameObject[] objectsToDestroy;
 
     private VideoPlayer videoPlayer;
+
+    [Inject] private NotificationManager notificationManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
     [Inject] private AnalyticsManager analyticsManager;
@@ -36,9 +36,15 @@ public class TriggerVictory : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            // VictoryScreen.SetActive(true);
-            controller.VictorySetup();
-            Timing.RunCoroutine(PlayOutroCoroutine().CancelWith(gameObject));
+            if(controller.hasKeys)
+            {
+                controller.VictorySetup();
+                Timing.RunCoroutine(PlayOutroCoroutine().CancelWith(gameObject));
+            }
+            else
+            {
+                notificationManager.CarKeysHintNotification();
+            }
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             analyticsManager.SendLevel2Completed(controller.level2TimeSpent);

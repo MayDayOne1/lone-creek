@@ -40,6 +40,18 @@ public class NotificationManager : MonoBehaviour
         Notification();
     }
 
+    public void CarKeysNotification()
+    {
+        AddToQueue("Get to the blue car!");
+        Notification();
+    }
+
+    public void CarKeysHintNotification()
+    {
+        AddToQueue("The keys may be inside the cabin on the hill...");
+        Notification(10f);
+    }
+
     private void AddToQueue(string text)
     {
         foreach(string item in notificationQueue)
@@ -77,7 +89,7 @@ public class NotificationManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            AddToQueue("Get to the blue car!");
+            AddToQueue("Find the car keys!");
         }
         Notification();
     }

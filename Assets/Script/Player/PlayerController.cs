@@ -69,11 +69,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-#if ENABLE_CLOUD_SERVICES_ANALYTICS
-    [Inject] AnalyticsManager analyticsManager;
-#endif
+    public bool hasKeys = false;
+
+    [Inject] private AmbientManager ambientManager;
 
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
+    [Inject] private AnalyticsManager analyticsManager;
     [HideInInspector] public float onboardingTimeSpent = 0f;
     [HideInInspector] public float level1TimeSpent = 0f;
     [HideInInspector] public float level2TimeSpent = 0f;
@@ -415,7 +416,7 @@ public class PlayerController : MonoBehaviour
         PlayerParams.playerDeathCount++;
         analyticsManager.SendPlayerDie();
 #endif
-
+        ambientManager.PauseClip();
         DeathSetup();
         Timing.RunCoroutine(DeathSequence());
         NavigateDeathScreen();
@@ -502,6 +503,7 @@ public class PlayerController : MonoBehaviour
             camManager.EnableAll(false);
             playerInput.DeactivateInput();
             isShowingPauseMenu = true;
+            ambientManager.PauseClip();
         }
         else
         {
@@ -512,6 +514,7 @@ public class PlayerController : MonoBehaviour
             camManager.EnableAll(true);
             playerInput.ActivateInput();
             isShowingPauseMenu = false;
+            ambientManager.ResumeClip();
         }
     }
 
