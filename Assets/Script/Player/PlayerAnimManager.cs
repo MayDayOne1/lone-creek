@@ -13,6 +13,9 @@ public class PlayerAnimManager : MonoBehaviour
     private const int THROWING_LAYER = 2;
     private const int PISTOL_LAYER = 3;
     private const int PISTOL_CROUCH_LAYER = 4;
+    private const int RELOAD_LAYER = 5;
+
+    private const string RELOAD = "Reload";
 
     private void Awake()
     {
@@ -107,11 +110,23 @@ public class PlayerAnimManager : MonoBehaviour
         anim.SetFloat(name, value, dampTime, time);
     }
     public void SetAnimator(bool enable) => anim.enabled = enable;
+
+    public void SetReload()
+    {
+        SmoothLayerSwitch(RELOAD_LAYER, 1f);
+        SetTrigger(RELOAD);
+    }
+
+    public void DisableReloadLayer()
+    {
+        SmoothLayerSwitch(RELOAD_LAYER, 0f);
+    }
     public void DisableAllLayers()
     {
         anim.SetLayerWeight(CROUCHING_LAYER, 0);
         anim.SetLayerWeight(THROWING_LAYER, 0);
         anim.SetLayerWeight(PISTOL_LAYER, 0);
         anim.SetLayerWeight(PISTOL_CROUCH_LAYER, 0);
+        anim.SetLayerWeight(RELOAD_LAYER, 0);
     }
 }

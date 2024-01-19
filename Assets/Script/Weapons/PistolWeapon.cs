@@ -43,6 +43,8 @@ public class PistolWeapon : MonoBehaviour, IWeapon
 
     private const string IS_AIMING_PISTOL = "isAimingPistol";
 
+    public bool isReloading = false;
+
     public bool CanShoot
     {
         get
@@ -53,7 +55,7 @@ public class PistolWeapon : MonoBehaviour, IWeapon
             }
             else
             {
-                if (Time.time - cooldownTimer >= cooldown)
+                if (Time.time - cooldownTimer >= cooldown && !isReloading)
                 {
                     cooldownTimer = Time.time;
                     return true;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class PlayerAmmoManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerAmmoManager : MonoBehaviour
     private readonly int maxAmmo = 24;
     private readonly int clipCapacity = 8;
 
+    [Inject] private PlayerAnimManager animManager;
     void Start()
     {
         ClipUI.text = PlayerParams.currentClip.ToString();
@@ -63,6 +65,8 @@ public class PlayerAmmoManager : MonoBehaviour
             PlayerParams.currentAmmo -= ammoToReload;
             ClipUI.text = PlayerParams.currentClip.ToString();
             TotalAmmoUI.text = PlayerParams.currentAmmo.ToString();
+
+            animManager.SetReload();
         }
     }
 }
