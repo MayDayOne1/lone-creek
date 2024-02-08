@@ -70,7 +70,7 @@ public class Throwable : MonoBehaviour, IInteractable
             {
                 PlayInteractionSound();
             }
-            Destroy(this.gameObject);
+            Destroy(gameObject);
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
             PlayerParams.playerBottleCount++;
 #endif
