@@ -1,2 +1,2 @@
 # lone-creek
-Iteracyjny rozwój gry 2023
+Iteracyjny rozwój gry 2023/2024
